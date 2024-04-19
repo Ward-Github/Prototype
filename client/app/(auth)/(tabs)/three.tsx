@@ -1,30 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, View, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Pressable } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { useAuth } from '@/context/AuthProvider';
+import axios from 'axios';
 
 export default function TabThreeScreen() {
-    const [username, setUsername] = React.useState<string>(useAuth().user?.name || "");
-    const [email, setEmail] = React.useState<string>(useAuth().user?.email || "");
-    const [car, setCar] = React.useState("Tesla Model Y");
-    const [selected, setSelected] = React.useState("");
     const [data, setData] = useState([]);
-
-    const [isChanged, setIsChanged] = useState(false);
-    const [isSaved, setIsSaved] = useState(true);
-
-    const handleSave = () => {
-      setIsChanged(false);
-      setIsSaved(true);
-    };
-  
-    const handleChange = () => {
-      setIsChanged(true);
-      setIsSaved(false);
-    };
+    const auth = useAuth();
 
     useEffect(() => {
       fetch('http://192.168.178.23:3000/car_list')
@@ -32,6 +17,42 @@ export default function TabThreeScreen() {
         .then(data => setData(data))
         .catch(error => console.error(error));
     }, []);
+  
+    const handleSelect = (value: string) => {
+      const body = {
+        "userId": auth.user?.id,
+        "car": value
+      }
+
+      fetch('http://192.168.178.23:3000/changeCar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+      .then(response => {
+        if (!response.ok) {
+          Toast.show({
+            type: 'error',
+            position: 'top',
+            text1: 'Error',
+            text2: `An error occurred while changing the car 😔`,
+            visibilityTime: 3000,
+          });
+        }
+        else {
+          Toast.show({
+            type: 'success',
+            position: 'top',
+            text1: 'Success',
+            text2: 'Car changed successfully 🎉',
+            visibilityTime: 3000,
+            topOffset: 60,
+          });
+        }
+      })
+    };
 
     return (
       <KeyboardAwareScrollView
@@ -43,39 +64,25 @@ export default function TabThreeScreen() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
               <View style={styles.rectangle}>
-                  <Image 
-                      source={require('../../../assets/images/avatar.jpg')} 
-                      style={styles.avatar}
-                  />
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Username</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        value={username} 
-                        onChangeText={(text) => {
-                          setUsername(text);
-                          handleChange();
-                        }}
+                  <View style={styles.profileContainer}>
+                    <Image 
+                        source={require('../../../assets/images/avatar.jpg')} 
+                        style={styles.avatar}
                     />
-                  </View>
-                  <View style={styles.inputContainer}>
+                    <View style={styles.userInfo}>
+                    <Text style={styles.label}>Name</Text>
+                    <Text style={styles.value}>{auth.user?.name}</Text>
                     <Text style={styles.label}>Email</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        value={email} 
-                        onChangeText={(text) => {
-                          setEmail(text);
-                          handleChange();
-                        }}
-                    />
+                    <Text style={styles.value}>{auth.user?.email}</Text>
+                    </View>
                   </View>
                   <View style={styles.inputContainer}>
                     <Text style={styles.label}>Car</Text>
                     <SelectList 
-                      setSelected={(val: React.SetStateAction<string>) => {setSelected(val), handleChange()}}
+                      setSelected={(val: string) => { handleSelect(val); }}
                       data={data} 
                       save="value"
-                      placeholder="SELECT CAR"
+                      placeholder={useAuth().user?.car || "Select a car"}
                       fontFamily='Azonix'
                       arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
                       boxStyles={{backgroundColor: '#2D6AA6', borderColor: 'transparent', alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}
@@ -83,37 +90,6 @@ export default function TabThreeScreen() {
                       dropdownStyles={{backgroundColor: '#fff'}}
                     />
                   </View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      if (isChanged) {
-                        handleSave();
-                        Toast.show({
-                          type: 'success',
-                          position: 'top',
-                          text1: 'Success',
-                          text2: 'Changes have been saved successfully 🎉',
-                          visibilityTime: 3000,
-                          topOffset: 60,
-                        });
-                      } else {
-                        Toast.show({
-                          type: 'error',
-                          position: 'top',
-                          text1: 'Fail',
-                          text2: 'No changes to save 😔',
-                          visibilityTime: 3000,
-                          topOffset: 60,
-                        });
-                      }
-                    }}
-                    style={{
-                      backgroundColor: isChanged && !isSaved ? '#007AFF' : '#8E8E93',
-                      padding: 18,
-                      borderRadius: 10,
-                    }}
-                  >
-                    <Text style={{color: '#FFFFFF', fontFamily: 'Azonix'}}>Save Changes</Text>
-                  </TouchableOpacity>
               </View>
           </View>
       </TouchableWithoutFeedback>
@@ -138,22 +114,35 @@ const styles = StyleSheet.create({
       paddingLeft: 20,
       paddingRight: 20,
   },
-  avatar: {
-      width: 150,
-      height: 150,
-      borderRadius: 75,
-      alignSelf: 'center',
-      marginBottom: 40,
-  },
+  profileContainer: {
+    flexDirection: 'row',
+    marginBottom: 40,
+},
+avatar: {
+  width: 150,
+  height: 150,
+  borderRadius: 75,
+  alignSelf: 'center',
+},
+userInfo: {
+  marginLeft: 20,
+  justifyContent: 'center',
+},
   inputContainer: {
       marginBottom: 20,
       width: '100%',
   },
   label: {
-      color: '#fff',
-      fontSize: 16,
-      marginBottom: 5,
-      fontFamily: 'Azonix',
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 5,
+    fontFamily: 'Azonix',
+  },
+  value: {
+    color: '#fff',
+    fontSize: 14,
+    marginBottom: 10,
+    fontFamily: 'Azonix',
   },
   input: {
       height: 40,

@@ -74,10 +74,21 @@ export default function login() {
         },
       });
 
-      console.log("\n\nUser data:", userPromise.data["preferred_username"]);
-      console.log("\n\nOkta Token: ", accessToken);
+        const car = await fetch(`http://192.168.178.23:3000/getCar?userId=${userPromise.data["sub"]}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
 
-      login(userPromise.data["preferred_username"], userPromise.data["name"], accessToken);
+      const test = await car.text();
+
+
+      console.log("\n\nUser data:", userPromise.data);
+      console.log("\n\nOkta Token: ", accessToken);
+      console.log("\n\nCar: ", test);
+
+      login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], test, accessToken);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -88,7 +99,10 @@ export default function login() {
   return (
     <SafeAreaView style={styles.container}>
         {isLoading ? (
-            <ActivityIndicator size="large" color="#fff" />
+            <View style={styles.loadingContainer}>
+                <Text style={styles.loading}>Retrieving user info...</Text>
+                <ActivityIndicator size="large" color="#fff" />
+            </View>
         ) : authState ? (
             <Button title="Logout" onPress={() => setAuthState(null)} />
         ) : (
@@ -133,5 +147,16 @@ const styles = StyleSheet.create({
         height: 150,
         marginTop: 20,
         marginBottom: 20,
+    },
+    loading: {
+        color: '#fff',
+        fontSize: 18,
+        fontFamily: 'Azonix',
+    },
+    loadingContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#041B2A',
     },
 });

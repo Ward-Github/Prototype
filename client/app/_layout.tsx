@@ -54,6 +54,7 @@ function RootLayoutNav() {
           options={{ headerShown: false }}
         />
       </Stack>
+      <Toast />
   </AuthProvider>
   );
 }
