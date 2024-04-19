@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontFamily: 'Azonix',
+        marginBottom: 10,
     },
     loadingContainer: {
         flex: 1,
