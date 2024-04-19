@@ -7,7 +7,7 @@ export default function TabOneScreen() {
     <View style={styles.container}>
         <View style={styles.rectangle}>
             <Text style={styles.titleText}>TESLA MODEL Y</Text>
-            <Image source={require('../../assets/images/image.png')} style={styles.image} />
+            <Image source={require('../../../assets/images/image.png')} style={styles.image} />
             <View style={styles.line} />
             <View style={styles.stationContainer}>
                 <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" />

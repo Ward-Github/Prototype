@@ -4,10 +4,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SelectList } from 'react-native-dropdown-select-list'
+import { useAuth } from '@/context/AuthProvider';
 
 export default function TabThreeScreen() {
     const [username, setUsername] = React.useState("Mark Broekhoven");
-    const [email, setEmail] = React.useState("Mark.Broekhoven@gmail.com");
+    const [email, setEmail] = React.useState<string>(useAuth().user?.username || "");
     const [car, setCar] = React.useState("Tesla Model Y");
     const [selected, setSelected] = React.useState("");
     const [data, setData] = useState([]);
@@ -43,7 +44,7 @@ export default function TabThreeScreen() {
           <View style={styles.container}>
               <View style={styles.rectangle}>
                   <Image 
-                      source={require('../../assets/images/avatar.jpg')} 
+                      source={require('../../../assets/images/avatar.jpg')} 
                       style={styles.avatar}
                   />
                   <View style={styles.inputContainer}>
