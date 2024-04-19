@@ -1,0 +1,6 @@
+POST http://localhost:3000/reserve
+Content-Type: application/json
+
+{
+    "username": "test"
+}

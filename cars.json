@@ -1,0 +1,2445 @@
+[
+    {
+        "Tesla Model 3": {
+            "Useable battery": "57.5 kWh",
+            "Range": "415 km",
+            "Efficiency": "139 Wh/km"
+        }
+    },
+    {
+        "Tesla Model Y Long Range Dual Motor": {
+            "Useable battery": "75 kWh",
+            "Range": "435 km",
+            "Efficiency": "172 Wh/km"
+        }
+    },
+    {
+        "BYD ATTO 3": {
+            "Useable battery": "60.5 kWh",
+            "Range": "330 km",
+            "Efficiency": "183 Wh/km"
+        }
+    },
+    {
+        "Tesla Model 3 Long Range Dual Motor": {
+            "Useable battery": "75 kWh",
+            "Range": "500 km",
+            "Efficiency": "150 Wh/km"
+        }
+    },
+    {
+        "Tesla Model Y": {
+            "Useable battery": "57.5 kWh",
+            "Range": "350 km",
+            "Efficiency": "164 Wh/km"
+        }
+    },
+    {
+        "Tesla Model Y Long Range RWD": {
+            "Useable battery": "75 kWh",
+            "Range": "460 km",
+            "Efficiency": "163 Wh/km"
+        }
+    },
+    {
+        "MG MG4 Electric 64 kWh": {
+            "Useable battery": "61.7 kWh",
+            "Range": "360 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "BYD SEAL 82.5 kWh AWD Excellence": {
+            "Useable battery": "82.5 kWh",
+            "Range": "490 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Citroen e-C3": {
+            "Useable battery": "44 kWh",
+            "Range": "265 km",
+            "Efficiency": "166 Wh/km"
+        }
+    },
+    {
+        "BMW i4 eDrive40": {
+            "Useable battery": "80.7 kWh",
+            "Range": "515 km",
+            "Efficiency": "157 Wh/km"
+        }
+    },
+    {
+        "Tesla Model Y Performance": {
+            "Useable battery": "75 kWh",
+            "Range": "415 km",
+            "Efficiency": "181 Wh/km"
+        }
+    },
+    {
+        "BYD DOLPHIN 60.4 kWh": {
+            "Useable battery": "60.5 kWh",
+            "Range": "340 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.4 Pro": {
+            "Useable battery": "77 kWh",
+            "Range": "435 km",
+            "Efficiency": "177 Wh/km"
+        }
+    },
+    {
+        "BMW iX xDrive40": {
+            "Useable battery": "71 kWh",
+            "Range": "360 km",
+            "Efficiency": "197 Wh/km"
+        }
+    },
+    {
+        "Tesla Model S Plaid": {
+            "Useable battery": "95 kWh",
+            "Range": "560 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Hyundai Kona Electric 65 kWh": {
+            "Useable battery": "65.4 kWh",
+            "Range": "390 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Volvo EX30 Single Motor ER": {
+            "Useable battery": "64 kWh",
+            "Range": "365 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "Tesla Model S Dual Motor": {
+            "Useable battery": "95 kWh",
+            "Range": "575 km",
+            "Efficiency": "165 Wh/km"
+        }
+    },
+    {
+        "Kia Niro EV": {
+            "Useable battery": "64.8 kWh",
+            "Range": "385 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "BYD HAN": {
+            "Useable battery": "85.4 kWh",
+            "Range": "475 km",
+            "Efficiency": "180 Wh/km"
+        }
+    },
+    {
+        "BYD SEAL 82.5 kWh RWD Design": {
+            "Useable battery": "82.5 kWh",
+            "Range": "500 km",
+            "Efficiency": "165 Wh/km"
+        }
+    },
+    {
+        "Dacia Spring Electric 45": {
+            "Useable battery": "25 kWh",
+            "Range": "165 km",
+            "Efficiency": "152 Wh/km"
+        }
+    },
+    {
+        "BYD TANG": {
+            "Useable battery": "86.4 kWh",
+            "Range": "355 km",
+            "Efficiency": "243 Wh/km"
+        }
+    },
+    {
+        "Rolls-Royce Spectre": {
+            "Useable battery": "102 kWh",
+            "Range": "465 km",
+            "Efficiency": "219 Wh/km"
+        }
+    },
+    {
+        "BMW iX3": {
+            "Useable battery": "74 kWh",
+            "Range": "385 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "Renault Scenic E-Tech EV87 220hp": {
+            "Useable battery": "87 kWh",
+            "Range": "490 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "Honda e:Ny1": {
+            "Useable battery": "61.9 kWh",
+            "Range": "335 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "BMW iX1 xDrive30": {
+            "Useable battery": "64.7 kWh",
+            "Range": "380 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Audi Q6 e-tron quattro": {
+            "Useable battery": "94.9 kWh",
+            "Range": "460 km",
+            "Efficiency": "206 Wh/km"
+        }
+    },
+    {
+        "Renault Megane E-Tech EV60 220hp": {
+            "Useable battery": "60 kWh",
+            "Range": "380 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "MG ZS EV Long Range": {
+            "Useable battery": "68.3 kWh",
+            "Range": "370 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "Fiat 500e Hatchback 42 kWh": {
+            "Useable battery": "37.3 kWh",
+            "Range": "235 km",
+            "Efficiency": "159 Wh/km"
+        }
+    },
+    {
+        "BYD SEAL U 71.8 kWh Comfort": {
+            "Useable battery": "71.8 kWh",
+            "Range": "340 km",
+            "Efficiency": "211 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq 85": {
+            "Useable battery": "77 kWh",
+            "Range": "450 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "Kia EV6 Long Range 2WD": {
+            "Useable battery": "74 kWh",
+            "Range": "410 km",
+            "Efficiency": "180 Wh/km"
+        }
+    },
+    {
+        "Toyota bZ4X FWD": {
+            "Useable battery": "64 kWh",
+            "Range": "340 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "Renault 5 E-Tech 52kWh 150hp": {
+            "Useable battery": "52 kWh",
+            "Range": "330 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.3 Pro": {
+            "Useable battery": "58 kWh",
+            "Range": "350 km",
+            "Efficiency": "166 Wh/km"
+        }
+    },
+    {
+        "Nissan Leaf": {
+            "Useable battery": "39 kWh",
+            "Range": "235 km",
+            "Efficiency": "166 Wh/km"
+        }
+    },
+    {
+        "Tesla Model Y": {
+            "Useable battery": "57.5 kWh",
+            "Range": "350 km",
+            "Efficiency": "164 Wh/km"
+        }
+    },
+    {
+        "BMW i4 eDrive35": {
+            "Useable battery": "67 kWh",
+            "Range": "430 km",
+            "Efficiency": "156 Wh/km"
+        }
+    },
+    {
+        "CUPRA Born 150 kW - 58 kWh": {
+            "Useable battery": "58 kWh",
+            "Range": "350 km",
+            "Efficiency": "166 Wh/km"
+        }
+    },
+    {
+        "Lucid Air Grand Touring": {
+            "Useable battery": "112 kWh",
+            "Range": "665 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "BMW i4 M50": {
+            "Useable battery": "80.7 kWh",
+            "Range": "450 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Renault Zoe ZE50 R110": {
+            "Useable battery": "52 kWh",
+            "Range": "315 km",
+            "Efficiency": "165 Wh/km"
+        }
+    },
+    {
+        "BMW i7 xDrive60": {
+            "Useable battery": "101.7 kWh",
+            "Range": "510 km",
+            "Efficiency": "199 Wh/km"
+        }
+    },
+    {
+        "Kia EV9 99.8 kWh AWD": {
+            "Useable battery": "96 kWh",
+            "Range": "435 km",
+            "Efficiency": "221 Wh/km"
+        }
+    },
+    {
+        "Zeekr 001 Long Range RWD": {
+            "Useable battery": "94 kWh",
+            "Range": "525 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Hongqi E-HS9 99 kWh": {
+            "Useable battery": "90 kWh",
+            "Range": "370 km",
+            "Efficiency": "243 Wh/km"
+        }
+    },
+    {
+        "Hyundai IONIQ 5 Long Range 2WD": {
+            "Useable battery": "74 kWh",
+            "Range": "390 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.7 Pro": {
+            "Useable battery": "77 kWh",
+            "Range": "475 km",
+            "Efficiency": "162 Wh/km"
+        }
+    },
+    {
+        "Hyundai IONIQ 6 Long Range 2WD": {
+            "Useable battery": "74 kWh",
+            "Range": "495 km",
+            "Efficiency": "149 Wh/km"
+        }
+    },
+    {
+        "Opel Astra Electric": {
+            "Useable battery": "50.8 kWh",
+            "Range": "320 km",
+            "Efficiency": "159 Wh/km"
+        }
+    },
+    {
+        "BMW iX1 eDrive20": {
+            "Useable battery": "64.7 kWh",
+            "Range": "390 km",
+            "Efficiency": "166 Wh/km"
+        }
+    },
+    {
+        "MG MG4 Electric 51 kWh": {
+            "Useable battery": "50.8 kWh",
+            "Range": "300 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "Audi Q8 e-tron 55 quattro": {
+            "Useable battery": "106 kWh",
+            "Range": "505 km",
+            "Efficiency": "210 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQB 250+": {
+            "Useable battery": "70.5 kWh",
+            "Range": "415 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Nissan Ariya 87kWh": {
+            "Useable battery": "87 kWh",
+            "Range": "450 km",
+            "Efficiency": "193 Wh/km"
+        }
+    },
+    {
+        "Porsche Macan 4 Electric": {
+            "Useable battery": "95 kWh",
+            "Range": "485 km",
+            "Efficiency": "196 Wh/km"
+        }
+    },
+    {
+        "Smart #1 Pro+": {
+            "Useable battery": "62 kWh",
+            "Range": "335 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "BMW iX xDrive50": {
+            "Useable battery": "105.2 kWh",
+            "Range": "505 km",
+            "Efficiency": "208 Wh/km"
+        }
+    },
+    {
+        "Kia EV6 GT": {
+            "Useable battery": "74 kWh",
+            "Range": "360 km",
+            "Efficiency": "206 Wh/km"
+        }
+    },
+    {
+        "BMW i5 eDrive40 Sedan": {
+            "Useable battery": "81.2 kWh",
+            "Range": "470 km",
+            "Efficiency": "173 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS 450+": {
+            "Useable battery": "108.4 kWh",
+            "Range": "635 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "Hyundai IONIQ 6 Long Range AWD": {
+            "Useable battery": "74 kWh",
+            "Range": "440 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Hyundai IONIQ 5 N": {
+            "Useable battery": "80 kWh",
+            "Range": "385 km",
+            "Efficiency": "208 Wh/km"
+        }
+    },
+    {
+        "Zeekr 001 Performance AWD": {
+            "Useable battery": "94 kWh",
+            "Range": "500 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "Audi Q4 e-tron 45": {
+            "Useable battery": "77 kWh",
+            "Range": "420 km",
+            "Efficiency": "183 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID. Buzz Pro": {
+            "Useable battery": "77 kWh",
+            "Range": "345 km",
+            "Efficiency": "223 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQA 250": {
+            "Useable battery": "66.5 kWh",
+            "Range": "395 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-3008 73 kWh": {
+            "Useable battery": "73 kWh",
+            "Range": "385 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "Polestar 2 Long Range Single Motor": {
+            "Useable battery": "79 kWh",
+            "Range": "470 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "CUPRA Born 170 kW - 77 kWh": {
+            "Useable battery": "77 kWh",
+            "Range": "450 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "NIO ET7 75 kWh": {
+            "Useable battery": "70.5 kWh",
+            "Range": "400 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Volvo EX30 Single Motor": {
+            "Useable battery": "49 kWh",
+            "Range": "280 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "Citroen e-C4": {
+            "Useable battery": "46.3 kWh",
+            "Range": "290 km",
+            "Efficiency": "160 Wh/km"
+        }
+    },
+    {
+        "Ford Explorer Extended Range RWD": {
+            "Useable battery": "77 kWh",
+            "Range": "430 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Jeep Avenger Electric": {
+            "Useable battery": "50.8 kWh",
+            "Range": "310 km",
+            "Efficiency": "164 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-3008 98 kWh Long Range": {
+            "Useable battery": "98 kWh",
+            "Range": "510 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "Kia EV9 99.8 kWh AWD GT-Line": {
+            "Useable battery": "96 kWh",
+            "Range": "425 km",
+            "Efficiency": "226 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.7 Pro S": {
+            "Useable battery": "86 kWh",
+            "Range": "520 km",
+            "Efficiency": "165 Wh/km"
+        }
+    },
+    {
+        "NIO ET5 100 kWh": {
+            "Useable battery": "90 kWh",
+            "Range": "500 km",
+            "Efficiency": "180 Wh/km"
+        }
+    },
+    {
+        "Volvo EX30 Twin Motor Performance": {
+            "Useable battery": "64 kWh",
+            "Range": "360 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "Hyundai IONIQ 5 Long Range AWD": {
+            "Useable battery": "74 kWh",
+            "Range": "385 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "Mazda MX-30": {
+            "Useable battery": "30 kWh",
+            "Range": "170 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Fisker Ocean Extreme": {
+            "Useable battery": "106.5 kWh",
+            "Range": "520 km",
+            "Efficiency": "205 Wh/km"
+        }
+    },
+    {
+        "Hyundai IONIQ 5 Standard Range 2WD": {
+            "Useable battery": "54 kWh",
+            "Range": "295 km",
+            "Efficiency": "183 Wh/km"
+        }
+    },
+    {
+        "XPENG G6 RWD Long Range": {
+            "Useable battery": "87.5 kWh",
+            "Range": "490 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Kia EV6 Long Range AWD": {
+            "Useable battery": "74 kWh",
+            "Range": "400 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "Ford Mustang Mach-E ER RWD": {
+            "Useable battery": "91 kWh",
+            "Range": "480 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "Tesla Model X Dual Motor": {
+            "Useable battery": "95 kWh",
+            "Range": "475 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "MG MG5 Electric Long Range": {
+            "Useable battery": "57.4 kWh",
+            "Range": "335 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "BMW iX2 xDrive30": {
+            "Useable battery": "64.7 kWh",
+            "Range": "380 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Dacia Spring Electric 45": {
+            "Useable battery": "25 kWh",
+            "Range": "165 km",
+            "Efficiency": "152 Wh/km"
+        }
+    },
+    {
+        "Fisker Ocean Ultra": {
+            "Useable battery": "106.5 kWh",
+            "Range": "535 km",
+            "Efficiency": "199 Wh/km"
+        }
+    },
+    {
+        "Maxus MIFA 9": {
+            "Useable battery": "84 kWh",
+            "Range": "365 km",
+            "Efficiency": "230 Wh/km"
+        }
+    },
+    {
+        "Mini Countryman E": {
+            "Useable battery": "64.7 kWh",
+            "Range": "380 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Ford Explorer Extended Range AWD": {
+            "Useable battery": "79 kWh",
+            "Range": "430 km",
+            "Efficiency": "184 Wh/km"
+        }
+    },
+    {
+        "Porsche Macan Turbo Electric": {
+            "Useable battery": "95 kWh",
+            "Range": "480 km",
+            "Efficiency": "198 Wh/km"
+        }
+    },
+    {
+        "BYD SEAL U 87 kWh Design": {
+            "Useable battery": "87 kWh",
+            "Range": "405 km",
+            "Efficiency": "215 Wh/km"
+        }
+    },
+    {
+        "Lotus Eletre": {
+            "Useable battery": "109 kWh",
+            "Range": "495 km",
+            "Efficiency": "220 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE 350+": {
+            "Useable battery": "90.6 kWh",
+            "Range": "530 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "Smart #1 Brabus": {
+            "Useable battery": "62 kWh",
+            "Range": "325 km",
+            "Efficiency": "191 Wh/km"
+        }
+    },
+    {
+        "MG MG4 Electric 77 kWh": {
+            "Useable battery": "74.4 kWh",
+            "Range": "425 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "Hyundai IONIQ 6 Standard Range 2WD": {
+            "Useable battery": "54 kWh",
+            "Range": "365 km",
+            "Efficiency": "148 Wh/km"
+        }
+    },
+    {
+        "Lexus RZ 450e": {
+            "Useable battery": "64 kWh",
+            "Range": "320 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Lancia Ypsilon": {
+            "Useable battery": "48.1 kWh",
+            "Range": "305 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "BYD DOLPHIN 44.9 kWh Active": {
+            "Useable battery": "44.9 kWh",
+            "Range": "255 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Renault Twingo Electric": {
+            "Useable battery": "21.3 kWh",
+            "Range": "135 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "Toyota bZ4X AWD": {
+            "Useable battery": "64 kWh",
+            "Range": "315 km",
+            "Efficiency": "203 Wh/km"
+        }
+    },
+    {
+        "Subaru Solterra AWD": {
+            "Useable battery": "64 kWh",
+            "Range": "320 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Opel Mokka-e 50 kWh": {
+            "Useable battery": "46.3 kWh",
+            "Range": "260 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq Coupe 85": {
+            "Useable battery": "77 kWh",
+            "Range": "480 km",
+            "Efficiency": "160 Wh/km"
+        }
+    },
+    {
+        "Renault Zoe ZE50 R135": {
+            "Useable battery": "52 kWh",
+            "Range": "310 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.7 Tourer Pro": {
+            "Useable battery": "77 kWh",
+            "Range": "460 km",
+            "Efficiency": "167 Wh/km"
+        }
+    },
+    {
+        "Volvo EX40 Single Motor ER": {
+            "Useable battery": "79 kWh",
+            "Range": "400 km",
+            "Efficiency": "198 Wh/km"
+        }
+    },
+    {
+        "Tesla Model X Plaid": {
+            "Useable battery": "95 kWh",
+            "Range": "455 km",
+            "Efficiency": "209 Wh/km"
+        }
+    },
+    {
+        "Hyundai Kona Electric 48 kWh": {
+            "Useable battery": "48.4 kWh",
+            "Range": "295 km",
+            "Efficiency": "164 Wh/km"
+        }
+    },
+    {
+        "Zeekr X Privilege AWD": {
+            "Useable battery": "64 kWh",
+            "Range": "345 km",
+            "Efficiency": "186 Wh/km"
+        }
+    },
+    {
+        "MG ZS EV Standard Range": {
+            "Useable battery": "49 kWh",
+            "Range": "265 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "Fiat 600e": {
+            "Useable battery": "50.8 kWh",
+            "Range": "305 km",
+            "Efficiency": "167 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-208 50 kWh": {
+            "Useable battery": "46.3 kWh",
+            "Range": "290 km",
+            "Efficiency": "160 Wh/km"
+        }
+    },
+    {
+        "NIO EL6 100 kWh": {
+            "Useable battery": "90 kWh",
+            "Range": "435 km",
+            "Efficiency": "207 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS 580 4MATIC": {
+            "Useable battery": "108.4 kWh",
+            "Range": "590 km",
+            "Efficiency": "184 Wh/km"
+        }
+    },
+    {
+        "BMW i5 M60 xDrive Sedan": {
+            "Useable battery": "81.2 kWh",
+            "Range": "420 km",
+            "Efficiency": "193 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.4 Pro 4MOTION": {
+            "Useable battery": "77 kWh",
+            "Range": "425 km",
+            "Efficiency": "181 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQA 250+": {
+            "Useable battery": "70.5 kWh",
+            "Range": "420 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Polestar 4 Long Range Single Motor": {
+            "Useable battery": "94 kWh",
+            "Range": "495 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "Kia EV9 99.8 kWh RWD": {
+            "Useable battery": "96 kWh",
+            "Range": "450 km",
+            "Efficiency": "213 Wh/km"
+        }
+    },
+    {
+        "Maserati GranTurismo Folgore": {
+            "Useable battery": "83 kWh",
+            "Range": "420 km",
+            "Efficiency": "198 Wh/km"
+        }
+    },
+    {
+        "Mini Cooper SE": {
+            "Useable battery": "49 kWh",
+            "Range": "310 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "MG MG4 Electric XPOWER": {
+            "Useable battery": "61.7 kWh",
+            "Range": "320 km",
+            "Efficiency": "193 Wh/km"
+        }
+    },
+    {
+        "Nissan Leaf e+": {
+            "Useable battery": "59 kWh",
+            "Range": "340 km",
+            "Efficiency": "174 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq 60": {
+            "Useable battery": "58 kWh",
+            "Range": "335 km",
+            "Efficiency": "173 Wh/km"
+        }
+    },
+    {
+        "Audi Q8 e-tron Sportback 55 quattro": {
+            "Useable battery": "106 kWh",
+            "Range": "525 km",
+            "Efficiency": "202 Wh/km"
+        }
+    },
+    {
+        "Polestar 2 Long Range Dual Motor": {
+            "Useable battery": "79 kWh",
+            "Range": "450 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Polestar 4 Long Range Dual Motor": {
+            "Useable battery": "94 kWh",
+            "Range": "465 km",
+            "Efficiency": "202 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.7 Tourer GTX": {
+            "Useable battery": "86 kWh",
+            "Range": "480 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo GT": {
+            "Useable battery": "97 kWh",
+            "Range": "475 km",
+            "Efficiency": "204 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE 300": {
+            "Useable battery": "89 kWh",
+            "Range": "525 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Plus": {
+            "Useable battery": "97 kWh",
+            "Range": "560 km",
+            "Efficiency": "173 Wh/km"
+        }
+    },
+    {
+        "Polestar 2 Standard Range Single Motor": {
+            "Useable battery": "67 kWh",
+            "Range": "405 km",
+            "Efficiency": "165 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQB 350 4MATIC": {
+            "Useable battery": "66.5 kWh",
+            "Range": "345 km",
+            "Efficiency": "193 Wh/km"
+        }
+    },
+    {
+        "Ford Mustang Mach-E ER AWD": {
+            "Useable battery": "91 kWh",
+            "Range": "445 km",
+            "Efficiency": "204 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.7 Tourer Pro S": {
+            "Useable battery": "86 kWh",
+            "Range": "505 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "CUPRA Tavascan VZ": {
+            "Useable battery": "77 kWh",
+            "Range": "430 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Renault 5 E-Tech 40kWh 95hp": {
+            "Useable battery": "40 kWh",
+            "Range": "260 km",
+            "Efficiency": "154 Wh/km"
+        }
+    },
+    {
+        "Volvo EX40 Twin Motor": {
+            "Useable battery": "79 kWh",
+            "Range": "385 km",
+            "Efficiency": "205 Wh/km"
+        }
+    },
+    {
+        "Dacia Spring Electric 65 Extreme": {
+            "Useable battery": "25 kWh",
+            "Range": "160 km",
+            "Efficiency": "156 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.5 Pro": {
+            "Useable battery": "77 kWh",
+            "Range": "455 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID. Buzz GTX": {
+            "Useable battery": "79 kWh",
+            "Range": "335 km",
+            "Efficiency": "236 Wh/km"
+        }
+    },
+    {
+        "BMW iX M60": {
+            "Useable battery": "105.2 kWh",
+            "Range": "485 km",
+            "Efficiency": "217 Wh/km"
+        }
+    },
+    {
+        "Voyah Free 106 kWh": {
+            "Useable battery": "100 kWh",
+            "Range": "480 km",
+            "Efficiency": "208 Wh/km"
+        }
+    },
+    {
+        "XPENG G9 RWD Standard Range": {
+            "Useable battery": "75.8 kWh",
+            "Range": "395 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.3 Pro S - 4 Seats": {
+            "Useable battery": "77 kWh",
+            "Range": "455 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.4 Pure": {
+            "Useable battery": "52 kWh",
+            "Range": "285 km",
+            "Efficiency": "182 Wh/km"
+        }
+    },
+    {
+        "GWM ORA 3 48 kWh": {
+            "Useable battery": "45.4 kWh",
+            "Range": "260 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "XPENG G6 AWD Performance": {
+            "Useable battery": "87.5 kWh",
+            "Range": "480 km",
+            "Efficiency": "182 Wh/km"
+        }
+    },
+    {
+        "Smart #3 Brabus": {
+            "Useable battery": "62 kWh",
+            "Range": "335 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan": {
+            "Useable battery": "82.3 kWh",
+            "Range": "485 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-5008 73 kWh": {
+            "Useable battery": "73 kWh",
+            "Range": "370 km",
+            "Efficiency": "197 Wh/km"
+        }
+    },
+    {
+        "XPENG G6 RWD Standard Range": {
+            "Useable battery": "66 kWh",
+            "Range": "375 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Volvo EX40 Single Motor": {
+            "Useable battery": "67 kWh",
+            "Range": "345 km",
+            "Efficiency": "194 Wh/km"
+        }
+    },
+    {
+        "Opel Corsa Electric 50 kWh": {
+            "Useable battery": "46.3 kWh",
+            "Range": "295 km",
+            "Efficiency": "157 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-2008 54 kWh": {
+            "Useable battery": "50.8 kWh",
+            "Range": "300 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "MG Marvel R": {
+            "Useable battery": "70 kWh",
+            "Range": "365 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "XPENG P7 Wing Edition": {
+            "Useable battery": "82.7 kWh",
+            "Range": "455 km",
+            "Efficiency": "182 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-208 51 kWh": {
+            "Useable battery": "48.1 kWh",
+            "Range": "310 km",
+            "Efficiency": "155 Wh/km"
+        }
+    },
+    {
+        "XPENG G9 RWD Long Range": {
+            "Useable battery": "93.1 kWh",
+            "Range": "480 km",
+            "Efficiency": "194 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-308": {
+            "Useable battery": "50.8 kWh",
+            "Range": "300 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "Lucid Air Touring": {
+            "Useable battery": "92 kWh",
+            "Range": "580 km",
+            "Efficiency": "159 Wh/km"
+        }
+    },
+    {
+        "SsangYong Korando e-Motion": {
+            "Useable battery": "56 kWh",
+            "Range": "290 km",
+            "Efficiency": "193 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID. Buzz LWB Pro S": {
+            "Useable battery": "86 kWh",
+            "Range": "370 km",
+            "Efficiency": "232 Wh/km"
+        }
+    },
+    {
+        "BMW iX2 eDrive20": {
+            "Useable battery": "64.7 kWh",
+            "Range": "395 km",
+            "Efficiency": "164 Wh/km"
+        }
+    },
+    {
+        "Nissan Ariya 63kWh": {
+            "Useable battery": "63 kWh",
+            "Range": "335 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "Kia EV6 Standard Range 2WD": {
+            "Useable battery": "54 kWh",
+            "Range": "305 km",
+            "Efficiency": "177 Wh/km"
+        }
+    },
+    {
+        "Citroen e-C4 X": {
+            "Useable battery": "46.3 kWh",
+            "Range": "285 km",
+            "Efficiency": "162 Wh/km"
+        }
+    },
+    {
+        "Audi Q4 e-tron 45 quattro": {
+            "Useable battery": "77 kWh",
+            "Range": "395 km",
+            "Efficiency": "195 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.3 GTX": {
+            "Useable battery": "79 kWh",
+            "Range": "460 km",
+            "Efficiency": "172 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq 85x": {
+            "Useable battery": "77 kWh",
+            "Range": "440 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "VinFast VF 9 Extended Range": {
+            "Useable battery": "123 kWh",
+            "Range": "520 km",
+            "Efficiency": "237 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-5008 98 kWh Long Range": {
+            "Useable battery": "98 kWh",
+            "Range": "490 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "XPENG P7 RWD Long Range": {
+            "Useable battery": "82.7 kWh",
+            "Range": "495 km",
+            "Efficiency": "167 Wh/km"
+        }
+    },
+    {
+        "Renault Kangoo E-Tech Electric": {
+            "Useable battery": "45 kWh",
+            "Range": "220 km",
+            "Efficiency": "205 Wh/km"
+        }
+    },
+    {
+        "Polestar 3 Long Range Dual motor": {
+            "Useable battery": "107 kWh",
+            "Range": "490 km",
+            "Efficiency": "218 Wh/km"
+        }
+    },
+    {
+        "Dacia Spring Electric 65": {
+            "Useable battery": "25 kWh",
+            "Range": "160 km",
+            "Efficiency": "156 Wh/km"
+        }
+    },
+    {
+        "Ford Mustang Mach-E SR RWD": {
+            "Useable battery": "72.6 kWh",
+            "Range": "380 km",
+            "Efficiency": "191 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQB 300 4MATIC": {
+            "Useable battery": "66.5 kWh",
+            "Range": "345 km",
+            "Efficiency": "193 Wh/km"
+        }
+    },
+    {
+        "Volvo EX90 Twin Motor": {
+            "Useable battery": "107 kWh",
+            "Range": "465 km",
+            "Efficiency": "230 Wh/km"
+        }
+    },
+    {
+        "Jaguar I-Pace EV400": {
+            "Useable battery": "84.7 kWh",
+            "Range": "380 km",
+            "Efficiency": "223 Wh/km"
+        }
+    },
+    {
+        "Volvo EC40 Single Motor ER": {
+            "Useable battery": "79 kWh",
+            "Range": "420 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.4 GTX": {
+            "Useable battery": "77 kWh",
+            "Range": "420 km",
+            "Efficiency": "183 Wh/km"
+        }
+    },
+    {
+        "BMW i5 eDrive40 Touring": {
+            "Useable battery": "81.2 kWh",
+            "Range": "455 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "CUPRA Born VZ": {
+            "Useable battery": "79 kWh",
+            "Range": "460 km",
+            "Efficiency": "172 Wh/km"
+        }
+    },
+    {
+        "Renault Megane E-Tech EV40 130hp": {
+            "Useable battery": "40 kWh",
+            "Range": "260 km",
+            "Efficiency": "154 Wh/km"
+        }
+    },
+    {
+        "Audi Q4 e-tron 55 quattro": {
+            "Useable battery": "77 kWh",
+            "Range": "395 km",
+            "Efficiency": "195 Wh/km"
+        }
+    },
+    {
+        "Audi SQ6 e-tron": {
+            "Useable battery": "94.9 kWh",
+            "Range": "445 km",
+            "Efficiency": "213 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq Coupe RS": {
+            "Useable battery": "77 kWh",
+            "Range": "455 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "Lotus Emeya": {
+            "Useable battery": "100 kWh",
+            "Range": "530 km",
+            "Efficiency": "189 Wh/km"
+        }
+    },
+    {
+        "Alfa Romeo Junior Elettrica 54 kWh": {
+            "Useable battery": "50.8 kWh",
+            "Range": "315 km",
+            "Efficiency": "161 Wh/km"
+        }
+    },
+    {
+        "Lotus Eletre R": {
+            "Useable battery": "109 kWh",
+            "Range": "455 km",
+            "Efficiency": "240 Wh/km"
+        }
+    },
+    {
+        "Nissan Townstar EV Passenger": {
+            "Useable battery": "45 kWh",
+            "Range": "225 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS 450 4MATIC": {
+            "Useable battery": "108.4 kWh",
+            "Range": "610 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "Opel Corsa Electric 51 kWh": {
+            "Useable battery": "48.1 kWh",
+            "Range": "315 km",
+            "Efficiency": "153 Wh/km"
+        }
+    },
+    {
+        "NIO ET7 100 kWh": {
+            "Useable battery": "90 kWh",
+            "Range": "505 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "Alfa Romeo Junior Elettrica 54 kWh Veloce": {
+            "Useable battery": "50.8 kWh",
+            "Range": "305 km",
+            "Efficiency": "167 Wh/km"
+        }
+    },
+    {
+        "Audi Q8 e-tron 50 quattro": {
+            "Useable battery": "89 kWh",
+            "Range": "425 km",
+            "Efficiency": "209 Wh/km"
+        }
+    },
+    {
+        "Opel Astra Sports Tourer Electric": {
+            "Useable battery": "50.8 kWh",
+            "Range": "310 km",
+            "Efficiency": "164 Wh/km"
+        }
+    },
+    {
+        "Renault Scenic E-Tech EV60 170hp": {
+            "Useable battery": "60 kWh",
+            "Range": "340 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Volvo EX90 Twin Motor Performance": {
+            "Useable battery": "107 kWh",
+            "Range": "450 km",
+            "Efficiency": "238 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo GT Weissach": {
+            "Useable battery": "97 kWh",
+            "Range": "475 km",
+            "Efficiency": "204 Wh/km"
+        }
+    },
+    {
+        "MG Marvel R Performance": {
+            "Useable battery": "70 kWh",
+            "Range": "350 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQV 300 Long": {
+            "Useable battery": "90 kWh",
+            "Range": "315 km",
+            "Efficiency": "286 Wh/km"
+        }
+    },
+    {
+        "BMW i7 eDrive50": {
+            "Useable battery": "101.7 kWh",
+            "Range": "520 km",
+            "Efficiency": "196 Wh/km"
+        }
+    },
+    {
+        "Mini Cooper E": {
+            "Useable battery": "37 kWh",
+            "Range": "235 km",
+            "Efficiency": "157 Wh/km"
+        }
+    },
+    {
+        "Maserati Grecale Folgore": {
+            "Useable battery": "95 kWh",
+            "Range": "400 km",
+            "Efficiency": "238 Wh/km"
+        }
+    },
+    {
+        "Renault Megane E-Tech EV60 130hp": {
+            "Useable battery": "60 kWh",
+            "Range": "380 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "BMW i7 M70 xDrive": {
+            "Useable battery": "101.7 kWh",
+            "Range": "490 km",
+            "Efficiency": "208 Wh/km"
+        }
+    },
+    {
+        "Smart #3 Premium": {
+            "Useable battery": "62 kWh",
+            "Range": "355 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "MG MG5 Electric Standard Range": {
+            "Useable battery": "46 kWh",
+            "Range": "265 km",
+            "Efficiency": "174 Wh/km"
+        }
+    },
+    {
+        "BMW i5 xDrive40 Sedan": {
+            "Useable battery": "81.2 kWh",
+            "Range": "455 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "Seres 3": {
+            "Useable battery": "51 kWh",
+            "Range": "260 km",
+            "Efficiency": "196 Wh/km"
+        }
+    },
+    {
+        "Smart #1 Pro": {
+            "Useable battery": "47 kWh",
+            "Range": "250 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "Audi SQ8 e-tron": {
+            "Useable battery": "106 kWh",
+            "Range": "455 km",
+            "Efficiency": "233 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-2008 50 kWh": {
+            "Useable battery": "46.3 kWh",
+            "Range": "270 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "Ford Explorer Standard Range RWD": {
+            "Useable battery": "52 kWh",
+            "Range": "280 km",
+            "Efficiency": "186 Wh/km"
+        }
+    },
+    {
+        "Lucid Air Pure RWD": {
+            "Useable battery": "92 kWh",
+            "Range": "565 km",
+            "Efficiency": "163 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-308 SW": {
+            "Useable battery": "50.8 kWh",
+            "Range": "300 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "Citroen e-C4 X 54 kWh": {
+            "Useable battery": "50.8 kWh",
+            "Range": "330 km",
+            "Efficiency": "154 Wh/km"
+        }
+    },
+    {
+        "NIO EL7 100 kWh": {
+            "Useable battery": "90 kWh",
+            "Range": "430 km",
+            "Efficiency": "209 Wh/km"
+        }
+    },
+    {
+        "Audi Q4 Sportback e-tron 45": {
+            "Useable battery": "77 kWh",
+            "Range": "435 km",
+            "Efficiency": "177 Wh/km"
+        }
+    },
+    {
+        "Kia e-Soul 64 kWh": {
+            "Useable battery": "64 kWh",
+            "Range": "370 km",
+            "Efficiency": "173 Wh/km"
+        }
+    },
+    {
+        "Genesis GV60 Premium": {
+            "Useable battery": "74 kWh",
+            "Range": "390 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "Smart #3 Pro": {
+            "Useable battery": "47 kWh",
+            "Range": "265 km",
+            "Efficiency": "177 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE SUV 350 4MATIC": {
+            "Useable battery": "90.6 kWh",
+            "Range": "435 km",
+            "Efficiency": "208 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS SUV 450+": {
+            "Useable battery": "118 kWh",
+            "Range": "540 km",
+            "Efficiency": "219 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan 4S Plus": {
+            "Useable battery": "97 kWh",
+            "Range": "550 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Ford Mustang Mach-E GT": {
+            "Useable battery": "91 kWh",
+            "Range": "425 km",
+            "Efficiency": "214 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS SUV Maybach 680": {
+            "Useable battery": "118 kWh",
+            "Range": "490 km",
+            "Efficiency": "241 Wh/km"
+        }
+    },
+    {
+        "Hongqi E-HS9 84 kWh": {
+            "Useable battery": "76.5 kWh",
+            "Range": "320 km",
+            "Efficiency": "239 Wh/km"
+        }
+    },
+    {
+        "Renault 5 E-Tech 40kWh 120hp": {
+            "Useable battery": "40 kWh",
+            "Range": "260 km",
+            "Efficiency": "154 Wh/km"
+        }
+    },
+    {
+        "Citroen e-C4 54 kWh": {
+            "Useable battery": "50.8 kWh",
+            "Range": "330 km",
+            "Efficiency": "154 Wh/km"
+        }
+    },
+    {
+        "Mini Countryman SE ALL4": {
+            "Useable battery": "64.7 kWh",
+            "Range": "370 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "GWM ORA 3 63 kWh": {
+            "Useable battery": "59.3 kWh",
+            "Range": "340 km",
+            "Efficiency": "174 Wh/km"
+        }
+    },
+    {
+        "Nissan Ariya e-4ORCE 87kWh - 225 kW": {
+            "Useable battery": "87 kWh",
+            "Range": "405 km",
+            "Efficiency": "215 Wh/km"
+        }
+    },
+    {
+        "NIO ET5 75 kWh": {
+            "Useable battery": "70.5 kWh",
+            "Range": "395 km",
+            "Efficiency": "178 Wh/km"
+        }
+    },
+    {
+        "DS 3 E-Tense": {
+            "Useable battery": "50.8 kWh",
+            "Range": "300 km",
+            "Efficiency": "169 Wh/km"
+        }
+    },
+    {
+        "CUPRA Tavascan Endurance": {
+            "Useable battery": "77 kWh",
+            "Range": "450 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS SUV 580 4MATIC": {
+            "Useable battery": "118 kWh",
+            "Range": "530 km",
+            "Efficiency": "223 Wh/km"
+        }
+    },
+    {
+        "XPENG G9 AWD Performance": {
+            "Useable battery": "93.1 kWh",
+            "Range": "465 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq Coupe 85x": {
+            "Useable battery": "77 kWh",
+            "Range": "470 km",
+            "Efficiency": "164 Wh/km"
+        }
+    },
+    {
+        "Fiat 500e Hatchback 24 kWh": {
+            "Useable battery": "21.3 kWh",
+            "Range": "135 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "Fisker Ocean Sport": {
+            "Useable battery": "71 kWh",
+            "Range": "360 km",
+            "Efficiency": "197 Wh/km"
+        }
+    },
+    {
+        "Polestar 2 Long Range Performance": {
+            "Useable battery": "79 kWh",
+            "Range": "450 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Volvo EC40 Twin Motor": {
+            "Useable battery": "79 kWh",
+            "Range": "400 km",
+            "Efficiency": "198 Wh/km"
+        }
+    },
+    {
+        "NIO ET5 Touring 100 kWh": {
+            "Useable battery": "90 kWh",
+            "Range": "485 km",
+            "Efficiency": "186 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID. Buzz LWB GTX": {
+            "Useable battery": "86 kWh",
+            "Range": "355 km",
+            "Efficiency": "242 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS AMG 53 4MATIC+": {
+            "Useable battery": "108.4 kWh",
+            "Range": "535 km",
+            "Efficiency": "203 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.3 GTX Performance": {
+            "Useable battery": "79 kWh",
+            "Range": "460 km",
+            "Efficiency": "172 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo S": {
+            "Useable battery": "97 kWh",
+            "Range": "500 km",
+            "Efficiency": "194 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQA 350 4MATIC": {
+            "Useable battery": "66.5 kWh",
+            "Range": "350 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "Volvo EC40 Single Motor": {
+            "Useable battery": "67 kWh",
+            "Range": "360 km",
+            "Efficiency": "186 Wh/km"
+        }
+    },
+    {
+        "Genesis G80 Electrified Luxury": {
+            "Useable battery": "82.5 kWh",
+            "Range": "440 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE 350 4MATIC": {
+            "Useable battery": "89 kWh",
+            "Range": "510 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "Genesis GV70 Electrified Sport": {
+            "Useable battery": "74 kWh",
+            "Range": "350 km",
+            "Efficiency": "211 Wh/km"
+        }
+    },
+    {
+        "Zeekr X Long Range RWD": {
+            "Useable battery": "64 kWh",
+            "Range": "355 km",
+            "Efficiency": "180 Wh/km"
+        }
+    },
+    {
+        "Lexus UX 300e": {
+            "Useable battery": "64 kWh",
+            "Range": "340 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "Fiat 500e 3+1 42 kWh": {
+            "Useable battery": "37.3 kWh",
+            "Range": "235 km",
+            "Efficiency": "159 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS 500 4MATIC": {
+            "Useable battery": "108.4 kWh",
+            "Range": "590 km",
+            "Efficiency": "184 Wh/km"
+        }
+    },
+    {
+        "Zeekr 001 Privilege AWD": {
+            "Useable battery": "94 kWh",
+            "Range": "495 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE AMG 43 4MATIC": {
+            "Useable battery": "90.6 kWh",
+            "Range": "450 km",
+            "Efficiency": "201 Wh/km"
+        }
+    },
+    {
+        "Aiways U5": {
+            "Useable battery": "60 kWh",
+            "Range": "315 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "BYD DOLPHIN 44.9 kWh Boost": {
+            "Useable battery": "44.9 kWh",
+            "Range": "255 km",
+            "Efficiency": "176 Wh/km"
+        }
+    },
+    {
+        "Lotus Emeya S": {
+            "Useable battery": "100 kWh",
+            "Range": "530 km",
+            "Efficiency": "189 Wh/km"
+        }
+    },
+    {
+        "Hongqi E-HS9 120 kWh": {
+            "Useable battery": "112 kWh",
+            "Range": "460 km",
+            "Efficiency": "243 Wh/km"
+        }
+    },
+    {
+        "Polestar 3 Long Range Performance": {
+            "Useable battery": "107 kWh",
+            "Range": "470 km",
+            "Efficiency": "228 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS SUV 450 4MATIC": {
+            "Useable battery": "118 kWh",
+            "Range": "530 km",
+            "Efficiency": "223 Wh/km"
+        }
+    },
+    {
+        "Opel Mokka-e 54 kWh": {
+            "Useable battery": "50.8 kWh",
+            "Range": "290 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE 350": {
+            "Useable battery": "89 kWh",
+            "Range": "515 km",
+            "Efficiency": "173 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID.5 GTX": {
+            "Useable battery": "77 kWh",
+            "Range": "430 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE SUV 350+": {
+            "Useable battery": "96 kWh",
+            "Range": "475 km",
+            "Efficiency": "202 Wh/km"
+        }
+    },
+    {
+        "Smart #1 Premium": {
+            "Useable battery": "62 kWh",
+            "Range": "335 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "Lotus Eletre S": {
+            "Useable battery": "109 kWh",
+            "Range": "480 km",
+            "Efficiency": "227 Wh/km"
+        }
+    },
+    {
+        "Audi Q8 e-tron Sportback 50 quattro": {
+            "Useable battery": "89 kWh",
+            "Range": "445 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQT 200 Standard": {
+            "Useable battery": "45 kWh",
+            "Range": "225 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Citroen e-Berlingo XL 50 kWh": {
+            "Useable battery": "50 kWh",
+            "Range": "230 km",
+            "Efficiency": "217 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE SUV 300": {
+            "Useable battery": "90.6 kWh",
+            "Range": "450 km",
+            "Efficiency": "201 Wh/km"
+        }
+    },
+    {
+        "BMW i5 M60 xDrive Touring": {
+            "Useable battery": "81.2 kWh",
+            "Range": "415 km",
+            "Efficiency": "196 Wh/km"
+        }
+    },
+    {
+        "Audi Q4 Sportback e-tron 55 quattro": {
+            "Useable battery": "77 kWh",
+            "Range": "415 km",
+            "Efficiency": "186 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQA 300 4MATIC": {
+            "Useable battery": "66.5 kWh",
+            "Range": "350 km",
+            "Efficiency": "190 Wh/km"
+        }
+    },
+    {
+        "CUPRA Born 170 kW - 58 kWh": {
+            "Useable battery": "58 kWh",
+            "Range": "345 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-3008 73 kWh Dual Motor": {
+            "Useable battery": "73 kWh",
+            "Range": "380 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan 4S": {
+            "Useable battery": "82.3 kWh",
+            "Range": "475 km",
+            "Efficiency": "173 Wh/km"
+        }
+    },
+    {
+        "Citroen e-Berlingo M 50 kWh": {
+            "Useable battery": "50 kWh",
+            "Range": "235 km",
+            "Efficiency": "213 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE SUV AMG 53 4MATIC+": {
+            "Useable battery": "90.6 kWh",
+            "Range": "410 km",
+            "Efficiency": "221 Wh/km"
+        }
+    },
+    {
+        "Fiat 500e Cabrio 42 kWh": {
+            "Useable battery": "37.3 kWh",
+            "Range": "230 km",
+            "Efficiency": "162 Wh/km"
+        }
+    },
+    {
+        "VinFast VF 8 Eco Extended Range": {
+            "Useable battery": "87.7 kWh",
+            "Range": "425 km",
+            "Efficiency": "206 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE SUV 500 4MATIC": {
+            "Useable battery": "96 kWh",
+            "Range": "455 km",
+            "Efficiency": "211 Wh/km"
+        }
+    },
+    {
+        "Smart #3 Pro+": {
+            "Useable battery": "62 kWh",
+            "Range": "355 km",
+            "Efficiency": "175 Wh/km"
+        }
+    },
+    {
+        "e.Go e.wave X": {
+            "Useable battery": "27 kWh",
+            "Range": "150 km",
+            "Efficiency": "180 Wh/km"
+        }
+    },
+    {
+        "XPENG P7 AWD Performance": {
+            "Useable battery": "82.7 kWh",
+            "Range": "460 km",
+            "Efficiency": "180 Wh/km"
+        }
+    },
+    {
+        "Ford Mustang Mach-E SR AWD": {
+            "Useable battery": "72.6 kWh",
+            "Range": "350 km",
+            "Efficiency": "207 Wh/km"
+        }
+    },
+    {
+        "Lotus Emeya R": {
+            "Useable battery": "100 kWh",
+            "Range": "470 km",
+            "Efficiency": "213 Wh/km"
+        }
+    },
+    {
+        "Abarth 500e Hatchback": {
+            "Useable battery": "37.8 kWh",
+            "Range": "225 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE AMG 53 4MATIC+": {
+            "Useable battery": "90.6 kWh",
+            "Range": "450 km",
+            "Efficiency": "201 Wh/km"
+        }
+    },
+    {
+        "Audi Q4 Sportback e-tron 45 quattro": {
+            "Useable battery": "77 kWh",
+            "Range": "415 km",
+            "Efficiency": "186 Wh/km"
+        }
+    },
+    {
+        "Volvo EX90 Single Motor": {
+            "Useable battery": "101 kWh",
+            "Range": "460 km",
+            "Efficiency": "220 Wh/km"
+        }
+    },
+    {
+        "Audi SQ8 e-tron Sportback": {
+            "Useable battery": "106 kWh",
+            "Range": "480 km",
+            "Efficiency": "221 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq RS": {
+            "Useable battery": "77 kWh",
+            "Range": "435 km",
+            "Efficiency": "177 Wh/km"
+        }
+    },
+    {
+        "Volvo EC40 Twin Motor Performance": {
+            "Useable battery": "79 kWh",
+            "Range": "400 km",
+            "Efficiency": "198 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo": {
+            "Useable battery": "97 kWh",
+            "Range": "520 km",
+            "Efficiency": "187 Wh/km"
+        }
+    },
+    {
+        "Volvo EX40 Twin Motor Performance": {
+            "Useable battery": "79 kWh",
+            "Range": "380 km",
+            "Efficiency": "208 Wh/km"
+        }
+    },
+    {
+        "NIO ET5 Touring 75 kWh": {
+            "Useable battery": "70.5 kWh",
+            "Range": "385 km",
+            "Efficiency": "183 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE SUV AMG 43 4MATIC": {
+            "Useable battery": "90.6 kWh",
+            "Range": "415 km",
+            "Efficiency": "218 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQE 500 4MATIC": {
+            "Useable battery": "90.6 kWh",
+            "Range": "505 km",
+            "Efficiency": "179 Wh/km"
+        }
+    },
+    {
+        "Nissan Ariya e-4ORCE 87kWh - 290 kW": {
+            "Useable battery": "87 kWh",
+            "Range": "405 km",
+            "Efficiency": "215 Wh/km"
+        }
+    },
+    {
+        "GWM ORA 3 GT": {
+            "Useable battery": "59.3 kWh",
+            "Range": "325 km",
+            "Efficiency": "182 Wh/km"
+        }
+    },
+    {
+        "Skoda Enyaq Coupe 60": {
+            "Useable battery": "58 kWh",
+            "Range": "355 km",
+            "Efficiency": "163 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan 4 Cross Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "505 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "Peugeot e-5008 73 kWh Dual Motor": {
+            "Useable battery": "73 kWh",
+            "Range": "365 km",
+            "Efficiency": "200 Wh/km"
+        }
+    },
+    {
+        "Smart #1 Pulse": {
+            "Useable battery": "62 kWh",
+            "Range": "325 km",
+            "Efficiency": "191 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz eVito Tourer Long 90 kWh": {
+            "Useable battery": "90 kWh",
+            "Range": "320 km",
+            "Efficiency": "281 Wh/km"
+        }
+    },
+    {
+        "Fiat 500e 3+1 24 kWh": {
+            "Useable battery": "21.3 kWh",
+            "Range": "135 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "Aiways U6": {
+            "Useable battery": "60 kWh",
+            "Range": "350 km",
+            "Efficiency": "171 Wh/km"
+        }
+    },
+    {
+        "Elaris BEO 86 kWh": {
+            "Useable battery": "81 kWh",
+            "Range": "390 km",
+            "Efficiency": "208 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQS SUV 500 4MATIC": {
+            "Useable battery": "118 kWh",
+            "Range": "530 km",
+            "Efficiency": "223 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan 4S Cross Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "505 km",
+            "Efficiency": "192 Wh/km"
+        }
+    },
+    {
+        "Volkswagen ID. Buzz LWB Pro": {
+            "Useable battery": "77 kWh",
+            "Range": "335 km",
+            "Efficiency": "230 Wh/km"
+        }
+    },
+    {
+        "Kia e-Soul 39.2 kWh": {
+            "Useable battery": "39.2 kWh",
+            "Range": "230 km",
+            "Efficiency": "170 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Plus Sport Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "515 km",
+            "Efficiency": "188 Wh/km"
+        }
+    },
+    {
+        "NIO EL6 75 kWh": {
+            "Useable battery": "70.5 kWh",
+            "Range": "350 km",
+            "Efficiency": "201 Wh/km"
+        }
+    },
+    {
+        "Genesis GV60 Sport": {
+            "Useable battery": "74 kWh",
+            "Range": "380 km",
+            "Efficiency": "195 Wh/km"
+        }
+    },
+    {
+        "Genesis GV60 Sport Plus": {
+            "Useable battery": "74 kWh",
+            "Range": "365 km",
+            "Efficiency": "203 Wh/km"
+        }
+    },
+    {
+        "Abarth 500e Convertible": {
+            "Useable battery": "37.8 kWh",
+            "Range": "225 km",
+            "Efficiency": "168 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Sport Turismo": {
+            "Useable battery": "82.3 kWh",
+            "Range": "445 km",
+            "Efficiency": "185 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo S Cross Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "475 km",
+            "Efficiency": "204 Wh/km"
+        }
+    },
+    {
+        "Fiat 500e Cabrio 24 kWh": {
+            "Useable battery": "21.3 kWh",
+            "Range": "135 km",
+            "Efficiency": "158 Wh/km"
+        }
+    },
+    {
+        "Maserati GranCabrio Folgore": {
+            "Useable battery": "83 kWh",
+            "Range": "395 km",
+            "Efficiency": "210 Wh/km"
+        }
+    },
+    {
+        "NIO EL7 75 kWh": {
+            "Useable battery": "70.5 kWh",
+            "Range": "340 km",
+            "Efficiency": "207 Wh/km"
+        }
+    },
+    {
+        "VinFast VF 8 Plus Extended Range": {
+            "Useable battery": "87.7 kWh",
+            "Range": "425 km",
+            "Efficiency": "206 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQV 250 Extra-Long": {
+            "Useable battery": "60 kWh",
+            "Range": "210 km",
+            "Efficiency": "286 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz eVito Tourer Long 60 kWh": {
+            "Useable battery": "60 kWh",
+            "Range": "220 km",
+            "Efficiency": "273 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo Cross Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "495 km",
+            "Efficiency": "196 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz EQV 250 Long": {
+            "Useable battery": "60 kWh",
+            "Range": "215 km",
+            "Efficiency": "279 Wh/km"
+        }
+    },
+    {
+        "Mercedes-Benz eVito Tourer Extra-Long 60 kWh": {
+            "Useable battery": "60 kWh",
+            "Range": "215 km",
+            "Efficiency": "279 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo Sport Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "470 km",
+            "Efficiency": "206 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan 4S Plus Sport Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "495 km",
+            "Efficiency": "196 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan 4S Sport Turismo": {
+            "Useable battery": "82.3 kWh",
+            "Range": "430 km",
+            "Efficiency": "191 Wh/km"
+        }
+    },
+    {
+        "Porsche Taycan Turbo S Sport Turismo": {
+            "Useable battery": "97 kWh",
+            "Range": "460 km",
+            "Efficiency": "211 Wh/km"
+        }
+    }
+]

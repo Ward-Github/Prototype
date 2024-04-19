@@ -1,0 +1,1398 @@
+[
+    {
+        "key": 1,
+        "value": "Tesla Model 3"
+    },
+    {
+        "key": 2,
+        "value": "Tesla Model Y Long Range Dual Motor"
+    },
+    {
+        "key": 3,
+        "value": "BYD ATTO 3"
+    },
+    {
+        "key": 4,
+        "value": "Tesla Model 3 Long Range Dual Motor"
+    },
+    {
+        "key": 5,
+        "value": "Tesla Model Y"
+    },
+    {
+        "key": 6,
+        "value": "Tesla Model Y Long Range RWD"
+    },
+    {
+        "key": 7,
+        "value": "MG MG4 Electric 64 kWh"
+    },
+    {
+        "key": 8,
+        "value": "BYD SEAL 82.5 kWh AWD Excellence"
+    },
+    {
+        "key": 9,
+        "value": "Citroen e-C3"
+    },
+    {
+        "key": 10,
+        "value": "BMW i4 eDrive40"
+    },
+    {
+        "key": 11,
+        "value": "Tesla Model Y Performance"
+    },
+    {
+        "key": 12,
+        "value": "BYD DOLPHIN 60.4 kWh"
+    },
+    {
+        "key": 13,
+        "value": "Volkswagen ID.4 Pro"
+    },
+    {
+        "key": 14,
+        "value": "BMW iX xDrive40"
+    },
+    {
+        "key": 15,
+        "value": "Tesla Model S Plaid"
+    },
+    {
+        "key": 16,
+        "value": "Hyundai Kona Electric 65 kWh"
+    },
+    {
+        "key": 17,
+        "value": "Volvo EX30 Single Motor ER"
+    },
+    {
+        "key": 18,
+        "value": "Tesla Model S Dual Motor"
+    },
+    {
+        "key": 19,
+        "value": "Kia Niro EV"
+    },
+    {
+        "key": 20,
+        "value": "BYD HAN"
+    },
+    {
+        "key": 21,
+        "value": "BYD SEAL 82.5 kWh RWD Design"
+    },
+    {
+        "key": 22,
+        "value": "Dacia Spring Electric 45"
+    },
+    {
+        "key": 23,
+        "value": "BYD TANG"
+    },
+    {
+        "key": 24,
+        "value": "Rolls-Royce Spectre"
+    },
+    {
+        "key": 25,
+        "value": "BMW iX3"
+    },
+    {
+        "key": 26,
+        "value": "Renault Scenic E-Tech EV87 220hp"
+    },
+    {
+        "key": 27,
+        "value": "Honda e:Ny1"
+    },
+    {
+        "key": 28,
+        "value": "BMW iX1 xDrive30"
+    },
+    {
+        "key": 29,
+        "value": "Audi Q6 e-tron quattro"
+    },
+    {
+        "key": 30,
+        "value": "Renault Megane E-Tech EV60 220hp"
+    },
+    {
+        "key": 31,
+        "value": "MG ZS EV Long Range"
+    },
+    {
+        "key": 32,
+        "value": "Fiat 500e Hatchback 42 kWh"
+    },
+    {
+        "key": 33,
+        "value": "BYD SEAL U 71.8 kWh Comfort"
+    },
+    {
+        "key": 34,
+        "value": "Skoda Enyaq 85"
+    },
+    {
+        "key": 35,
+        "value": "Kia EV6 Long Range 2WD"
+    },
+    {
+        "key": 36,
+        "value": "Toyota bZ4X FWD"
+    },
+    {
+        "key": 37,
+        "value": "Renault 5 E-Tech 52kWh 150hp"
+    },
+    {
+        "key": 38,
+        "value": "Volkswagen ID.3 Pro"
+    },
+    {
+        "key": 39,
+        "value": "Nissan Leaf"
+    },
+    {
+        "key": 40,
+        "value": "Tesla Model Y"
+    },
+    {
+        "key": 41,
+        "value": "BMW i4 eDrive35"
+    },
+    {
+        "key": 42,
+        "value": "CUPRA Born 150 kW - 58 kWh"
+    },
+    {
+        "key": 43,
+        "value": "Lucid Air Grand Touring"
+    },
+    {
+        "key": 44,
+        "value": "BMW i4 M50"
+    },
+    {
+        "key": 45,
+        "value": "Renault Zoe ZE50 R110"
+    },
+    {
+        "key": 46,
+        "value": "BMW i7 xDrive60"
+    },
+    {
+        "key": 47,
+        "value": "Kia EV9 99.8 kWh AWD"
+    },
+    {
+        "key": 48,
+        "value": "Zeekr 001 Long Range RWD"
+    },
+    {
+        "key": 49,
+        "value": "Hongqi E-HS9 99 kWh"
+    },
+    {
+        "key": 50,
+        "value": "Hyundai IONIQ 5 Long Range 2WD"
+    },
+    {
+        "key": 51,
+        "value": "Volkswagen ID.7 Pro"
+    },
+    {
+        "key": 52,
+        "value": "Hyundai IONIQ 6 Long Range 2WD"
+    },
+    {
+        "key": 53,
+        "value": "Opel Astra Electric"
+    },
+    {
+        "key": 54,
+        "value": "BMW iX1 eDrive20"
+    },
+    {
+        "key": 55,
+        "value": "MG MG4 Electric 51 kWh"
+    },
+    {
+        "key": 56,
+        "value": "Audi Q8 e-tron 55 quattro"
+    },
+    {
+        "key": 57,
+        "value": "Mercedes-Benz EQB 250+"
+    },
+    {
+        "key": 58,
+        "value": "Nissan Ariya 87kWh"
+    },
+    {
+        "key": 59,
+        "value": "Porsche Macan 4 Electric"
+    },
+    {
+        "key": 60,
+        "value": "Smart #1 Pro+"
+    },
+    {
+        "key": 61,
+        "value": "BMW iX xDrive50"
+    },
+    {
+        "key": 62,
+        "value": "Kia EV6 GT"
+    },
+    {
+        "key": 63,
+        "value": "BMW i5 eDrive40 Sedan"
+    },
+    {
+        "key": 64,
+        "value": "Mercedes-Benz EQS 450+"
+    },
+    {
+        "key": 65,
+        "value": "Hyundai IONIQ 6 Long Range AWD"
+    },
+    {
+        "key": 66,
+        "value": "Hyundai IONIQ 5 N"
+    },
+    {
+        "key": 67,
+        "value": "Zeekr 001 Performance AWD"
+    },
+    {
+        "key": 68,
+        "value": "Audi Q4 e-tron 45"
+    },
+    {
+        "key": 69,
+        "value": "Volkswagen ID. Buzz Pro"
+    },
+    {
+        "key": 70,
+        "value": "Mercedes-Benz EQA 250"
+    },
+    {
+        "key": 71,
+        "value": "Peugeot e-3008 73 kWh"
+    },
+    {
+        "key": 72,
+        "value": "Polestar 2 Long Range Single Motor"
+    },
+    {
+        "key": 73,
+        "value": "CUPRA Born 170 kW - 77 kWh"
+    },
+    {
+        "key": 74,
+        "value": "NIO ET7 75 kWh"
+    },
+    {
+        "key": 75,
+        "value": "Volvo EX30 Single Motor"
+    },
+    {
+        "key": 76,
+        "value": "Citroen e-C4"
+    },
+    {
+        "key": 77,
+        "value": "Ford Explorer Extended Range RWD"
+    },
+    {
+        "key": 78,
+        "value": "Jeep Avenger Electric"
+    },
+    {
+        "key": 79,
+        "value": "Peugeot e-3008 98 kWh Long Range"
+    },
+    {
+        "key": 80,
+        "value": "Kia EV9 99.8 kWh AWD GT-Line"
+    },
+    {
+        "key": 81,
+        "value": "Volkswagen ID.7 Pro S"
+    },
+    {
+        "key": 82,
+        "value": "NIO ET5 100 kWh"
+    },
+    {
+        "key": 83,
+        "value": "Volvo EX30 Twin Motor Performance"
+    },
+    {
+        "key": 84,
+        "value": "Hyundai IONIQ 5 Long Range AWD"
+    },
+    {
+        "key": 85,
+        "value": "Mazda MX-30"
+    },
+    {
+        "key": 86,
+        "value": "Fisker Ocean Extreme"
+    },
+    {
+        "key": 87,
+        "value": "Hyundai IONIQ 5 Standard Range 2WD"
+    },
+    {
+        "key": 88,
+        "value": "XPENG G6 RWD Long Range"
+    },
+    {
+        "key": 89,
+        "value": "Kia EV6 Long Range AWD"
+    },
+    {
+        "key": 90,
+        "value": "Ford Mustang Mach-E ER RWD"
+    },
+    {
+        "key": 91,
+        "value": "Tesla Model X Dual Motor"
+    },
+    {
+        "key": 92,
+        "value": "MG MG5 Electric Long Range"
+    },
+    {
+        "key": 93,
+        "value": "BMW iX2 xDrive30"
+    },
+    {
+        "key": 94,
+        "value": "Dacia Spring Electric 45"
+    },
+    {
+        "key": 95,
+        "value": "Fisker Ocean Ultra"
+    },
+    {
+        "key": 96,
+        "value": "Maxus MIFA 9"
+    },
+    {
+        "key": 97,
+        "value": "Mini Countryman E"
+    },
+    {
+        "key": 98,
+        "value": "Ford Explorer Extended Range AWD"
+    },
+    {
+        "key": 99,
+        "value": "Porsche Macan Turbo Electric"
+    },
+    {
+        "key": 100,
+        "value": "BYD SEAL U 87 kWh Design"
+    },
+    {
+        "key": 101,
+        "value": "Lotus Eletre"
+    },
+    {
+        "key": 102,
+        "value": "Mercedes-Benz EQE 350+"
+    },
+    {
+        "key": 103,
+        "value": "Smart #1 Brabus"
+    },
+    {
+        "key": 104,
+        "value": "MG MG4 Electric 77 kWh"
+    },
+    {
+        "key": 105,
+        "value": "Hyundai IONIQ 6 Standard Range 2WD"
+    },
+    {
+        "key": 106,
+        "value": "Lexus RZ 450e"
+    },
+    {
+        "key": 107,
+        "value": "Lancia Ypsilon"
+    },
+    {
+        "key": 108,
+        "value": "BYD DOLPHIN 44.9 kWh Active"
+    },
+    {
+        "key": 109,
+        "value": "Renault Twingo Electric"
+    },
+    {
+        "key": 110,
+        "value": "Toyota bZ4X AWD"
+    },
+    {
+        "key": 111,
+        "value": "Subaru Solterra AWD"
+    },
+    {
+        "key": 112,
+        "value": "Opel Mokka-e 50 kWh"
+    },
+    {
+        "key": 113,
+        "value": "Skoda Enyaq Coupe 85"
+    },
+    {
+        "key": 114,
+        "value": "Renault Zoe ZE50 R135"
+    },
+    {
+        "key": 115,
+        "value": "Volkswagen ID.7 Tourer Pro"
+    },
+    {
+        "key": 116,
+        "value": "Volvo EX40 Single Motor ER"
+    },
+    {
+        "key": 117,
+        "value": "Tesla Model X Plaid"
+    },
+    {
+        "key": 118,
+        "value": "Hyundai Kona Electric 48 kWh"
+    },
+    {
+        "key": 119,
+        "value": "Zeekr X Privilege AWD"
+    },
+    {
+        "key": 120,
+        "value": "MG ZS EV Standard Range"
+    },
+    {
+        "key": 121,
+        "value": "Fiat 600e"
+    },
+    {
+        "key": 122,
+        "value": "Peugeot e-208 50 kWh"
+    },
+    {
+        "key": 123,
+        "value": "NIO EL6 100 kWh"
+    },
+    {
+        "key": 124,
+        "value": "Mercedes-Benz EQS 580 4MATIC"
+    },
+    {
+        "key": 125,
+        "value": "BMW i5 M60 xDrive Sedan"
+    },
+    {
+        "key": 126,
+        "value": "Volkswagen ID.4 Pro 4MOTION"
+    },
+    {
+        "key": 127,
+        "value": "Mercedes-Benz EQA 250+"
+    },
+    {
+        "key": 128,
+        "value": "Polestar 4 Long Range Single Motor"
+    },
+    {
+        "key": 129,
+        "value": "Kia EV9 99.8 kWh RWD"
+    },
+    {
+        "key": 130,
+        "value": "Maserati GranTurismo Folgore"
+    },
+    {
+        "key": 131,
+        "value": "Mini Cooper SE"
+    },
+    {
+        "key": 132,
+        "value": "MG MG4 Electric XPOWER"
+    },
+    {
+        "key": 133,
+        "value": "Nissan Leaf e+"
+    },
+    {
+        "key": 134,
+        "value": "Skoda Enyaq 60"
+    },
+    {
+        "key": 135,
+        "value": "Audi Q8 e-tron Sportback 55 quattro"
+    },
+    {
+        "key": 136,
+        "value": "Polestar 2 Long Range Dual Motor"
+    },
+    {
+        "key": 137,
+        "value": "Polestar 4 Long Range Dual Motor"
+    },
+    {
+        "key": 138,
+        "value": "Volkswagen ID.7 Tourer GTX"
+    },
+    {
+        "key": 139,
+        "value": "Porsche Taycan Turbo GT"
+    },
+    {
+        "key": 140,
+        "value": "Mercedes-Benz EQE 300"
+    },
+    {
+        "key": 141,
+        "value": "Porsche Taycan Plus"
+    },
+    {
+        "key": 142,
+        "value": "Polestar 2 Standard Range Single Motor"
+    },
+    {
+        "key": 143,
+        "value": "Mercedes-Benz EQB 350 4MATIC"
+    },
+    {
+        "key": 144,
+        "value": "Ford Mustang Mach-E ER AWD"
+    },
+    {
+        "key": 145,
+        "value": "Volkswagen ID.7 Tourer Pro S"
+    },
+    {
+        "key": 146,
+        "value": "CUPRA Tavascan VZ"
+    },
+    {
+        "key": 147,
+        "value": "Renault 5 E-Tech 40kWh 95hp"
+    },
+    {
+        "key": 148,
+        "value": "Volvo EX40 Twin Motor"
+    },
+    {
+        "key": 149,
+        "value": "Dacia Spring Electric 65 Extreme"
+    },
+    {
+        "key": 150,
+        "value": "Volkswagen ID.5 Pro"
+    },
+    {
+        "key": 151,
+        "value": "Volkswagen ID. Buzz GTX"
+    },
+    {
+        "key": 152,
+        "value": "BMW iX M60"
+    },
+    {
+        "key": 153,
+        "value": "Voyah Free 106 kWh"
+    },
+    {
+        "key": 154,
+        "value": "XPENG G9 RWD Standard Range"
+    },
+    {
+        "key": 155,
+        "value": "Volkswagen ID.3 Pro S - 4 Seats"
+    },
+    {
+        "key": 156,
+        "value": "Volkswagen ID.4 Pure"
+    },
+    {
+        "key": 157,
+        "value": "GWM ORA 3 48 kWh"
+    },
+    {
+        "key": 158,
+        "value": "XPENG G6 AWD Performance"
+    },
+    {
+        "key": 159,
+        "value": "Smart #3 Brabus"
+    },
+    {
+        "key": 160,
+        "value": "Porsche Taycan"
+    },
+    {
+        "key": 161,
+        "value": "Peugeot e-5008 73 kWh"
+    },
+    {
+        "key": 162,
+        "value": "XPENG G6 RWD Standard Range"
+    },
+    {
+        "key": 163,
+        "value": "Volvo EX40 Single Motor"
+    },
+    {
+        "key": 164,
+        "value": "Opel Corsa Electric 50 kWh"
+    },
+    {
+        "key": 165,
+        "value": "Peugeot e-2008 54 kWh"
+    },
+    {
+        "key": 166,
+        "value": "MG Marvel R"
+    },
+    {
+        "key": 167,
+        "value": "XPENG P7 Wing Edition"
+    },
+    {
+        "key": 168,
+        "value": "Peugeot e-208 51 kWh"
+    },
+    {
+        "key": 169,
+        "value": "XPENG G9 RWD Long Range"
+    },
+    {
+        "key": 170,
+        "value": "Peugeot e-308"
+    },
+    {
+        "key": 171,
+        "value": "Lucid Air Touring"
+    },
+    {
+        "key": 172,
+        "value": "SsangYong Korando e-Motion"
+    },
+    {
+        "key": 173,
+        "value": "Volkswagen ID. Buzz LWB Pro S"
+    },
+    {
+        "key": 174,
+        "value": "BMW iX2 eDrive20"
+    },
+    {
+        "key": 175,
+        "value": "Nissan Ariya 63kWh"
+    },
+    {
+        "key": 176,
+        "value": "Kia EV6 Standard Range 2WD"
+    },
+    {
+        "key": 177,
+        "value": "Citroen e-C4 X"
+    },
+    {
+        "key": 178,
+        "value": "Audi Q4 e-tron 45 quattro"
+    },
+    {
+        "key": 179,
+        "value": "Volkswagen ID.3 GTX"
+    },
+    {
+        "key": 180,
+        "value": "Skoda Enyaq 85x"
+    },
+    {
+        "key": 181,
+        "value": "VinFast VF 9 Extended Range"
+    },
+    {
+        "key": 182,
+        "value": "Peugeot e-5008 98 kWh Long Range"
+    },
+    {
+        "key": 183,
+        "value": "XPENG P7 RWD Long Range"
+    },
+    {
+        "key": 184,
+        "value": "Renault Kangoo E-Tech Electric"
+    },
+    {
+        "key": 185,
+        "value": "Polestar 3 Long Range Dual motor"
+    },
+    {
+        "key": 186,
+        "value": "Dacia Spring Electric 65"
+    },
+    {
+        "key": 187,
+        "value": "Ford Mustang Mach-E SR RWD"
+    },
+    {
+        "key": 188,
+        "value": "Mercedes-Benz EQB 300 4MATIC"
+    },
+    {
+        "key": 189,
+        "value": "Volvo EX90 Twin Motor"
+    },
+    {
+        "key": 190,
+        "value": "Jaguar I-Pace EV400"
+    },
+    {
+        "key": 191,
+        "value": "Volvo EC40 Single Motor ER"
+    },
+    {
+        "key": 192,
+        "value": "Volkswagen ID.4 GTX"
+    },
+    {
+        "key": 193,
+        "value": "BMW i5 eDrive40 Touring"
+    },
+    {
+        "key": 194,
+        "value": "CUPRA Born VZ"
+    },
+    {
+        "key": 195,
+        "value": "Renault Megane E-Tech EV40 130hp"
+    },
+    {
+        "key": 196,
+        "value": "Audi Q4 e-tron 55 quattro"
+    },
+    {
+        "key": 197,
+        "value": "Audi SQ6 e-tron"
+    },
+    {
+        "key": 198,
+        "value": "Skoda Enyaq Coupe RS"
+    },
+    {
+        "key": 199,
+        "value": "Lotus Emeya"
+    },
+    {
+        "key": 200,
+        "value": "Alfa Romeo Junior Elettrica 54 kWh"
+    },
+    {
+        "key": 201,
+        "value": "Lotus Eletre R"
+    },
+    {
+        "key": 202,
+        "value": "Nissan Townstar EV Passenger"
+    },
+    {
+        "key": 203,
+        "value": "Mercedes-Benz EQS 450 4MATIC"
+    },
+    {
+        "key": 204,
+        "value": "Opel Corsa Electric 51 kWh"
+    },
+    {
+        "key": 205,
+        "value": "NIO ET7 100 kWh"
+    },
+    {
+        "key": 206,
+        "value": "Alfa Romeo Junior Elettrica 54 kWh Veloce"
+    },
+    {
+        "key": 207,
+        "value": "Audi Q8 e-tron 50 quattro"
+    },
+    {
+        "key": 208,
+        "value": "Opel Astra Sports Tourer Electric"
+    },
+    {
+        "key": 209,
+        "value": "Renault Scenic E-Tech EV60 170hp"
+    },
+    {
+        "key": 210,
+        "value": "Volvo EX90 Twin Motor Performance"
+    },
+    {
+        "key": 211,
+        "value": "Porsche Taycan Turbo GT Weissach"
+    },
+    {
+        "key": 212,
+        "value": "MG Marvel R Performance"
+    },
+    {
+        "key": 213,
+        "value": "Mercedes-Benz EQV 300 Long"
+    },
+    {
+        "key": 214,
+        "value": "BMW i7 eDrive50"
+    },
+    {
+        "key": 215,
+        "value": "Mini Cooper E"
+    },
+    {
+        "key": 216,
+        "value": "Maserati Grecale Folgore"
+    },
+    {
+        "key": 217,
+        "value": "Renault Megane E-Tech EV60 130hp"
+    },
+    {
+        "key": 218,
+        "value": "BMW i7 M70 xDrive"
+    },
+    {
+        "key": 219,
+        "value": "Smart #3 Premium"
+    },
+    {
+        "key": 220,
+        "value": "MG MG5 Electric Standard Range"
+    },
+    {
+        "key": 221,
+        "value": "BMW i5 xDrive40 Sedan"
+    },
+    {
+        "key": 222,
+        "value": "Seres 3"
+    },
+    {
+        "key": 223,
+        "value": "Smart #1 Pro"
+    },
+    {
+        "key": 224,
+        "value": "Audi SQ8 e-tron"
+    },
+    {
+        "key": 225,
+        "value": "Peugeot e-2008 50 kWh"
+    },
+    {
+        "key": 226,
+        "value": "Ford Explorer Standard Range RWD"
+    },
+    {
+        "key": 227,
+        "value": "Lucid Air Pure RWD"
+    },
+    {
+        "key": 228,
+        "value": "Peugeot e-308 SW"
+    },
+    {
+        "key": 229,
+        "value": "Citroen e-C4 X 54 kWh"
+    },
+    {
+        "key": 230,
+        "value": "NIO EL7 100 kWh"
+    },
+    {
+        "key": 231,
+        "value": "Audi Q4 Sportback e-tron 45"
+    },
+    {
+        "key": 232,
+        "value": "Kia e-Soul 64 kWh"
+    },
+    {
+        "key": 233,
+        "value": "Genesis GV60 Premium"
+    },
+    {
+        "key": 234,
+        "value": "Smart #3 Pro"
+    },
+    {
+        "key": 235,
+        "value": "Mercedes-Benz EQE SUV 350 4MATIC"
+    },
+    {
+        "key": 236,
+        "value": "Mercedes-Benz EQS SUV 450+"
+    },
+    {
+        "key": 237,
+        "value": "Porsche Taycan 4S Plus"
+    },
+    {
+        "key": 238,
+        "value": "Ford Mustang Mach-E GT"
+    },
+    {
+        "key": 239,
+        "value": "Mercedes-Benz EQS SUV Maybach 680"
+    },
+    {
+        "key": 240,
+        "value": "Hongqi E-HS9 84 kWh"
+    },
+    {
+        "key": 241,
+        "value": "Renault 5 E-Tech 40kWh 120hp"
+    },
+    {
+        "key": 242,
+        "value": "Citroen e-C4 54 kWh"
+    },
+    {
+        "key": 243,
+        "value": "Mini Countryman SE ALL4"
+    },
+    {
+        "key": 244,
+        "value": "GWM ORA 3 63 kWh"
+    },
+    {
+        "key": 245,
+        "value": "Nissan Ariya e-4ORCE 87kWh - 225 kW"
+    },
+    {
+        "key": 246,
+        "value": "NIO ET5 75 kWh"
+    },
+    {
+        "key": 247,
+        "value": "DS 3 E-Tense"
+    },
+    {
+        "key": 248,
+        "value": "CUPRA Tavascan Endurance"
+    },
+    {
+        "key": 249,
+        "value": "Mercedes-Benz EQS SUV 580 4MATIC"
+    },
+    {
+        "key": 250,
+        "value": "XPENG G9 AWD Performance"
+    },
+    {
+        "key": 251,
+        "value": "Skoda Enyaq Coupe 85x"
+    },
+    {
+        "key": 252,
+        "value": "Fiat 500e Hatchback 24 kWh"
+    },
+    {
+        "key": 253,
+        "value": "Fisker Ocean Sport"
+    },
+    {
+        "key": 254,
+        "value": "Polestar 2 Long Range Performance"
+    },
+    {
+        "key": 255,
+        "value": "Volvo EC40 Twin Motor"
+    },
+    {
+        "key": 256,
+        "value": "NIO ET5 Touring 100 kWh"
+    },
+    {
+        "key": 257,
+        "value": "Volkswagen ID. Buzz LWB GTX"
+    },
+    {
+        "key": 258,
+        "value": "Mercedes-Benz EQS AMG 53 4MATIC+"
+    },
+    {
+        "key": 259,
+        "value": "Volkswagen ID.3 GTX Performance"
+    },
+    {
+        "key": 260,
+        "value": "Porsche Taycan Turbo S"
+    },
+    {
+        "key": 261,
+        "value": "Mercedes-Benz EQA 350 4MATIC"
+    },
+    {
+        "key": 262,
+        "value": "Volvo EC40 Single Motor"
+    },
+    {
+        "key": 263,
+        "value": "Genesis G80 Electrified Luxury"
+    },
+    {
+        "key": 264,
+        "value": "Mercedes-Benz EQE 350 4MATIC"
+    },
+    {
+        "key": 265,
+        "value": "Genesis GV70 Electrified Sport"
+    },
+    {
+        "key": 266,
+        "value": "Zeekr X Long Range RWD"
+    },
+    {
+        "key": 267,
+        "value": "Lexus UX 300e"
+    },
+    {
+        "key": 268,
+        "value": "Fiat 500e 3+1 42 kWh"
+    },
+    {
+        "key": 269,
+        "value": "Mercedes-Benz EQS 500 4MATIC"
+    },
+    {
+        "key": 270,
+        "value": "Zeekr 001 Privilege AWD"
+    },
+    {
+        "key": 271,
+        "value": "Mercedes-Benz EQE AMG 43 4MATIC"
+    },
+    {
+        "key": 272,
+        "value": "Aiways U5"
+    },
+    {
+        "key": 273,
+        "value": "BYD DOLPHIN 44.9 kWh Boost"
+    },
+    {
+        "key": 274,
+        "value": "Lotus Emeya S"
+    },
+    {
+        "key": 275,
+        "value": "Hongqi E-HS9 120 kWh"
+    },
+    {
+        "key": 276,
+        "value": "Polestar 3 Long Range Performance"
+    },
+    {
+        "key": 277,
+        "value": "Mercedes-Benz EQS SUV 450 4MATIC"
+    },
+    {
+        "key": 278,
+        "value": "Opel Mokka-e 54 kWh"
+    },
+    {
+        "key": 279,
+        "value": "Mercedes-Benz EQE 350"
+    },
+    {
+        "key": 280,
+        "value": "Volkswagen ID.5 GTX"
+    },
+    {
+        "key": 281,
+        "value": "Mercedes-Benz EQE SUV 350+"
+    },
+    {
+        "key": 282,
+        "value": "Smart #1 Premium"
+    },
+    {
+        "key": 283,
+        "value": "Lotus Eletre S"
+    },
+    {
+        "key": 284,
+        "value": "Audi Q8 e-tron Sportback 50 quattro"
+    },
+    {
+        "key": 285,
+        "value": "Mercedes-Benz EQT 200 Standard"
+    },
+    {
+        "key": 286,
+        "value": "Citroen e-Berlingo XL 50 kWh"
+    },
+    {
+        "key": 287,
+        "value": "Mercedes-Benz EQE SUV 300"
+    },
+    {
+        "key": 288,
+        "value": "BMW i5 M60 xDrive Touring"
+    },
+    {
+        "key": 289,
+        "value": "Audi Q4 Sportback e-tron 55 quattro"
+    },
+    {
+        "key": 290,
+        "value": "Mercedes-Benz EQA 300 4MATIC"
+    },
+    {
+        "key": 291,
+        "value": "CUPRA Born 170 kW - 58 kWh"
+    },
+    {
+        "key": 292,
+        "value": "Peugeot e-3008 73 kWh Dual Motor"
+    },
+    {
+        "key": 293,
+        "value": "Porsche Taycan 4S"
+    },
+    {
+        "key": 294,
+        "value": "Citroen e-Berlingo M 50 kWh"
+    },
+    {
+        "key": 295,
+        "value": "Mercedes-Benz EQE SUV AMG 53 4MATIC+"
+    },
+    {
+        "key": 296,
+        "value": "Fiat 500e Cabrio 42 kWh"
+    },
+    {
+        "key": 297,
+        "value": "VinFast VF 8 Eco Extended Range"
+    },
+    {
+        "key": 298,
+        "value": "Mercedes-Benz EQE SUV 500 4MATIC"
+    },
+    {
+        "key": 299,
+        "value": "Smart #3 Pro+"
+    },
+    {
+        "key": 300,
+        "value": "e.Go e.wave X"
+    },
+    {
+        "key": 301,
+        "value": "XPENG P7 AWD Performance"
+    },
+    {
+        "key": 302,
+        "value": "Ford Mustang Mach-E SR AWD"
+    },
+    {
+        "key": 303,
+        "value": "Lotus Emeya R"
+    },
+    {
+        "key": 304,
+        "value": "Abarth 500e Hatchback"
+    },
+    {
+        "key": 305,
+        "value": "Mercedes-Benz EQE AMG 53 4MATIC+"
+    },
+    {
+        "key": 306,
+        "value": "Audi Q4 Sportback e-tron 45 quattro"
+    },
+    {
+        "key": 307,
+        "value": "Volvo EX90 Single Motor"
+    },
+    {
+        "key": 308,
+        "value": "Audi SQ8 e-tron Sportback"
+    },
+    {
+        "key": 309,
+        "value": "Skoda Enyaq RS"
+    },
+    {
+        "key": 310,
+        "value": "Volvo EC40 Twin Motor Performance"
+    },
+    {
+        "key": 311,
+        "value": "Porsche Taycan Turbo"
+    },
+    {
+        "key": 312,
+        "value": "Volvo EX40 Twin Motor Performance"
+    },
+    {
+        "key": 313,
+        "value": "NIO ET5 Touring 75 kWh"
+    },
+    {
+        "key": 314,
+        "value": "Mercedes-Benz EQE SUV AMG 43 4MATIC"
+    },
+    {
+        "key": 315,
+        "value": "Mercedes-Benz EQE 500 4MATIC"
+    },
+    {
+        "key": 316,
+        "value": "Nissan Ariya e-4ORCE 87kWh - 290 kW"
+    },
+    {
+        "key": 317,
+        "value": "GWM ORA 3 GT"
+    },
+    {
+        "key": 318,
+        "value": "Skoda Enyaq Coupe 60"
+    },
+    {
+        "key": 319,
+        "value": "Porsche Taycan 4 Cross Turismo"
+    },
+    {
+        "key": 320,
+        "value": "Peugeot e-5008 73 kWh Dual Motor"
+    },
+    {
+        "key": 321,
+        "value": "Smart #1 Pulse"
+    },
+    {
+        "key": 322,
+        "value": "Mercedes-Benz eVito Tourer Long 90 kWh"
+    },
+    {
+        "key": 323,
+        "value": "Fiat 500e 3+1 24 kWh"
+    },
+    {
+        "key": 324,
+        "value": "Aiways U6"
+    },
+    {
+        "key": 325,
+        "value": "Elaris BEO 86 kWh"
+    },
+    {
+        "key": 326,
+        "value": "Mercedes-Benz EQS SUV 500 4MATIC"
+    },
+    {
+        "key": 327,
+        "value": "Porsche Taycan 4S Cross Turismo"
+    },
+    {
+        "key": 328,
+        "value": "Volkswagen ID. Buzz LWB Pro"
+    },
+    {
+        "key": 329,
+        "value": "Kia e-Soul 39.2 kWh"
+    },
+    {
+        "key": 330,
+        "value": "Porsche Taycan Plus Sport Turismo"
+    },
+    {
+        "key": 331,
+        "value": "NIO EL6 75 kWh"
+    },
+    {
+        "key": 332,
+        "value": "Genesis GV60 Sport"
+    },
+    {
+        "key": 333,
+        "value": "Genesis GV60 Sport Plus"
+    },
+    {
+        "key": 334,
+        "value": "Abarth 500e Convertible"
+    },
+    {
+        "key": 335,
+        "value": "Porsche Taycan Sport Turismo"
+    },
+    {
+        "key": 336,
+        "value": "Porsche Taycan Turbo S Cross Turismo"
+    },
+    {
+        "key": 337,
+        "value": "Fiat 500e Cabrio 24 kWh"
+    },
+    {
+        "key": 338,
+        "value": "Maserati GranCabrio Folgore"
+    },
+    {
+        "key": 339,
+        "value": "NIO EL7 75 kWh"
+    },
+    {
+        "key": 340,
+        "value": "VinFast VF 8 Plus Extended Range"
+    },
+    {
+        "key": 341,
+        "value": "Mercedes-Benz EQV 250 Extra-Long"
+    },
+    {
+        "key": 342,
+        "value": "Mercedes-Benz eVito Tourer Long 60 kWh"
+    },
+    {
+        "key": 343,
+        "value": "Porsche Taycan Turbo Cross Turismo"
+    },
+    {
+        "key": 344,
+        "value": "Mercedes-Benz EQV 250 Long"
+    },
+    {
+        "key": 345,
+        "value": "Mercedes-Benz eVito Tourer Extra-Long 60 kWh"
+    },
+    {
+        "key": 346,
+        "value": "Porsche Taycan Turbo Sport Turismo"
+    },
+    {
+        "key": 347,
+        "value": "Porsche Taycan 4S Plus Sport Turismo"
+    },
+    {
+        "key": 348,
+        "value": "Porsche Taycan 4S Sport Turismo"
+    },
+    {
+        "key": 349,
+        "value": "Porsche Taycan Turbo S Sport Turismo"
+    }
+]
