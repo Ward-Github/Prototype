@@ -3,13 +3,14 @@ import { useContext, useState } from "react";
 import { router, useSegments } from "expo-router";
 
 type User = {
-  username: string;
+  email: string;
+  name: string;
   accessToken: string;
 };
 
 type AuthProvider = {
   user: User | null;
-  login: (username: string, accessToken: string) => boolean;
+  login: (email: string, name: string, accessToken: string) => boolean;
   logout: () => void;
 };
 
@@ -44,9 +45,10 @@ export function useAuth() {
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (username: string, accessToken: string) => {
+  const login = (email: string, name:string, accessToken: string) => {
     setUser({
-      username: username,
+      email: email,
+      name: name,
       accessToken: accessToken,
     });
 

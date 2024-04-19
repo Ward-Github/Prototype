@@ -7,8 +7,8 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { useAuth } from '@/context/AuthProvider';
 
 export default function TabThreeScreen() {
-    const [username, setUsername] = React.useState("Mark Broekhoven");
-    const [email, setEmail] = React.useState<string>(useAuth().user?.username || "");
+    const [username, setUsername] = React.useState<string>(useAuth().user?.name || "");
+    const [email, setEmail] = React.useState<string>(useAuth().user?.email || "");
     const [car, setCar] = React.useState("Tesla Model Y");
     const [selected, setSelected] = React.useState("");
     const [data, setData] = useState([]);

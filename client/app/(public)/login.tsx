@@ -74,10 +74,10 @@ export default function login() {
         },
       });
 
-      console.log("\n\nUser data:", userPromise.data.username);
+      console.log("\n\nUser data:", userPromise.data["preferred_username"]);
       console.log("\n\nOkta Token: ", accessToken);
 
-      login(userPromise.data.username, accessToken);
+      login(userPromise.data["preferred_username"], userPromise.data["name"], accessToken);
     } catch (error) {
       console.log("Error:", error);
     } finally {
