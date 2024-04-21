@@ -1,11 +1,15 @@
 import express from "express";
 import fs from 'fs';
 import axios from 'axios';
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:8081'
+}));
 
 app.get('/', (req, res) => {
   res.send('Welcome to my server!');

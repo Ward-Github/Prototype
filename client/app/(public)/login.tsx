@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, TextInput } from "@/components/Themed";
-import { Alert, SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image } from "react-native";
+import { Alert, SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image, Platform } from "react-native";
 import { useAuth } from "@/context/AuthProvider";
 import axios from "axios";
 import * as AuthSession from "expo-auth-session";
@@ -13,7 +13,7 @@ const oktaConfig = {
     clientId: "0oagjykfldwWX5Cqt5d7",
     domain: "https://dev-58460839.okta.com",
     issuerUrl: "https://dev-58460839.okta.com/oauth2/default",
-    callbackUrl: "com.okta.dev-58460839:/callback",
+    callbackUrl: Platform.OS == "web" ? "http://localhost:8081/callback" : "com.okta.dev-58460839:/callback"
 };
 
 export default function login() {
@@ -43,8 +43,14 @@ export default function login() {
       if (discovery === null) {
         throw new Error("Failed to fetch the discovery document");
       }
-
-      const result = await request.promptAsync(discovery);
+      
+      let result: AuthSession.AuthSessionResult | null = null;
+      if (Platform.OS === "web") {
+        result = await request.promptAsync(discovery, { windowFeatures: { popup: false } });
+      }
+      else {
+        result = await request.promptAsync(discovery);
+      }
 
       const code = JSON.parse(JSON.stringify(result)).params.code;
       setAuthState(result);

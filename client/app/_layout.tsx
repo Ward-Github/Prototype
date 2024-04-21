@@ -48,7 +48,11 @@ function RootLayoutNav() {
   return (
     <AuthProvider>
       <Stack>
-        <Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
+      {Platform.OS === 'web' ? (
+          <Stack.Screen name="(auth)/(tabs web)" options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
+        )}
         <Stack.Screen
           name="(public)/login"
           options={{ headerShown: false }}

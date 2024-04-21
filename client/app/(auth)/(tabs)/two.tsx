@@ -49,8 +49,8 @@ export default function TabTwoScreen() {
           <Pressable onPress={handlePress}>
             <View style={styles.innerRectangle}>
               <View style={styles.textContainer}>
-                <Text style={styles.text}>SNEL</Text>
-                <Text style={styles.text}>RESERVEREN</Text>
+                <Text style={styles.text}>FAST</Text>
+                <Text style={styles.text}>RESERVATION</Text>
               </View>
               <MaterialCommunityIcons name="fast-forward-outline" size={56} color="#E1E1E1" style={{ marginRight: 20 }}/>
             </View>

@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useEffect } from "react";
 import { useContext, useState } from "react";
 import { router, useSegments } from "expo-router";
+import { Platform } from "react-native";
 
 type User = {
   id: string;
@@ -25,7 +26,11 @@ function useProtectedRoute(user: User | null) {
     if (!user && inAuthGroup) {
       router.replace("/login");
     } else if (user && !inAuthGroup) {
+      if (Platform.OS === "web") {
+        router.replace("/(auth)/(tabs web)/");
+      } else {
       router.replace("/(auth)/(tabs)/");
+      }
     }
   }, [user, segments]);
 }

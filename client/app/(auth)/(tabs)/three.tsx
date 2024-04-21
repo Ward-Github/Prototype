@@ -5,6 +5,7 @@ import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { useAuth } from '@/context/AuthProvider';
+import * as AuthSession from "expo-auth-session";
 import axios from 'axios';
 
 export default function TabThreeScreen() {
@@ -90,6 +91,9 @@ export default function TabThreeScreen() {
                       dropdownStyles={{backgroundColor: '#fff'}}
                     />
                   </View>
+                  <Pressable style={styles.button} onPress={auth.logout}>
+                      <Text style={styles.buttonText}>Logout</Text>
+                  </Pressable>
               </View>
           </View>
       </TouchableWithoutFeedback>
@@ -150,5 +154,19 @@ userInfo: {
       backgroundColor: '#0F3B5A',
       borderRadius: 5,
       paddingLeft: 10,
+  },
+  button: {
+      backgroundColor: '#007BFF',
+      padding: 10,
+      borderRadius: 20,
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 20,
+  },
+  buttonText: {
+      color: '#fff',
+      fontSize: 18,
+      fontFamily: 'Azonix',
   },
 });
