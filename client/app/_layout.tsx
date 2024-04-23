@@ -6,6 +6,7 @@ import { Platform } from 'react-native';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import Toast from 'react-native-toast-message';
+import AuthProvider from "@/context/AuthProvider";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -44,21 +45,21 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <>
-      {['android', 'ios'].includes(Platform.OS) ? (
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      ) : (
-        <Stack>
-          <Stack.Screen name="(tabs) web" options={{ headerShown: false }} />
-        </Stack>
-      )}
+    <AuthProvider>
+      <Stack>
+      {Platform.OS === 'web' ? (
+          <Stack.Screen name="(auth)/(tabs web)" options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
+        )}
+        <Stack.Screen
+          name="(public)/login"
+          options={{ headerShown: false }}
+        />
+      </Stack>
       <Toast />
-    </>
+  </AuthProvider>
   );
 }
 

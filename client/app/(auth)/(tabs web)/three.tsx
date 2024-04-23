@@ -32,7 +32,7 @@ export default function TabThreeScreen() {
           <View style={styles.container}>
               <View style={styles.rectangle}>
                   <Image 
-                      source={require('../../assets/images/avatar.jpg')} 
+                      source={require('../../../assets/images/avatar.jpg')} 
                       style={styles.avatar}
                   />
                   <View style={styles.inputContainer}>
