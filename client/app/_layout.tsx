@@ -57,6 +57,7 @@ function RootLayoutNav() {
           name="(public)/login"
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="(public)/callback" options={{ headerShown: false }} />
       </Stack>
       <Toast />
   </AuthProvider>
