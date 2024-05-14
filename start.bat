@@ -1,5 +1,4 @@
 @echo off
-cd "C:\Users\Ward\Desktop\School\Project - D\Prototype"
 
 REM Start the client
 start "Client" cmd /k "cd client & bun expo start"
