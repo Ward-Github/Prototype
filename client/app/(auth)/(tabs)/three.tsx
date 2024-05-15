@@ -13,7 +13,7 @@ export default function TabThreeScreen() {
     const auth = useAuth();
 
     useEffect(() => {
-      fetch('http://192.168.178.23:3000/car_list')
+      fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/car_list`)
         .then(response => response.json())
         .then(data => setData(data))
         .catch(error => console.error(error));
@@ -25,7 +25,7 @@ export default function TabThreeScreen() {
         "car": value
       }
 
-      fetch('http://192.168.178.23:3000/changeCar', {
+      fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/changeCar`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

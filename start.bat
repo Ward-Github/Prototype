@@ -1,7 +1,7 @@
 @echo off
 
 REM Start the client
-start "Client" cmd /k "cd client & bun expo start"
+start "Client" cmd /k "cd client & npx expo start"
 
 REM Start the server
 start "Server" cmd /k "cd server & bun server.mjs --hot mode"

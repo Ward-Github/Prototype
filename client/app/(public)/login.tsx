@@ -80,15 +80,14 @@ export default function login() {
         },
       });
 
-        const car = await fetch(`http://192.168.178.23:3000/getCar?userId=${userPromise.data["sub"]}`, {
+      const car = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getCar?userId=${userPromise.data["sub"]}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-      })
+      });
 
       const test = await car.text();
-
 
       console.log("\n\nUser data:", userPromise.data);
       console.log("\n\nOkta Token: ", accessToken);

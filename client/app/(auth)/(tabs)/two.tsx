@@ -4,7 +4,7 @@ import Toast from 'react-native-toast-message'
 
 export default function TabTwoScreen() {
   const handlePress = () => {
-    fetch('http://192.168.178.23:3000/reserve', {
+    fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
