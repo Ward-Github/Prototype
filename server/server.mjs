@@ -117,7 +117,7 @@ app.post('/changeCar', async (req, res) => {
   });
 });
 
-app.get('/getCar', async (req, res) => {
+app.get('/getUser', async (req, res) => {
   console.log('Received a request to /getCar');
   const userId = req.query.userId;
 
@@ -130,7 +130,9 @@ app.get('/getCar', async (req, res) => {
   axios.get(`https://dev-58460839.okta.com/api/v1/users/${userId}`, {
     headers: headers,
   }).then((response) => {
-    res.send(response.data.profile.car);
+    const car = response.data.profile.car;
+    const admin = response.data.profile.admin;
+    res.send({ car, admin });
   }).catch((error) => {
     console.error(error);
     res.status(500).send('An error occurred while getting the car.');
