@@ -2,9 +2,31 @@ import express from "express";
 import fs from 'fs';
 import axios from 'axios';
 import cors from 'cors';
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 const app = express();
 const port = 3000;
+
+const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5kkb7jt.mongodb.net/?retryWrites=true&w=majority&appName=Schuberg', {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
 
 app.use(express.json());
 app.use(cors({
@@ -100,6 +122,11 @@ app.get('/getCar', async (req, res) => {
     console.error(error);
     res.status(500).send('An error occurred while getting the car.');
   });
+});
+
+app.get('/testMongo', async (req, res) => {
+  await run();
+  res.send('Connected to MongoDB!');
 });
 
 app.listen(port, () => {
