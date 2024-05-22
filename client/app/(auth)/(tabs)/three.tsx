@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SelectList } from 'react-native-dropdown-select-list'
+import { SelectList } from 'react-native-dropdown-select-list';
 import { useAuth } from '@/context/AuthProvider';
-import * as AuthSession from "expo-auth-session";
-import axios from 'axios';
+import { useAdminMode } from '@/context/AdminModeContext';
 
 export default function TabThreeScreen() {
     const [data, setData] = useState([]);
+    const { isAdminMode, setIsAdminMode } = useAdminMode();
     const auth = useAuth();
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function TabThreeScreen() {
         .then(data => setData(data))
         .catch(error => console.error(error));
     }, []);
-  
+
     const handleSelect = (value: string) => {
       const body = {
         "userId": auth.user?.id,
@@ -91,6 +91,11 @@ export default function TabThreeScreen() {
                       dropdownStyles={{backgroundColor: '#fff'}}
                     />
                   </View>
+                  {auth.user?.admin && (
+                    <Pressable style={styles.button} onPress={() => setIsAdminMode(!isAdminMode)}>
+                      <Text style={styles.buttonText}>{isAdminMode ? 'Disable Admin Mode' : 'Enable Admin Mode'}</Text>
+                    </Pressable>
+                  )}
                   <Pressable style={styles.button} onPress={auth.logout}>
                       <Text style={styles.buttonText}>Logout</Text>
                   </Pressable>
@@ -121,17 +126,17 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     marginBottom: 40,
-},
-avatar: {
-  width: 150,
-  height: 150,
-  borderRadius: 75,
-  alignSelf: 'center',
-},
-userInfo: {
-  marginLeft: 20,
-  justifyContent: 'center',
-},
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    alignSelf: 'center',
+  },
+  userInfo: {
+    marginLeft: 20,
+    justifyContent: 'center',
+  },
   inputContainer: {
       marginBottom: 20,
       width: '100%',

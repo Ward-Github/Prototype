@@ -2,25 +2,28 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { useAdminMode } from '@/context/AdminModeContext';
 
 export default function TabLayout() {
+  const { isAdminMode } = useAdminMode();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#2196F3', // Set the active tab color
-        tabBarInactiveTintColor: '#E1E1E1', // Set the inactive tab color
-        tabBarStyle: { backgroundColor: '#0F2635', borderTopColor: 'transparent' }, // Set the background color and margin top
+        tabBarActiveTintColor: '#2196F3', // Change active tab color for admin mode
+        tabBarInactiveTintColor: '#E1E1E1', // Change inactive tab color for admin mode
+        tabBarStyle: { backgroundColor: isAdminMode ? '#1C1C1C' : '#0F2635', borderTopColor: 'transparent' }, // Change background color for admin mode
         headerShown: useClientOnlyValue(false, true),
-        headerStyle: { backgroundColor: '#1B73E4' },
+        headerStyle: { backgroundColor: isAdminMode ? '#1C1C1C' : '#1B73E4' },
         headerTitleStyle: { fontFamily: 'Azonix' },
         headerTintColor: '#FFFFFF',
         headerShadowVisible: false,
       }}>
       <Tabs.Screen
-        name="index"
+        name= "index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <Ionicons name="home" size={25} color={color} />, // Increase the size
+          title: (isAdminMode ? 'Chargers' : 'Home'),
+          tabBarIcon: ({ color }: { color: string }) => <Ionicons name={(isAdminMode ? 'battery-charging-outline' : 'home') as any} size={25} color={color} />, // Increase the size
           tabBarLabelStyle: { fontSize: 10, fontFamily: 'Azonix' }, // Increase the text size and set the font
         }}
       />
@@ -33,13 +36,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-      name="three"
-      options={{
-        title: 'Profile',
-        tabBarIcon: ({ color }) => <Ionicons name="person-circle" size={25} color={color} />, // Increase the size
-        tabBarLabelStyle: { fontSize: 10, fontFamily: 'Azonix' }, // Increase the text size and set the font
-      }}
+        name="three"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <Ionicons name="person-circle" size={25} color={color} />, // Increase the size
+          tabBarLabelStyle: { fontSize: 10, fontFamily: 'Azonix' }, // Increase the text size and set the font
+        }}
       />
-  </Tabs>
+    </Tabs>
   );
 }
