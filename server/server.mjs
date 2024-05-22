@@ -15,16 +15,29 @@ const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5
   }
 });
 
-async function run() {
+async function connectMongo() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    console.log("Connected to MongoDB!");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+}
+
+connectMongo();
+
+async function getMovie(movieTitle) {
+  try {
+    const database = client.db("sample_mflix");
+    const movies = database.collection("movies");
+
+    const query = { title: movieTitle };
+    const movie = await movies.findOne(query);
+
+    return movie;
+  } catch (error) {
+    console.error("Error fetching movie:", error);
+    throw error;
   }
 }
 
@@ -127,6 +140,26 @@ app.get('/getCar', async (req, res) => {
 app.get('/testMongo', async (req, res) => {
   await run();
   res.send('Connected to MongoDB!');
+});
+
+app.get('/movie', async (req, res) => {
+  const movieTitle = req.query.title;
+
+  if (!movieTitle) {
+    return res.status(400).send('Title query parameter is required');
+  }
+
+  try {
+    const movie = await getMovie(movieTitle);
+
+    if (!movie) {
+      return res.status(404).send('Movie not found');
+    }
+
+    res.send(movie);
+  } catch (error) {
+    res.status(500).send('An error occurred while fetching the movie');
+  }
 });
 
 app.listen(port, () => {
