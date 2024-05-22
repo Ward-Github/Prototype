@@ -10,10 +10,10 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#21304f',
+        tabBarActiveTintColor: isAdminMode ? '#911111' : '#21304f',
         tabBarInactiveTintColor: '#d8dce5', 
         tabBarStyle: { 
-          backgroundColor: '#ffffff', 
+          backgroundColor: isAdminMode ? '#171515' : '#ffffff', 
           borderTopColor: 'transparent',
           height: 90,
         },
@@ -23,7 +23,7 @@ export default function TabLayout() {
         },
         headerShown: useClientOnlyValue(false, true),
         headerStyle: {
-          backgroundColor: '#f0f4f8',
+          backgroundColor: isAdminMode ? '#171515' : '#f0f4f8',
           height: 60,
         },
         headerTitle: '',
