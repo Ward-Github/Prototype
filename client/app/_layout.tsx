@@ -8,6 +8,7 @@ import { AdminModeProvider } from '@/context/AdminModeContext';
 import Toast from 'react-native-toast-message';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AuthProvider from "@/context/AuthProvider";
+import { StatusBar } from 'expo-status-bar';
 
 const queryClient = new QueryClient();
 

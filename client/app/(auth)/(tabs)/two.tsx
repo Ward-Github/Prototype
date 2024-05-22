@@ -44,13 +44,14 @@ export default function TabTwoScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.profileHeader}>Reservation</Text>
       <Pressable onPress={handlePress}>
         <View style={styles.innerRectangle}>
           <View style={styles.textContainer}>
             <Text style={styles.text}>FAST</Text>
             <Text style={styles.text}>RESERVATION</Text>
           </View>
-          <MaterialCommunityIcons name="fast-forward-outline" size={56} color="#041B2A" style={{ marginRight: 20 }}/>
+          <MaterialCommunityIcons name="fast-forward-outline" size={56} color="#041B2A"/>
         </View>
       </Pressable>
     </View>
@@ -60,17 +61,22 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#f0f4f8',
+  },
+  profileHeader: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#21304f',
+    marginTop: 20,
+    marginHorizontal: 20,
   },
   innerRectangle: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ffffff',
     padding: 20,
-    marginVertical: 20,
-    marginHorizontal: 10,
+    marginVertical: 10,
+    marginHorizontal: 20,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -87,7 +93,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#041B2A',
+    color: '#333',
     marginBottom: 5,
   },
 });
