@@ -80,20 +80,28 @@ export default function login() {
         },
       });
 
-      const car = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getCar?userId=${userPromise.data["sub"]}`, {
+      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUser?userId=${userPromise.data["sub"]}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      const test = await car.text();
+      console.log(fetchUserInfo)
 
-      console.log("\n\nUser data:", userPromise.data);
-      console.log("\n\nOkta Token: ", accessToken);
-      console.log("\n\nCar: ", test);
+      const userInfo = await fetchUserInfo.json();
 
-      login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], test, accessToken);
+      console.log(userInfo)
+
+      const car = userInfo.car;
+      const admin = userInfo.admin;
+
+      console.log("\nUser data:", userPromise.data);
+      console.log("\nOkta Token: ", accessToken);
+      console.log("\nCar: ", car);
+      console.log("\nAdmin: ", admin);
+
+      login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], car, admin, accessToken);
     } catch (error) {
       console.log("Error:", error);
     } finally {

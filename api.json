@@ -1,0 +1,4834 @@
+{
+    "stationList": [
+      {
+        "id": "ec780ed9-6120-4396-b133-f722204d1798",
+        "locationId": "0000673D-7BF1-4F2D-96B2-F14D65A40A5F",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.86162,
+          "lat": 52.35539
+        },
+        "address": {
+          "state": null,
+          "streetName": "Koningslaan 54",
+          "postcode": "1075 AG",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EEVB-P1552145-2",
+            "emi3Id": "NLGFXEEVB*P1552145*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EEVB-P1552145-1",
+            "emi3Id": "NLGFXEEVB*P1552145*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "5adc6d54-87c6-468e-a4ff-0b190d7f086a",
+        "locationId": "0005088f-9073-4452-82f7-4ff443f3bb15",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.709405,
+          "lat": 50.82532
+        },
+        "address": {
+          "state": null,
+          "streetName": "Clematisbeemd 2",
+          "postcode": "6229 WL",
+          "city": "Maastricht",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "2071fba4-6fab-49a9-b814-d20c07a508c3",
+            "emi3Id": "NLNUOEALF*0061942*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "6c520ba3-bc31-48ca-b91a-68e46a62bcfe",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "0b13dbee-2543-4f34-b0eb-fb8b84fe399f",
+            "emi3Id": "NLNUOEALF*0061942*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "dff1c3c4-1ff5-42d5-9543-5817d04f3cbd",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "78867978-c016-4382-9ad6-f237db1a0380",
+        "locationId": "0005EB6C-C056-4140-B6FB-EACB9EEBDD12",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.946376,
+          "lat": 52.351806
+        },
+        "address": {
+          "state": null,
+          "streetName": "Max Planckstraat 29",
+          "postcode": "1098TT",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EALF-0002171-1",
+            "emi3Id": "NLGFXEALF*0002171*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EALF-0002171-2",
+            "emi3Id": "NLGFXEALF*0002171*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "0baed164-c227-46fc-8efd-705a9d060ce1",
+        "locationId": "00094acb-1295-4d10-b9b7-af3cfa992001",
+        "reference": null,
+        "status": "unknown",
+        "coordinates": {
+          "lng": 6.053792,
+          "lat": 51.235449
+        },
+        "address": {
+          "state": null,
+          "streetName": "De Kolk 31",
+          "postcode": "6071 PZ",
+          "city": "Swalmen",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "ea3e8295-6610-43bb-a28e-118005dfde93",
+            "emi3Id": "NLNUOEALF*0016387*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "591b4219-0cef-4694-a530-f9f3f833dba5",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              },
+              {
+                "id": "8c0e3764-8465-4d26-aaa6-c18915297698",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "c547c10e-3d62-4abb-a8c2-9effb6811d42",
+            "emi3Id": "NLNUOEALF*0016387*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "0333a3f6-7c58-40ab-91fc-50f2f382bb71",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              },
+              {
+                "id": "d1f29ec6-4d3f-417a-867f-a7f8a6336a58",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "0d999a83-da39-4c61-bd16-08e7aa5a529b",
+        "locationId": "001",
+        "reference": null,
+        "status": "unknown",
+        "coordinates": {
+          "lng": 10.006262,
+          "lat": 53.648386
+        },
+        "address": {
+          "state": null,
+          "streetName": "Krohnstieg 71",
+          "postcode": "22415",
+          "city": "Hamburg",
+          "country": {
+            "code": "DE",
+            "name": "Germany"
+          }
+        },
+        "maxPower": 0,
+        "evses": [
+          {
+            "id": "DESNHE001*02",
+            "emi3Id": "DESNHE001*02",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "DESNHE001*021",
+                "type": "IEC_62196_T2_COMBO",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "DESNHE001*03",
+            "emi3Id": "DESNHE001*03",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "DESNHE001*031",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2_COMBO",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "37ad2ef0-1fc1-4430-bcde-35913fcae823",
+        "locationId": "0015BCFE-EE86-4E55-A82C-02FF062F6523",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.01875,
+          "lat": 52.728275
+        },
+        "address": {
+          "state": null,
+          "streetName": "Wipmolenstraat 11",
+          "postcode": "3433PG",
+          "city": "Abbekerk",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP009660-1",
+            "emi3Id": "NLGFXETNLP009660*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP009660-2",
+            "emi3Id": "NLGFXETNLP009660*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "e0a57b46-affe-419e-b98e-9df6aed3f230",
+        "locationId": "0017025d-3c3f-467c-858d-d92bf6aceb19",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.09081,
+          "lat": 51.5855
+        },
+        "address": {
+          "state": null,
+          "streetName": "Benatzkystraat 23",
+          "postcode": "5011ED",
+          "city": "Tilburg",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 38.4,
+        "evses": [
+          {
+            "id": "NL-ENE-EENECO_G50526-2",
+            "emi3Id": "NLENEEENECO*G50526*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50526-1",
+            "emi3Id": "NLENEEENECO*G50526*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "b5b8dbfc-b6fe-4d0e-bc09-41d63756cd9a",
+        "locationId": "001EFD28-0D01-494F-A4E6-54E546878D70",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.675318,
+          "lat": 52.478045
+        },
+        "address": {
+          "state": null,
+          "streetName": "Montageweg 35",
+          "postcode": "1948 PH",
+          "city": "Beverwijk",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP009240-2",
+            "emi3Id": "NLGFXETNLP009240*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP009240-1",
+            "emi3Id": "NLGFXETNLP009240*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "1a0b4f36-43c4-48a3-aacf-159120d5c2ad",
+        "locationId": "002",
+        "reference": null,
+        "status": "unknown",
+        "coordinates": {
+          "lng": 10.024193,
+          "lat": 53.568608
+        },
+        "address": {
+          "state": null,
+          "streetName": "Mundsburger Damm 47",
+          "postcode": "22087",
+          "city": "Hamburg",
+          "country": {
+            "code": "DE",
+            "name": "Germany"
+          }
+        },
+        "maxPower": 0,
+        "evses": [
+          {
+            "id": "DESNHE002*01",
+            "emi3Id": "DESNHE002*01",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "DESNHE002*011",
+                "type": "CHADEMO",
+                "format": "CABLE"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "unknown",
+            "type": "CHADEMO",
+            "format": "CABLE"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "33f7e012-aaa4-4e86-a2dc-669c3739789f",
+        "locationId": "0021995a-261d-4d53-97fc-9b9a43d0d17e",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 4.813506,
+          "lat": 52.352818
+        },
+        "address": {
+          "state": null,
+          "streetName": "Pisuissehof 23",
+          "postcode": "1068 VW",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "155c0580-f9c8-481c-b02a-488fe166c58a",
+            "emi3Id": "NLNUOEEVB*P1542147*1",
+            "status": "occupied",
+            "connectors": [
+              {
+                "id": "9528a880-6920-4762-acb0-bd38ecd3d008",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "3ce6084a-5860-4d84-b38d-81618df08269",
+            "emi3Id": "NLNUOEEVB*P1542147*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "09d72a54-2e12-42c5-8071-8015aa04419e",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "occupied",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "94a84434-d7fc-4a19-abaa-945577c0e43f",
+        "locationId": "00230916-3d00-463d-b2ca-82624963ac84",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.51306,
+          "lat": 52.05945
+        },
+        "address": {
+          "state": null,
+          "streetName": "Gaardedreef 45",
+          "postcode": "2723AL",
+          "city": "Zoetermeer",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 22.08,
+        "evses": [
+          {
+            "id": "NL-ENE-ERHL0338-2",
+            "emi3Id": "NLENEERHL0338*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-ERHL0338-1",
+            "emi3Id": "NLENEERHL0338*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "69e23187-cdbe-487b-abcc-a724a4999633",
+        "locationId": "0023271c-9cef-46e9-9293-6e299dc41020",
+        "reference": null,
+        "status": "unknown",
+        "coordinates": {
+          "lng": 5.427056,
+          "lat": 51.359161
+        },
+        "address": {
+          "state": null,
+          "streetName": "Varenbeemd 9",
+          "postcode": "5551 GC",
+          "city": "Valkenswaard",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 22.08,
+        "evses": [
+          {
+            "id": "e7be0a2d-24da-4685-aa6b-4ab2cc91e854",
+            "emi3Id": "NLNUOEALF*0012224*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "62ca338b-4a06-4120-97ba-721d9d16540b",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "d30a3f0b-4813-4fd3-beaf-a89231e1a16d",
+        "locationId": "0025c465-07e4-492d-81e3-676c10e275a6",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.99817,
+          "lat": 52.51877
+        },
+        "address": {
+          "state": null,
+          "streetName": "Binnenzeestraat 5-7",
+          "postcode": "1446AB",
+          "city": "Purmerend",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 22.08,
+        "evses": [
+          {
+            "id": "NL-ENE-EENEDEL_000212-1",
+            "emi3Id": "NLENEEENEDEL*000212*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENEDEL_000212-2",
+            "emi3Id": "NLENEEENEDEL*000212*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "4eb11de8-c712-4d7d-87b4-35641024710b",
+        "locationId": "0026ea6b-57b0-4e93-a8a8-8dc81f75ffa7",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.581166,
+          "lat": 51.419428
+        },
+        "address": {
+          "state": null,
+          "streetName": "Admiraal Byrdstraat 95",
+          "postcode": "5665HB",
+          "city": "Geldrop",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "f061fc1a-fb6e-46cb-8e2d-1a54d2841cd2",
+            "emi3Id": "NLNUOEEVB*P1928175*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "a7b8cb13-ed3c-41cf-918c-f900e3ae76f8",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "acef75f9-cdb5-4e6d-98c9-d10213ba0820",
+            "emi3Id": "NLNUOEEVB*P1928175*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "e203537b-9a18-4997-8a8a-b058782c16e8",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "d1c9ce95-d554-477c-b7e3-6da7c2e4c698",
+        "locationId": "002E24AA-5FD8-4266-AA15-DF5A1055B406",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.85482,
+          "lat": 52.3936
+        },
+        "address": {
+          "state": null,
+          "streetName": "Contactweg 47-2",
+          "postcode": "1014 AN",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EEVB-P1811451-1",
+            "emi3Id": "NLGFXEEVB*P1811451*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EEVB-P1811451-2",
+            "emi3Id": "NLGFXEEVB*P1811451*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "e86b0a55-ba84-4c14-a39e-a4ed33642ce0",
+        "locationId": "002c2c2c-d38a-4bb3-9cd8-0e91763080e4",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 4.932015,
+          "lat": 52.408449
+        },
+        "address": {
+          "state": null,
+          "streetName": "Diopter 33",
+          "postcode": "1025MR",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "bf7d8d62-1de6-4532-b482-22cd30777a35",
+            "emi3Id": "NLNUOEEVB*P1835020*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "82639c09-7be2-4a6f-a312-b3bcddb085bf",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "f8596a9b-d830-4c9e-8cce-cb5b7a01a745",
+            "emi3Id": "NLNUOEEVB*P1835020*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "8228dd02-51f9-478d-9dd9-158590b0c864",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "a3dfee79-8b71-4f1e-9353-5c747181c392",
+        "locationId": "002ed9ab-f527-47e4-b564-13be30019579",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.06152,
+          "lat": 51.67404
+        },
+        "address": {
+          "state": null,
+          "streetName": "Cesar Francklaan 77",
+          "postcode": "5144WE",
+          "city": "Waalwijk",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "f1a2f3e6-87d3-49a2-a31c-f5dde05c3d5a",
+            "emi3Id": "NLNUOEALF*0005055*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "15f80334-f9dd-4cbf-86ed-420b9ed266c6",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "82c65a24-6913-48ab-aa72-282b503053a8",
+            "emi3Id": "NLNUOEALF*0005055*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "0d579a72-1f1b-4ec4-be61-38cc80e5d349",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "1ac78c73-a676-4633-bb3c-221f9129c5ec",
+        "locationId": "00337a57-7e31-410a-ab2c-6c5f4008b0df",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 3.983419,
+          "lat": 45.992665
+        },
+        "address": {
+          "state": null,
+          "streetName": "rue de la bruyère",
+          "postcode": "42155",
+          "city": "Lentigny",
+          "country": {
+            "code": "FR",
+            "name": "France"
+          }
+        },
+        "maxPower": 250,
+        "evses": [
+          {
+            "id": "FR-GFX-EITM_LTY_EKOAE6001-1",
+            "emi3Id": "FRGFXEITM*LTY*EKOAE6001*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "CHADEMO",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "FR-GFX-EITM_LTY_EKOAE6001-2",
+            "emi3Id": "FRGFXEITM*LTY*EKOAE6001*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "FR-GFX-EITM_LTY_EKOAE6001-3",
+            "emi3Id": "FRGFXEITM*LTY*EKOAE6001*3",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "3",
+                "type": "IEC_62196_T2_COMBO",
+                "format": "CABLE"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "CHADEMO",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2_COMBO",
+            "format": "CABLE"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "6d147769-d969-4dfa-9768-af6a1a4cbf5b",
+        "locationId": "00346618-bbc2-4f30-896c-79acc4cabfce",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 4.409676,
+          "lat": 52.042868
+        },
+        "address": {
+          "state": null,
+          "streetName": "Hof van Naeltwijck 6",
+          "postcode": "2631 WX",
+          "city": "Nootdorp",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "509f7531-e7b4-490b-a239-539e08b6c528",
+            "emi3Id": "NLNUOEEVB*P1612151*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "3f542c97-2f89-45dc-92c1-830174f68752",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "ea93e35e-79e1-4693-bc04-f0ad4eb7d77e",
+        "locationId": "00348f0c-f5a8-4505-87e3-6dafe1dacb38",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.44525,
+          "lat": 51.435779
+        },
+        "address": {
+          "state": null,
+          "streetName": "Rijstenweg 10",
+          "postcode": "5652 CG",
+          "city": "Eindhoven",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "26f813b6-46b6-4a37-a737-076c04de6a9d",
+            "emi3Id": "NLNUOEALF*0058434*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "7e1ff1de-0f0d-4742-aa14-14135a2ca8c3",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "39b9b130-25cf-4cd8-9d68-5f58b5addc7e",
+            "emi3Id": "NLNUOEALF*0058434*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "ff571d14-09c4-4386-a963-b6913a821936",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "c67ed918-9b6f-494b-8bbb-626e37e9423b",
+        "locationId": "003f1ea0-dfce-4245-abe5-68017aa0daf0",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 4.9553,
+          "lat": 52.63067
+        },
+        "address": {
+          "state": null,
+          "streetName": "De Zeis 38",
+          "postcode": "1648 HJ",
+          "city": "De Goorn",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EPP001761-2",
+            "emi3Id": "NLGFXEPP001761*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EPP001761-1",
+            "emi3Id": "NLGFXEPP001761*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "aab30727-e75d-4c8f-bd22-9a4ae478391a",
+        "locationId": "0041ac0c-a201-4394-9970-22dfbaa64ae5",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.08317,
+          "lat": 52.08941
+        },
+        "address": {
+          "state": null,
+          "streetName": "Lessinglaan 62",
+          "postcode": "3533AX",
+          "city": "Utrecht",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 38.4,
+        "evses": [
+          {
+            "id": "NL-GFX-EEU41847-1",
+            "emi3Id": "NLGFXEEU41847*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EEU41847-2",
+            "emi3Id": "NLGFXEEU41847*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "06e969d5-0c02-4687-88b7-cb85dd556fff",
+        "locationId": "0046C373-26CE-4FA4-B86B-A06C0DB33EC7",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 4.86212,
+          "lat": 52.37566
+        },
+        "address": {
+          "state": null,
+          "streetName": "Bloys van Treslongstraat 5",
+          "postcode": "1056 WV",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EEVB-P1608325-2",
+            "emi3Id": "NLGFXEEVB*P1608325*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EEVB-P1608325-1",
+            "emi3Id": "NLGFXEEVB*P1608325*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "7fbd2f7e-de8f-4663-8357-52956daa2e00",
+        "locationId": "00474804-09d6-4620-905e-ed403b18518c",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.287405,
+          "lat": 52.396471
+        },
+        "address": {
+          "state": null,
+          "streetName": "Palembangweg 7",
+          "postcode": "1335 HH",
+          "city": "Almere",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP007394-2",
+            "emi3Id": "NLGFXETNLP007394*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP007394-1",
+            "emi3Id": "NLGFXETNLP007394*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "af43eab1-642c-41ae-86ae-6912d25df89c",
+        "locationId": "00484c1d-ce02-4c85-b42a-e762f5633c11",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.899314,
+          "lat": 52.353928
+        },
+        "address": {
+          "state": null,
+          "streetName": "Tweede Sweelinckstraat 2",
+          "postcode": "1073EH",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "49e00e98-aaa5-442f-9613-c9f88af9b101",
+            "emi3Id": "NLNUOEEVB*P1541118*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "f0b8565e-b6e5-4027-b87e-8edceaf5ebc4",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "e6ad51e1-a630-421e-b578-d0953bd6ab95",
+            "emi3Id": "NLNUOEEVB*P1541118*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2f882d40-b5b7-4894-bddc-d8b4bb11caf5",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "ab9ee3b4-1b72-4f40-a2e9-b055fac66338",
+        "locationId": "004aae9e-63fe-41bc-b606-bd8a97986c8d",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.06775,
+          "lat": 51.68492
+        },
+        "address": {
+          "state": null,
+          "streetName": "Stationsstraat 129",
+          "postcode": "5141 GD",
+          "city": "Waalwijk",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-ENL-GFX-SE00236-2",
+            "emi3Id": "NLGFXENL*GFX*SE00236*2",
+            "status": "outOfOrder",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ENL-GFX-SE00236-1",
+            "emi3Id": "NLGFXENL*GFX*SE00236*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "outOfOrder",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "3c211f95-dbc0-40e3-b679-59e96cd38ece",
+        "locationId": "004b22e3-10d5-4827-8c74-afd82a15c601",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.94674,
+          "lat": 52.31368
+        },
+        "address": {
+          "state": null,
+          "streetName": "Bijlmerdreef 24",
+          "postcode": "1102CT",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 38.4,
+        "evses": [
+          {
+            "id": "NL-ENE-EEVB-P1403138-1",
+            "emi3Id": "NLENEEEVB*P1403138*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31583-2",
+            "emi3Id": "NLENEEENECO*G31583*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31584-2",
+            "emi3Id": "NLENEEENECO*G31584*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31581-2",
+            "emi3Id": "NLENEEENECO*G31581*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1607869-1",
+            "emi3Id": "NLENEEEVB*P1607869*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1430273-1",
+            "emi3Id": "NLENEEEVB*P1430273*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31588-2",
+            "emi3Id": "NLENEEENECO*G31588*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31584-1",
+            "emi3Id": "NLENEEENECO*G31584*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402003-1",
+            "emi3Id": "NLENEEEVB*P1402003*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50198-2",
+            "emi3Id": "NLENEEENECO*G50198*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402243-1",
+            "emi3Id": "NLENEEEVB*P1402243*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403086-1",
+            "emi3Id": "NLENEEEVB*P1403086*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402065-1",
+            "emi3Id": "NLENEEEVB*P1402065*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50198-1",
+            "emi3Id": "NLENEEENECO*G50198*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402006-1",
+            "emi3Id": "NLENEEEVB*P1402006*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403150-1",
+            "emi3Id": "NLENEEEVB*P1403150*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403102-1",
+            "emi3Id": "NLENEEEVB*P1403102*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31581-1",
+            "emi3Id": "NLENEEENECO*G31581*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50203-2",
+            "emi3Id": "NLENEEENECO*G50203*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31588-1",
+            "emi3Id": "NLENEEENECO*G31588*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G72382-1",
+            "emi3Id": "NLENEEENECO*G72382*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402070-1",
+            "emi3Id": "NLENEEEVB*P1402070*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31582-2",
+            "emi3Id": "NLENEEENECO*G31582*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31585-2",
+            "emi3Id": "NLENEEENECO*G31585*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403163-1",
+            "emi3Id": "NLENEEEVB*P1403163*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G32628-2",
+            "emi3Id": "NLENEEENECO*G32628*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50199-1",
+            "emi3Id": "NLENEEENECO*G50199*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G32652-2",
+            "emi3Id": "NLENEEENECO*G32652*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1351131-1",
+            "emi3Id": "NLENEEEVB*P1351131*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31585-1",
+            "emi3Id": "NLENEEENECO*G31585*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1351129-1",
+            "emi3Id": "NLENEEEVB*P1351129*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31587-2",
+            "emi3Id": "NLENEEENECO*G31587*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403084-1",
+            "emi3Id": "NLENEEEVB*P1403084*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50202-2",
+            "emi3Id": "NLENEEENECO*G50202*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50200-1",
+            "emi3Id": "NLENEEENECO*G50200*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402242-1",
+            "emi3Id": "NLENEEEVB*P1402242*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31586-2",
+            "emi3Id": "NLENEEENECO*G31586*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403085-1",
+            "emi3Id": "NLENEEEVB*P1403085*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31583-1",
+            "emi3Id": "NLENEEENECO*G31583*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403101-1",
+            "emi3Id": "NLENEEEVB*P1403101*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1351135-1",
+            "emi3Id": "NLENEEEVB*P1351135*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1604487-1",
+            "emi3Id": "NLENEEEVB*P1604487*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403131-1",
+            "emi3Id": "NLENEEEVB*P1403131*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31589-1",
+            "emi3Id": "NLENEEENECO*G31589*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402064-1",
+            "emi3Id": "NLENEEEVB*P1402064*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403091-1",
+            "emi3Id": "NLENEEEVB*P1403091*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402008-1",
+            "emi3Id": "NLENEEEVB*P1402008*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50204-1",
+            "emi3Id": "NLENEEENECO*G50204*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403151-1",
+            "emi3Id": "NLENEEEVB*P1403151*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402246-1",
+            "emi3Id": "NLENEEEVB*P1402246*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50195-2",
+            "emi3Id": "NLENEEENECO*G50195*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1351128-1",
+            "emi3Id": "NLENEEEVB*P1351128*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G72328-1",
+            "emi3Id": "NLENEEENECO*G72328*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31590-2",
+            "emi3Id": "NLENEEENECO*G31590*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1607502-1",
+            "emi3Id": "NLENEEEVB*P1607502*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402241-1",
+            "emi3Id": "NLENEEEVB*P1402241*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50196-1",
+            "emi3Id": "NLENEEENECO*G50196*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402004-1",
+            "emi3Id": "NLENEEEVB*P1402004*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31586-1",
+            "emi3Id": "NLENEEENECO*G31586*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50201-2",
+            "emi3Id": "NLENEEENECO*G50201*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403166-1",
+            "emi3Id": "NLENEEEVB*P1403166*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50200-2",
+            "emi3Id": "NLENEEENECO*G50200*2",
+            "status": "outOfOrder",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402245-1",
+            "emi3Id": "NLENEEEVB*P1402245*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31590-1",
+            "emi3Id": "NLENEEENECO*G31590*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50201-1",
+            "emi3Id": "NLENEEENECO*G50201*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403077-1",
+            "emi3Id": "NLENEEEVB*P1403077*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50197-2",
+            "emi3Id": "NLENEEENECO*G50197*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G32652-1",
+            "emi3Id": "NLENEEENECO*G32652*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31587-1",
+            "emi3Id": "NLENEEENECO*G31587*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50203-1",
+            "emi3Id": "NLENEEENECO*G50203*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402066-1",
+            "emi3Id": "NLENEEEVB*P1402066*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31589-2",
+            "emi3Id": "NLENEEENECO*G31589*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G68000-1",
+            "emi3Id": "NLENEEENECO*G68000*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403148-1",
+            "emi3Id": "NLENEEEVB*P1403148*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403132-1",
+            "emi3Id": "NLENEEEVB*P1403132*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G32628-1",
+            "emi3Id": "NLENEEENECO*G32628*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403154-1",
+            "emi3Id": "NLENEEEVB*P1403154*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1351133-1",
+            "emi3Id": "NLENEEEVB*P1351133*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1402350-1",
+            "emi3Id": "NLENEEEVB*P1402350*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1351122-1",
+            "emi3Id": "NLENEEEVB*P1351122*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1611618-1",
+            "emi3Id": "NLENEEEVB*P1611618*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31582-1",
+            "emi3Id": "NLENEEENECO*G31582*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50204-2",
+            "emi3Id": "NLENEEENECO*G50204*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50196-2",
+            "emi3Id": "NLENEEENECO*G50196*2",
+            "status": "outOfOrder",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50202-1",
+            "emi3Id": "NLENEEENECO*G50202*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50195-1",
+            "emi3Id": "NLENEEENECO*G50195*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50199-2",
+            "emi3Id": "NLENEEENECO*G50199*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G50197-1",
+            "emi3Id": "NLENEEENECO*G50197*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EEVB-P1403103-1",
+            "emi3Id": "NLENEEEVB*P1403103*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "outOfOrder",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "outOfOrder",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "641e8546-f7d2-4cfe-bd5f-83de53dd6a63",
+        "locationId": "004b2973-5a52-4e7d-8516-6c992313aa02",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.20805,
+          "lat": 52.08316
+        },
+        "address": {
+          "state": null,
+          "streetName": "Brugakker 5739",
+          "postcode": "3704",
+          "city": "Zeist",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EPP001887-2",
+            "emi3Id": "NLGFXEPP001887*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EPP001887-1",
+            "emi3Id": "NLGFXEPP001887*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "55387bf6-e6fc-417c-8fb2-cbe80a90d1f1",
+        "locationId": "004f4ea8-c025-48f8-9ec2-a4de5db5dfb5",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.156112,
+          "lat": 52.352975
+        },
+        "address": {
+          "state": null,
+          "streetName": "Parvatistraat 4",
+          "postcode": "1363 XG",
+          "city": "Almere",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP007018-1",
+            "emi3Id": "NLGFXETNLP007018*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP007018-2",
+            "emi3Id": "NLGFXETNLP007018*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "43faacfd-a3a3-4be3-b7c9-8829baabd743",
+        "locationId": "004fed6f-7c7c-49be-854c-d5de85da55c5",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.6363,
+          "lat": 52.36022
+        },
+        "address": {
+          "state": null,
+          "streetName": "Einsteinstraat 5",
+          "postcode": "3846BH",
+          "city": "Harderwijk",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 38.4,
+        "evses": [
+          {
+            "id": "NL-ENE-EENECO_G56897-1",
+            "emi3Id": "NLENEEENECO*G56897*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G56884-1",
+            "emi3Id": "NLENEEENECO*G56884*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31213-2",
+            "emi3Id": "NLENEEENECO*G31213*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G31213-1",
+            "emi3Id": "NLENEEENECO*G31213*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EICUEVE000673-1",
+            "emi3Id": "NLENEEICUEVE000673*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G56855-2",
+            "emi3Id": "NLENEEENECO*G56855*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EICUEVE000673-2",
+            "emi3Id": "NLENEEICUEVE000673*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G56884-2",
+            "emi3Id": "NLENEEENECO*G56884*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G56855-1",
+            "emi3Id": "NLENEEENECO*G56855*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G56897-2",
+            "emi3Id": "NLENEEENECO*G56897*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "1996d7d4-db9e-49c3-80b0-ca516256fc2e",
+        "locationId": "00500ec5-82a7-48dc-948f-e03cf5e6230a",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.852473,
+          "lat": 51.814254
+        },
+        "address": {
+          "state": null,
+          "streetName": "Heiweg 26",
+          "postcode": "6533 PE",
+          "city": "Nijmegen",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "ae3c6fcb-9dad-4424-ada6-21a924567668",
+            "emi3Id": "NLNUOEALF*0058864*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "7feeeaa3-bb3a-46b2-84a2-cd7561595164",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "2617ec75-f91b-4dde-9b55-7ad014e020ee",
+            "emi3Id": "NLNUOEALF*0058864*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "17fad642-faf1-450a-920c-04db130c0e7b",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "a0f93ad6-91af-4b91-95fa-9d0850f855bc",
+        "locationId": "0053c6ca-2f27-4e6a-957d-563bf32ee7da",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 4.916828,
+          "lat": 52.355906
+        },
+        "address": {
+          "state": null,
+          "streetName": "Vrolikstraat 283",
+          "postcode": "1091VC",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "bdd0e135-fcd4-4332-a425-b7aa8721bf8b",
+            "emi3Id": "NLNUOEALF*0005525*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "59bdb88c-dd4f-4a8b-a519-a40de2f442d6",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "71131972-b58d-4c3c-917c-6c51153bcc12",
+            "emi3Id": "NLNUOEALF*0005525*1",
+            "status": "occupied",
+            "connectors": [
+              {
+                "id": "58e7f839-1afd-4d71-b97d-de695cba86e5",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "occupied",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "d9d166b3-1c62-459a-9b9d-25a9194cce90",
+        "locationId": "00585292-CA4C-4F7D-A542-534806485BCC",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.52643,
+          "lat": 51.85003
+        },
+        "address": {
+          "state": null,
+          "streetName": "Strausslaan 9",
+          "postcode": "2992PC",
+          "city": "Barendrecht",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-MBL-EM0000551-1",
+            "emi3Id": "NLMBLEM0000551*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "3f161a9e-d9b2-4686-82c6-0650c4e0e3b0",
+        "locationId": "0058e092-022d-43db-8f70-48def5fd766a",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.545719,
+          "lat": 51.615309
+        },
+        "address": {
+          "state": null,
+          "streetName": "Stadhuisplein 83",
+          "postcode": "5461 KP",
+          "city": "Veghel",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "cadf07b5-3059-4061-bcec-f7239ab4d639",
+            "emi3Id": "NLNUOEALF*0015370*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "03acfdb1-212a-4acd-8b77-35fc821c6d60",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "78ef11dd-ee88-4a5d-807b-5ea74f5822ab",
+            "emi3Id": "NLNUOEALF*0015370*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "7c02f189-91c8-41e6-a4b4-74601b451d85",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "bd79a277-41d2-4164-9d85-12f129aa1860",
+        "locationId": "00596D0D-11F4-4633-8EE3-9E775146D019",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.547843,
+          "lat": 53.236591
+        },
+        "address": {
+          "state": null,
+          "streetName": "Buorren 43 C",
+          "postcode": "8851 EL",
+          "city": "Tzummarum",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP012172-1",
+            "emi3Id": "NLGFXETNLP012172*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP012172-2",
+            "emi3Id": "NLGFXETNLP012172*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "e5af7cf5-2c74-4462-b4ad-108243174851",
+        "locationId": "0060a3a9-e8ce-4763-af70-edc123a34439",
+        "reference": null,
+        "status": "unknown",
+        "coordinates": {
+          "lng": 4.894393,
+          "lat": 52.346797
+        },
+        "address": {
+          "state": null,
+          "streetName": "Churchill-laan 5",
+          "postcode": "2215 PC",
+          "city": "Voorhout",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 22.08,
+        "evses": [
+          {
+            "id": "91dbb57c-9884-48a1-9941-cb6bea2bd266",
+            "emi3Id": "NLNUOEALF*0002359*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "26653032-97ee-4fbb-acad-540666c0587b",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "bd6f0110-90c3-4b70-b2d7-f750dac3b26c",
+        "locationId": "0062d4e9-a658-4ecd-9b05-fdade7650df9",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 0.961519,
+          "lat": 43.102199
+        },
+        "address": {
+          "state": null,
+          "streetName": "Place de la gare 1",
+          "postcode": "31260",
+          "city": "Salies-Du-Salat",
+          "country": {
+            "code": "FR",
+            "name": "France"
+          }
+        },
+        "maxPower": 49.95,
+        "evses": [
+          {
+            "id": "FR-GFX-ECAC_SDS_IES5001-2",
+            "emi3Id": "FRGFXECAC*SDS*IES5001*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "3",
+                "type": "IEC_62196_T2",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "FR-GFX-ECAC_SDS_IES5001-1",
+            "emi3Id": "FRGFXECAC*SDS*IES5001*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2_COMBO",
+                "format": "CABLE"
+              },
+              {
+                "id": "2",
+                "type": "CHADEMO",
+                "format": "CABLE"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2_COMBO",
+            "format": "CABLE"
+          },
+          {
+            "status": "available",
+            "type": "CHADEMO",
+            "format": "CABLE"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "56ccc011-88eb-4478-8abc-b73101a7e36d",
+        "locationId": "0064EAEF-5624-4BCD-9BFE-C7BEEB7D924D",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.93768,
+          "lat": 52.37666
+        },
+        "address": {
+          "state": null,
+          "streetName": "KNSM-laan 6",
+          "postcode": "1019 LL",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EEVB-P1608380-1",
+            "emi3Id": "NLGFXEEVB*P1608380*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EEVB-P1608380-2",
+            "emi3Id": "NLGFXEEVB*P1608380*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "c7c95f71-ad39-4274-8b10-c05b360d2c58",
+        "locationId": "006EEB9F-BFBA-4A89-B6AC-97C45BCE75A0",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.053603,
+          "lat": 52.496228
+        },
+        "address": {
+          "state": null,
+          "streetName": "Kraggenburg 1",
+          "postcode": "1132 BN",
+          "city": "Volendam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP007805-1",
+            "emi3Id": "NLGFXETNLP007805*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP007805-2",
+            "emi3Id": "NLGFXETNLP007805*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "5787ef94-2afd-4bf2-98fd-3d8d8bebae71",
+        "locationId": "006FA8ED-1350-418A-88B6-18DC0DDE393F",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.754971,
+          "lat": 52.375572
+        },
+        "address": {
+          "state": null,
+          "streetName": "Wilgenlaan 84",
+          "postcode": "1161 JN",
+          "city": "Zwanenburg",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP009200-2",
+            "emi3Id": "NLGFXETNLP009200*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP009200-1",
+            "emi3Id": "NLGFXETNLP009200*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "8e6ebe4b-b54a-4026-b80c-339e0f85b12f",
+        "locationId": "006b8bd0-b015-4cdd-ab22-e4ee969a7dfc",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.950926,
+          "lat": 51.843229
+        },
+        "address": {
+          "state": null,
+          "streetName": "Bannepoort 4",
+          "postcode": "4205MZ",
+          "city": "Gorinchem",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 50,
+        "evses": [
+          {
+            "id": "NL-ENE-EENECO_000174-1",
+            "emi3Id": "NLENEEENECO*000174*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENEDEL_000179-2",
+            "emi3Id": "NLENEEENEDEL*000179*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2_COMBO",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_000175-1",
+            "emi3Id": "NLENEEENECO*000175*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_000109-1",
+            "emi3Id": "NLENEEENECO*000109*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G40009-1",
+            "emi3Id": "NLENEEENECO*G40009*1",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_000174-2",
+            "emi3Id": "NLENEEENECO*000174*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENEDEL_000179-1",
+            "emi3Id": "NLENEEENEDEL*000179*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2_COMBO",
+                "format": "CABLE"
+              }
+            ]
+          },
+          {
+            "id": "NL-ENE-EENECO_G40009-2",
+            "emi3Id": "NLENEEENECO*G40009*2",
+            "status": "unknown",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2_COMBO",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2_COMBO",
+            "format": "CABLE"
+          },
+          {
+            "status": "unknown",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "2002b05b-1bab-4188-99e9-eccbf49e085c",
+        "locationId": "00737e9f-6dbd-492b-976d-2bf62d35f3ed",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.741808,
+          "lat": 51.571665
+        },
+        "address": {
+          "state": null,
+          "streetName": "Burgemeester Sutoriusstraat 36",
+          "postcode": "4813PM",
+          "city": "Breda",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "83ede035-4546-4bcd-a49a-d5f76ef48b4f",
+            "emi3Id": "NLNUOEALF*0004960*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "5a800655-2eaf-4f1d-bfd4-a1574f91d84e",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "8b39d810-356e-4b90-92f8-5834a74e818f",
+            "emi3Id": "NLNUOEALF*0004960*2",
+            "status": "occupied",
+            "connectors": [
+              {
+                "id": "81252480-5d90-4e95-9ffd-14fc38c5282d",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "occupied",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "ab9a7a28-b31c-4eb2-b7d0-e63effa61748",
+        "locationId": "007ADA6D-1BBE-49F4-9624-05AF896F4DE1",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.97278,
+          "lat": 52.29203
+        },
+        "address": {
+          "state": null,
+          "streetName": "Slikkerveerstraat 2",
+          "postcode": "1107 VJ",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EALF-0002145-1",
+            "emi3Id": "NLGFXEALF*0002145*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EALF-0002145-2",
+            "emi3Id": "NLGFXEALF*0002145*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "1a1b894f-ec03-4dca-a9e3-d52cd0d8783c",
+        "locationId": "007cbf2b-e88e-4c2e-81d4-9639fd971503",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 5.056665,
+          "lat": 52.634745
+        },
+        "address": {
+          "state": null,
+          "streetName": "Visserseiland 216",
+          "postcode": "1621 AA",
+          "city": "Hoorn",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP007378-1",
+            "emi3Id": "NLGFXETNLP007378*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP007378-2",
+            "emi3Id": "NLGFXETNLP007378*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "6a914002-9c1e-4598-ba02-d979a6d03628",
+        "locationId": "007fe7db-2d27-4abc-9e5c-7564aefb3903",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.870959,
+          "lat": 52.337883
+        },
+        "address": {
+          "state": null,
+          "streetName": "Arnold Schonberglaan 9",
+          "postcode": "1082MJ",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "8b62b55b-a273-40bf-9c85-60fb954e7bbd",
+            "emi3Id": "NLNUOEEVB*P1521080*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "8c7a6c19-5904-4522-b988-17dc50144c69",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "9b46a87b-f8d8-49aa-a4c7-520a295c3782",
+            "emi3Id": "NLNUOEEVB*P1521080*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "7a13a1d1-fd82-416b-90a8-768ef6840cf3",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "16782103-299d-414d-91a6-985e0436b1cc",
+        "locationId": "00814752-2242-4b54-9eca-9e9fc9b8322f",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 5.649271,
+          "lat": 51.652331
+        },
+        "address": {
+          "state": null,
+          "streetName": "Liessentstraat 9",
+          "postcode": "5405 AH",
+          "city": "Uden",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-EVN-EDB0144-2",
+            "emi3Id": "NLEVNEDB0144*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-EVN-EDB0144-1",
+            "emi3Id": "NLEVNEDB0144*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "f499f344-f1a6-485f-8a2c-0847dbdce54d",
+        "locationId": "0084F6BF-5852-4EA3-82D2-AC68767914EE",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 4.88353,
+          "lat": 52.35492
+        },
+        "address": {
+          "state": null,
+          "streetName": "Frans van Mierisstraat 10",
+          "postcode": "1071 RS",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EEVB-P1916358-2",
+            "emi3Id": "NLGFXEEVB*P1916358*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EEVB-P1916358-1",
+            "emi3Id": "NLGFXEEVB*P1916358*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "4d9a4b3f-c281-4a79-b1a6-961ac424f5c4",
+        "locationId": "00879A19-0BD4-436E-9165-7A528BBD0103",
+        "reference": null,
+        "status": "available",
+        "coordinates": {
+          "lng": 4.87744,
+          "lat": 52.38277
+        },
+        "address": {
+          "state": null,
+          "streetName": "De Wittenstraat 110",
+          "postcode": "1052 BB",
+          "city": "Amsterdam",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "NL-GFX-EALF-0002875-1",
+            "emi3Id": "NLGFXEALF*0002875*1",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-EALF-0002875-2",
+            "emi3Id": "NLGFXEALF*0002875*2",
+            "status": "available",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "available",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "79619ac2-3ba4-4623-9948-8125affea61c",
+        "locationId": "008F39E7-6A6A-42A7-9692-D65568B2368A",
+        "reference": null,
+        "status": "charging",
+        "coordinates": {
+          "lng": 5.177394,
+          "lat": 52.21612
+        },
+        "address": {
+          "state": null,
+          "streetName": "Vermeerlaan 28",
+          "postcode": "1213 EC",
+          "city": "Hilversum",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 17.25,
+        "evses": [
+          {
+            "id": "NL-GFX-ETNLP008106-2",
+            "emi3Id": "NLGFXETNLP008106*2",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "2",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "NL-GFX-ETNLP008106-1",
+            "emi3Id": "NLGFXETNLP008106*1",
+            "status": "charging",
+            "connectors": [
+              {
+                "id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "charging",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      },
+      {
+        "id": "9171bdb9-3051-4da7-bd42-86db654f7f1b",
+        "locationId": "008ed5f6-8793-493b-a8b6-1052ae97ae21",
+        "reference": null,
+        "status": "occupied",
+        "coordinates": {
+          "lng": 6.019499,
+          "lat": 50.867489
+        },
+        "address": {
+          "state": null,
+          "streetName": "Op de Knip 204",
+          "postcode": "6467 HB",
+          "city": "Kerkrade",
+          "country": {
+            "code": "NL",
+            "name": "Netherlands"
+          }
+        },
+        "maxPower": 11.04,
+        "evses": [
+          {
+            "id": "651dc01c-2b45-4248-9b7d-ceffed5ff61f",
+            "emi3Id": "NLNUOEALF*0015835*1",
+            "status": "occupied",
+            "connectors": [
+              {
+                "id": "d2b030c1-ae03-4029-888d-6749a5e8c796",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          },
+          {
+            "id": "7ebb12ce-9cc1-4a54-b426-771f9c5305c1",
+            "emi3Id": "NLNUOEALF*0015835*2",
+            "status": "occupied",
+            "connectors": [
+              {
+                "id": "917dc817-05f1-4b14-801c-c72045e94b36",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ]
+          }
+        ],
+        "connectors": [
+          {
+            "status": "occupied",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          },
+          {
+            "status": "occupied",
+            "type": "IEC_62196_T2",
+            "format": "SOCKET"
+          }
+        ],
+        "visibilityScope": "roaming",
+        "accountId": null,
+        "externalAccountId": null,
+        "externalParentAccountId": null
+      }
+    ],
+    "nextOffset": 50
+  }

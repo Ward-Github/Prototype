@@ -4,9 +4,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { AdminModeProvider } from '@/context/AdminModeContext';
 import Toast from 'react-native-toast-message';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import AuthProvider from "@/context/AuthProvider";
+
+const queryClient = new QueryClient();
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,6 +50,8 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+      <AdminModeProvider>
       <Stack>
       {Platform.OS === 'web' ? (
           <Stack.Screen name="(auth)/(tabs web)" options={{ headerShown: false }} />
@@ -60,6 +65,8 @@ function RootLayoutNav() {
         <Stack.Screen name="(public)/callback" options={{ headerShown: false }} />
       </Stack>
       <Toast />
+      </AdminModeProvider>
+      </QueryClientProvider>
   </AuthProvider>
   );
 }
