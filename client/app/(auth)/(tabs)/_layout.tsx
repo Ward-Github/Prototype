@@ -10,21 +10,26 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#2196F3', // Change active tab color for admin mode
-        tabBarInactiveTintColor: '#E1E1E1', // Change inactive tab color for admin mode
-        tabBarStyle: { backgroundColor: isAdminMode ? '#1C1C1C' : '#0F2635', borderTopColor: 'transparent' }, // Change background color for admin mode
+        tabBarActiveTintColor: '#007BFF', // Gray color for active tab icon
+        tabBarInactiveTintColor: '#E1E1E1', // Gray color for inactive tab icon
+        tabBarStyle: { 
+          backgroundColor: '#0F2635', // Completely white tab bar background
+          borderTopColor: 'transparent' 
+        },
         headerShown: useClientOnlyValue(false, true),
-        headerStyle: { backgroundColor: isAdminMode ? '#1C1C1C' : '#1B73E4' },
-        headerTitleStyle: { fontFamily: 'Azonix' },
-        headerTintColor: '#FFFFFF',
+        headerStyle: {
+          backgroundColor: '#041B2A', // Set header background to white
+          height: 60, // Reduce header height
+        },
+        headerTitle: '', // Remove header text
         headerShadowVisible: false,
       }}>
       <Tabs.Screen
-        name= "index"
+        name="index"
         options={{
           title: (isAdminMode ? 'Chargers' : 'Home'),
-          tabBarIcon: ({ color }: { color: string }) => <Ionicons name={(isAdminMode ? 'battery-charging-outline' : 'home') as any} size={25} color={color} />, // Increase the size
-          tabBarLabelStyle: { fontSize: 10, fontFamily: 'Azonix' }, // Increase the text size and set the font
+          tabBarIcon: ({ color }) => <Ionicons name={(isAdminMode ? 'battery-charging-outline' : 'home')} size={25} color={color} />, // Increase the size
+          tabBarLabelStyle: { fontSize: 10, fontFamily: 'Poppins' }, // Increase the text size and set the font
         }}
       />
       <Tabs.Screen
@@ -32,15 +37,15 @@ export default function TabLayout() {
         options={{
           title: 'Reservation',
           tabBarIcon: ({ color }) => <Ionicons name="calendar" size={25} color={color} />, // Increase the size
-          tabBarLabelStyle: { fontSize: 10, fontFamily: 'Azonix' }, // Increase the text size and set the font
+          tabBarLabelStyle: { fontSize: 10, fontFamily: 'Poppins' }, // Increase the text size and set the font
         }}
       />
       <Tabs.Screen
         name="three"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => <Ionicons name="person-circle" size={25} color={color} />, // Increase the size
-          tabBarLabelStyle: { fontSize: 10, fontFamily: 'Azonix' }, // Increase the text size and set the font
+          tabBarIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />, // Increase the size
+          tabBarLabelStyle: { fontSize: 10, fontFamily: 'Poppins' }, // Increase the text size and set the font
         }}
       />
     </Tabs>

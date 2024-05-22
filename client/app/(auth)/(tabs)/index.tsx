@@ -109,7 +109,7 @@ export default function TabOneScreen() {
 
   if (!isAdminMode) {
     return (
-      <View style={styles.container}>
+      <View style={styles.containerUser}>
         <View style={styles.rectangle}>
           <Text style={styles.titleText}>TESLA MODEL Y</Text>
           <Image source={require('../../../assets/images/image.png')} style={styles.image} />
@@ -151,10 +151,18 @@ export default function TabOneScreen() {
     }
   };
 
+  const renderEVSEs = (evses: Array<{ id: string; status: string }>) => (
+    evses.map((evse, index) => (
+      <Text key={index} style={[styles.evseStatusText, { color: getStatusColor(evse.status) }]}>
+        EVSE {evse.id}: {evse.status}
+      </Text>
+    ))
+  );
+
   const renderStation = ({ item }: { item: Station }) => (
     <TouchableOpacity style={styles.stationItem} onPress={() => setSelectedStation(item)}>
       <Text style={styles.stationIdText}>ID: {item.id}</Text>
-      <Text style={[styles.stationStatusText, { color: getStatusColor(item.status) }]}>Status: {item.status}</Text>
+      {renderEVSEs(item.evses)}
     </TouchableOpacity>
   );
 
@@ -199,6 +207,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1C1C1C',
   },
+  containerUser: {
+    flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#041B2A',
+    },
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -283,8 +297,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '90%',
     alignSelf: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   stationIdText: {
     fontSize: 18,
@@ -293,12 +305,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
   },
-  stationStatusText: {
+  evseStatusText: {
     fontSize: 18,
     fontFamily: 'Poppins-Regular',
     flex: 1,
     flexWrap: 'wrap',
-    textAlign: 'right',
+    textAlign: 'left',
   },
   listContentContainer: {
     paddingBottom: 20,
