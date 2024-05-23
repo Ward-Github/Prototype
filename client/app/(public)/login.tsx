@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthProvider";
 import axios from "axios";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
+import { ScreenContainer } from "react-native-screens";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -109,6 +110,24 @@ export default function login() {
     }
   };
 
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginWithEmail = () => {
+    // Perform login with email and password
+    // Add your login logic here
+    const fetchuser = async () => {
+      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
         {isLoading ? (
@@ -121,9 +140,30 @@ export default function login() {
         ) : (
             <View style={styles.main}>
                 <Image source={require('../../assets/images/logo.png')} style={styles.image} />
-                <Pressable style={styles.button} onPress={loginWithOkta}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </Pressable>
+                <div style={styles.container2}>
+                  <Pressable style={styles.button} onPress={loginWithOkta}>
+                      <Text style={styles.buttonText}>Login</Text>
+                  </Pressable>
+                  <Pressable style={styles.button} onPress={() => Alert.alert("You clicked the button!")}>
+                      <Text style={styles.buttonText}>Log in using email</Text>
+                  </Pressable>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                  />
+                  <Pressable style={styles.button} onPress={loginWithEmail}>
+                      <Text style={styles.buttonText}>Login with Email</Text>
+                  </Pressable>
+                </div>
             </View>
         )}
     </SafeAreaView>
@@ -131,6 +171,13 @@ export default function login() {
 };
 
 const styles = StyleSheet.create({
+    container2: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#041B2A',
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -173,4 +220,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#041B2A',
     },
+    input: {
+        height: 40,
+        width: 300,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 20,
+        color: '#fff',
+        borderColor: '#007BFF',
+        backgroundColor: '#041B2A',
+        fontFamily: 'Azonix',
+    }
 });

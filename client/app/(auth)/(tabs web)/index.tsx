@@ -29,9 +29,9 @@ export default function TabOneScreen() {
       <View style={styles.largeRectangle}>
         <Text style={styles.titleText}>LOADING STATIONS</Text>
       </View>
-      <View style={styles.rightRectangles}>
+      <View style={styles.rightRectanglesContainer}>
 
-        <View style={styles.rectangle}>
+        <View style={styles.flexBoxesRight}>
           <Text style={styles.titleText}>FAST RESERVATION</Text>
           <SelectList
             setSelected={(val: React.SetStateAction<string>) => setSelected(val)}
@@ -47,7 +47,7 @@ export default function TabOneScreen() {
           />
         </View>
 
-        <View style={[styles.rectangle, { alignItems: 'center' }]}>
+        <View style={[styles.flexBoxesRight, { alignItems: 'center' }]}>
           <Text style={styles.titleText}>TESLA MODEL Y</Text>
           <Image source={require('../../../assets/images/image.png')} style={styles.image} />
           <View style={styles.line} />
@@ -63,9 +63,10 @@ export default function TabOneScreen() {
           </View>
         </View>
 
-        <View style={styles.rectangle} />
-
-        <View style={styles.rectangle}>
+        <View style={styles.flexBoxesRight}>
+          <Text style={styles.titleText}>RESERVATION DETAILS</Text>
+        </View>
+        <View style={styles.flexBoxesRight}>
           <Text style={styles.titleText}>TIME SLOT</Text>
         </View>
 
@@ -79,33 +80,37 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#041B2A',
+    justifyContent: 'space-evenly',
+    flexBasis: '100%',
+    padding: 5,
   },
   largeRectangle: {
+    flex: 1,
+    flexBasis: '50%',
     backgroundColor: '#0F2635',
-    height: '95%',
-    width: '50%',
     marginTop: 30,
     marginLeft: 30,
     padding: 30,
     borderRadius: 20,
   },
-  rightRectangles: {
+  rightRectanglesContainer: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginLeft: 30,
     marginTop: 30,
-    height: '92.5%',
-    width: '50%',
+    marginLeft: 30,
+    rowGap: 10,
+    columnGap: 10,
+    flexBasis: '50%',
+    flexGrow: 0,
   },
-  rectangle: {
+  flexBoxesRight: {
     backgroundColor: '#0F2635',
-    height: '50%',
-    width: '47.5%',
-    marginBottom: 30,
-    marginRight: 30,
     borderRadius: 20,
     padding: 30,
+    height: '50%',
+    width: '45%',
+
   },
   line: {
     height: 1,
