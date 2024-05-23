@@ -37,14 +37,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="reserve"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="calendar" size={25} color={color} />,
           tabBarLabel: 'Reservation',
         }}
       />
       <Tabs.Screen
-        name="three"
+        name="profile"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
           tabBarLabel: 'Profile',

@@ -166,7 +166,7 @@ export default function login() {
                   <Pressable style={styles.button} onPress={loginWithOkta}>
                       <Text style={styles.buttonText}>Login</Text>
                   </Pressable>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', margin: 35 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', margin: 35, backgroundColor: 'transparent'}}>
                     <View style={{ flex: 1, height: 1, backgroundColor: '#fff' }} />
                     <Text style={{ width: 50, textAlign: 'center', color: '#fff' }}>OR</Text>
                     <View style={{ flex: 1, height: 1, backgroundColor: '#fff' }} />
@@ -178,6 +178,7 @@ export default function login() {
                       placeholderTextColor="#fff"
                       value={email}
                       onChangeText={setEmail}
+                      autoCapitalize="none" // Add this line
                     />
                     <TextInput
                       style={styles.input}
@@ -186,6 +187,7 @@ export default function login() {
                       value={password}
                       onChangeText={setPassword}
                       secureTextEntry
+                      autoCapitalize="none" // Add this line
                     />
                   </View>
                   <Pressable style={styles.button} onPress={loginWithEmail}>
@@ -218,6 +220,7 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#041B2A',
+        
     },
     button: {
         backgroundColor: '#007BFF',
@@ -260,7 +263,7 @@ let styles = StyleSheet.create({
         color: '#fff',
         borderColor: '#007BFF',
         backgroundColor: '#',
-        fontFamily: 'Azonix',
+        fontFamily: 'Poppins_Regular',
     }
 });
 if (Platform.OS === 'android' || Platform.OS === 'ios') {
@@ -282,7 +285,12 @@ if (Platform.OS === 'android' || Platform.OS === 'ios') {
       color: '#fff',
       borderColor: '#007BFF',
       backgroundColor: 'transparent',
-      fontFamily: 'Azonix',
-    }
+      fontFamily: 'Poppins_Regular',
+      fontSize: 18, // Add fontSize property
+    },
+    main: {
+      ...styles.main,
+      marginBottom: 50,
+    },
   });
 }
