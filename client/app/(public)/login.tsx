@@ -101,6 +101,22 @@ export default function login() {
       console.log("\nOkta Token: ", accessToken);
       console.log("\nCar: ", car);
       console.log("\nAdmin: ", admin);
+      
+      await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/addUserOkta`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userPromise.data["sub"],
+          email: userPromise.data["preferred_username"],
+          name: userPromise.data["name"],
+          car: car,
+          admin: admin,
+          accessToken: accessToken,
+        }),
+      });
+
 
       login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], car, admin, accessToken);
     } catch (error) {
@@ -119,12 +135,13 @@ export default function login() {
     // Add your login logic here
     setIsLoading(true);
     try{
-      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
+      const fetchUserInfo = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      login(fetchUserInfo.data["_userId"], fetchUserInfo.data["_email"], fetchUserInfo.data["_name"], fetchUserInfo.data["car"], fetchUserInfo.data["_admin"], fetchUserInfo.data["_accessToken"]);
     }
     catch (error) {
       console.log("Error:", error);
@@ -145,43 +162,51 @@ export default function login() {
         ) : (
             <View style={styles.main}>
                 <Image source={require('../../assets/images/logo.png')} style={styles.image} />
-                <div style={styles.container2}>
+                <View style={styles.container2}>
                   <Pressable style={styles.button} onPress={loginWithOkta}>
                       <Text style={styles.buttonText}>Login</Text>
                   </Pressable>
-                  <Pressable style={styles.button} onPress={() => Alert.alert("You clicked the button!")}>
-                      <Text style={styles.buttonText}>Log in using email</Text>
-                  </Pressable>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                  />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                  />
+                  <View style={{ flexDirection: 'row', alignItems: 'center', margin: 35 }}>
+                    <View style={{ flex: 1, height: 1, backgroundColor: '#fff' }} />
+                    <Text style={{ width: 50, textAlign: 'center', color: '#fff' }}>OR</Text>
+                    <View style={{ flex: 1, height: 1, backgroundColor: '#fff' }} />
+                  </View>
+                <View style={{ backgroundColor: '#041B2A', margin: 5 }}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Email..."
+                      placeholderTextColor="#fff"
+                      value={email}
+                      onChangeText={setEmail}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Password..."
+                      placeholderTextColor="#fff"
+                      value={password}
+                      onChangeText={setPassword}
+                      secureTextEntry
+                    />
+                  </View>
                   <Pressable style={styles.button} onPress={loginWithEmail}>
                       <Text style={styles.buttonText}>Login with Email</Text>
                   </Pressable>
-                </div>
+                </View>
             </View>
         )}
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
+
+let styles = StyleSheet.create({
     container2: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#041B2A',
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        textAlign: 'center',
     },
     container: {
         flex: 1,
@@ -234,7 +259,30 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         color: '#fff',
         borderColor: '#007BFF',
-        backgroundColor: '#041B2A',
+        backgroundColor: '#',
         fontFamily: 'Azonix',
     }
 });
+if (Platform.OS === 'android' || Platform.OS === 'ios') {
+  styles = StyleSheet.create({
+    ...styles,
+    image: {
+      width: 300,
+      height: 125,
+      marginTop: 200, // Add marginTop property
+      marginBottom: 0, // Add marginBottom property
+    },
+    input: {
+      height: 50,
+      width: 300,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10, // Add padding property
+      borderRadius: 20,
+      color: '#fff',
+      borderColor: '#007BFF',
+      backgroundColor: 'transparent',
+      fontFamily: 'Azonix',
+    }
+  });
+}

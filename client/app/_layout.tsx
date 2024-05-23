@@ -27,7 +27,10 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    Azonix: require('../assets/fonts/Azonix.otf')
+    Azonix: require('../assets/fonts/Azonix.otf'),
+    Poppins_Regular: require('../assets/fonts/Poppins-Regular.ttf'),
+    Poppins_Bold: require('../assets/fonts/Poppins-Bold.ttf'),
+
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.

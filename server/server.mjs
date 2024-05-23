@@ -26,20 +26,6 @@ async function connectMongo() {
 
 connectMongo();
 
-async function getMovie(movieTitle) {
-  try {
-    const database = client.db("sample_mflix");
-    const movies = database.collection("movies");
-
-    const query = { title: movieTitle };
-    const movie = await movies.findOne(query);
-
-    return movie;
-  } catch (error) {
-    console.error("Error fetching movie:", error);
-    throw error;
-  }
-}
 
 async function getUserByEmail(email) {
   try {
@@ -52,6 +38,63 @@ async function getUserByEmail(email) {
     return emailUser;
   } catch (error) {
     console.error("Error fetching movie:", error);
+    throw error;
+  }
+}
+async function findCar(carName) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const cars = database.collection("cars");
+
+    const query = { [carName]: { $exists: true } };
+    const car = await cars.findOne(query);
+
+    if (!car) {
+      console.error("Car not found:", carName);
+      throw new Error("Car not found");
+    }
+    console.log("Car found:", car);
+    return car._id; // Return just the _id of the car
+  } catch (error) {
+    console.error("Error finding car:", error);
+    throw error;
+  }
+}
+async function addUserOkta(email, carName, admin, accessToken) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const users = database.collection("users");
+
+    const query = { _email: email };
+    const user = await users.findOne(query);
+    const carId = await findCar(carName);
+
+    if (!user) {
+       // This is now the _id of the car
+      console.log("User does not exist, adding user");
+      const newUserSuppliedByOkta = {
+        _email: email,
+        _car: carId, // Store the _id of the car
+        _password: "password", // Default password
+        _admin: admin,
+        _accesToken: accessToken,
+      };
+
+      await users.insertOne(newUserSuppliedByOkta);
+    }
+    else{ // This is now the _id of the car
+      console.log("User already exists, updating user");
+      const updateUserSuppliedByOkta = {
+        _email: email,
+        _car: carId, // Store the _id of the car
+        _password: "password",
+        _admin: admin,
+        _accesToken: accessToken,
+      };
+      await users.updateOne(query, { $set: updateUserSuppliedByOkta });
+    }
+  } catch (error) {
+    console.error("Error adding user:", error);
     throw error;
   }
 }
@@ -159,25 +202,6 @@ app.get('/testMongo', async (req, res) => {
   res.send('Connected to MongoDB!');
 });
 
-app.get('/movie', async (req, res) => {
-  const movieTitle = req.query.title;
-
-  if (!movieTitle) {
-    return res.status(400).send('Title query parameter is required');
-  }
-
-  try {
-    const movie = await getMovie(movieTitle);
-
-    if (!movie) {
-      return res.status(404).send('Movie not found');
-    }
-
-    res.send(movie);
-  } catch (error) {
-    res.status(500).send('An error occurred while fetching the movie');
-  }
-});
 
 app.get('/getUserByEmail', async (req, res) => {
   const email = req.query.email;
@@ -196,6 +220,22 @@ app.get('/getUserByEmail', async (req, res) => {
   }
 });
 
+app.post('/addUserOkta', async (req, res) => {
+  const email = req.body.email;
+  const car = req.body.car;
+  const admin = req.body.admin;
+  const accessToken = req.body.accessToken;
+
+  try {
+    await addUserOkta( email, car, admin, accessToken);
+    res.send('User added successfully');
+  } catch (error) {
+    res.status(500).send('An error occurred while adding the user');
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+

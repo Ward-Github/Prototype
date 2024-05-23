@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   filterButtonText: {
     fontSize: 16,
     color: '#E1E1E1',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins_Regular',
   },
   rectangle: {
     width: '95%',
@@ -247,18 +247,18 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#E1E1E1',
     marginBottom: 20,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins_Bold',
   },
   subtitleText: {
     fontSize: 24,
     color: '#E1E1E1',
     marginTop: 20,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins_Regular',
   },
   text: {
     fontSize: 18,
     color: '#E1E1E1',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins_Regular',
   },
   image: {
     width: 350,
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   loading: {
     color: '#333',
     fontSize: 18,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins_Regular',
     marginBottom: 10,
   },
   loadingContainer: {
@@ -306,14 +306,14 @@ const styles = StyleSheet.create({
   stationIdText: {
     fontSize: 16,
     color: '#333',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins_Regular',
     flex: 1,
     fontWeight: 'bold',
     flexWrap: 'wrap',
   },
   evseStatusText: {
     fontSize: 14,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins_Regular',
     flex: 1,
     flexWrap: 'wrap',
     textAlign: 'left',
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#E1E1E1',
     marginBottom: 10,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins_Regular',
     textAlign: 'center',
   },
   modalIcon: {
