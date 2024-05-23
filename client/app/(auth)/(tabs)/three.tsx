@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable } from 'react-native';
+import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable, FlatList, Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { useAuth } from '@/context/AuthProvider';
 import { useAdminMode } from '@/context/AdminModeContext';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 export default function TabThreeScreen() {
     const [data, setData] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const { isAdminMode, setIsAdminMode } = useAdminMode();
     const auth = useAuth();
 
@@ -55,6 +58,11 @@ export default function TabThreeScreen() {
             })
     };
 
+    const { data: feedbackData, error: feedbackError, isLoading: feedbackLoading } = useQuery('feedback', async () => {
+        const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/feedback`);
+        return response.data;
+    });
+
     return (
         <KeyboardAwareScrollView
             resetScrollToCoords={{ x: 0, y: 0 }}
@@ -89,6 +97,14 @@ export default function TabThreeScreen() {
                             dropdownStyles={styles.dropdown}
                         />
                     </View>
+                    {isAdminMode && (
+                        <View style={styles.adminContainer}>
+                            <Text style={styles.label}>Admin</Text>
+                            <Pressable style={styles.button} onPress={() => setIsModalVisible(true)}>
+                                <Text style={styles.buttonText}>Feedback</Text>
+                            </Pressable>
+                        </View>
+                    )}
                     <View style={styles.buttonContainer}>
                         {auth.user?.admin && (
                             <Pressable style={styles.button} onPress={() => setIsAdminMode(!isAdminMode)}>
@@ -99,6 +115,39 @@ export default function TabThreeScreen() {
                             <Text style={styles.buttonText}>Logout</Text>
                         </Pressable>
                     </View>
+                    <Modal
+                        visible={isModalVisible}
+                        onRequestClose={() => setIsModalVisible(false)}
+                        animationType="slide"
+                        transparent={true}
+                    >
+                        <View style={styles.modalOverlay}>
+                            <View style={styles.modalContent}>
+                                <View style={styles.modalHeader}>
+                                    <Text style={styles.modalTitle}>Feedback</Text>
+                                    <Pressable onPress={() => setIsModalVisible(false)} style={styles.closeButton}>
+                                        <MaterialCommunityIcons name="close" size={28} color="#000" />
+                                    </Pressable>
+                                </View>
+                                {feedbackLoading && <Text>Loading...</Text>}
+                                {feedbackError ? (
+                                    <Text>Error loading feedback</Text>
+                                ) : (
+                                    <FlatList
+                                        data={feedbackData}
+                                        keyExtractor={(item) => item._id}
+                                        renderItem={({ item }) => (
+                                            <View style={styles.feedbackItem}>
+                                                <Text style={styles.feedbackUser}>{item.user}</Text>
+                                                <Text style={styles.feedbackText}>{item.feedback}</Text>
+                                                <Text style={styles.feedbackTime}>{new Date(item.timeNow).toLocaleString()}</Text>
+                                            </View>
+                                        )}
+                                    />
+                                )}
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAwareScrollView>
@@ -178,6 +227,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f4f8',
         borderColor: '#ddd',
     },
+    adminContainer: {
+        padding: 20,
+        backgroundColor: '#fff',
+        marginHorizontal: 20,
+        marginTop: 20,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
     buttonContainer: {
         padding: 20,
         backgroundColor: '#fff',
@@ -204,5 +265,52 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: '600',
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        height: '75%',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    closeButton: {
+        padding: 10,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: '700',
+    },
+    feedbackItem: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        paddingVertical: 10,
+    },
+    feedbackUser: {
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    feedbackText: {
+        fontSize: 14,
+        color: '#666',
+    },
+    feedbackTime: {
+        fontSize: 12,
+        color: '#999',
     },
 });
