@@ -64,9 +64,7 @@ export default function TabThreeScreen() {
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
-                    <View style={styles.header}>
-                        <Text style={styles.headerText}>Profile</Text>
-                    </View>
+                    <Text style={styles.profileHeader}>Profile</Text>
                     <View style={styles.profileContainer}>
                         <Image
                             source={require('../../../assets/images/avatar.jpg')}
@@ -77,7 +75,7 @@ export default function TabThreeScreen() {
                             <Text style={styles.email}>{auth.user?.email}</Text>
                         </View>
                     </View>
-                    <View style={styles.formContainer}>
+                    <View style={styles.carContainer}>
                         <Text style={styles.label}>Car</Text>
                         <SelectList
                             setSelected={(val: string) => { handleSelect(val); }}
@@ -90,12 +88,14 @@ export default function TabThreeScreen() {
                             inputStyles={styles.selectInput}
                             dropdownStyles={styles.dropdown}
                         />
+                    </View>
+                    <View style={styles.buttonContainer}>
                         {auth.user?.admin && (
                             <Pressable style={styles.button} onPress={() => setIsAdminMode(!isAdminMode)}>
                                 <Text style={styles.buttonText}>{isAdminMode ? 'Disable Admin Mode' : 'Enable Admin Mode'}</Text>
                             </Pressable>
                         )}
-                        <Pressable style={styles.button} onPress={auth.logout}>
+                        <Pressable style={[styles.button, styles.logoutButton]} onPress={auth.logout}>
                             <Text style={styles.buttonText}>Logout</Text>
                         </Pressable>
                     </View>
@@ -108,32 +108,29 @@ export default function TabThreeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#041B2A',
+        backgroundColor: '#f0f4f8',
     },
-    header: {
-        padding: 20,
-        backgroundColor: '#041B2A',
-        alignItems: 'flex-start',
-    },
-    headerText: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: '#fff',
+    profileHeader: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: '#21304f',
+        marginTop: 20,
+        marginLeft: 20,
     },
     profileContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#0F2635',
-      padding: 20,
-      marginVertical: 10,
-      marginHorizontal: 10,
-      borderRadius: 10,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
-      elevation: 5,
-  },
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 20,
+        marginVertical: 20,
+        marginHorizontal: 20,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
     avatar: {
         width: 80,
         height: 80,
@@ -145,16 +142,16 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 20,
         fontWeight: '600',
-        color: '#fff',
+        color: '#333',
     },
     email: {
         fontSize: 16,
-        color: '#fff',
+        color: '#666',
     },
-    formContainer: {
+    carContainer: {
         padding: 20,
-        backgroundColor: '#0F2635',
-        marginHorizontal: 10,
+        backgroundColor: '#fff',
+        marginHorizontal: 20,
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -164,9 +161,8 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        color: '#fff',
+        color: '#666',
         marginBottom: 10,
-        fontWeight: 'bold',
     },
     selectBox: {
         backgroundColor: '#f0f4f8',
@@ -182,12 +178,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f4f8',
         borderColor: '#ddd',
     },
+    buttonContainer: {
+        padding: 20,
+        backgroundColor: '#fff',
+        marginHorizontal: 20,
+        marginTop: 20,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
     button: {
-        backgroundColor: '#007BFF',
+        backgroundColor: '#21304f',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
         marginTop: 20,
+    },
+    logoutButton: {
+        backgroundColor: '#FF4D4D',
     },
     buttonText: {
         color: '#fff',

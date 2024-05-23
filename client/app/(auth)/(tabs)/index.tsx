@@ -133,7 +133,7 @@ export default function TabOneScreen() {
     return (
       <View style={styles.loadingContainer}>
         <Text style={styles.loading}>This may take some time...</Text>
-        <ActivityIndicator size="large" color="#fff" />
+        <ActivityIndicator size="large" color="#333" />
       </View>
     );
   }
@@ -205,7 +205,7 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C1C1C',
+    backgroundColor: '#f0f4f8',
   },
   containerUser: {
     flex: 1,
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingVertical: 10,
-    backgroundColor: '#0F2635',
+    backgroundColor: '#21304f',
   },
   filterButton: {
     padding: 10,
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   loading: {
-    color: '#fff',
+    color: '#333',
     fontSize: 18,
     fontFamily: 'Poppins-Regular',
     marginBottom: 10,
@@ -288,25 +288,31 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1C1C1C',
+    backgroundColor: '#f0f4f8',
   },
   stationItem: {
-    backgroundColor: '#3C3C3C',
+    backgroundColor: '#fff',
     padding: 20,
     marginVertical: 8,
     borderRadius: 10,
     width: '90%',
     alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
   },
   stationIdText: {
-    fontSize: 18,
-    color: '#E1E1E1',
+    fontSize: 16,
+    color: '#333',
     fontFamily: 'Poppins-Regular',
     flex: 1,
+    fontWeight: 'bold',
     flexWrap: 'wrap',
   },
   evseStatusText: {
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: 'Poppins-Regular',
     flex: 1,
     flexWrap: 'wrap',
