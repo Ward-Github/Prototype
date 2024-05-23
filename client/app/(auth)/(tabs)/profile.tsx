@@ -82,7 +82,7 @@ export default function TabThreeScreen() {
                             data={data}
                             save="value"
                             placeholder={auth.user?.car || "Select a car"}
-                            fontFamily='Poppins'
+                            fontFamily='Poppins_Regular'
                             arrowicon={<MaterialCommunityIcons name="chevron-down" size={24} color="#000" />}
                             boxStyles={styles.selectBox}
                             inputStyles={styles.selectInput}
