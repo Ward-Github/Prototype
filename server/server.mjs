@@ -46,7 +46,7 @@ async function getUserByEmail(email) {
     const database = client.db("schuberg_data_test");
     const users = database.collection("users");
 
-    const query = { email: email };
+    const query = { _email: email };
     const emailUser = await users.findOne(query);
 
     return emailUser;
@@ -181,6 +181,8 @@ app.get('/movie', async (req, res) => {
 
 app.get('/getUserByEmail', async (req, res) => {
   const email = req.query.email;
+
+  console.log('received request to /getUserByEmail')
 
   if (!email) {
     return res.status(400).send('Email query parameter is required');
