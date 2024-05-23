@@ -117,14 +117,22 @@ export default function login() {
   const loginWithEmail = () => {
     // Perform login with email and password
     // Add your login logic here
-    const fetchuser = async () => {
-      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
+    setIsLoading(true);
+    try{
+      const fetchuser = async () => {
+        const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+      }
+    }
+    catch (error) {
+      console.log("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
