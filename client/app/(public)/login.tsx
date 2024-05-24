@@ -95,12 +95,13 @@ export default function login() {
 
       const car = userInfo.car;
       const admin = userInfo.admin;
-      const licensePlate = userInfo.license_plate;
+      const licensePlate = userInfo.licensePlate;
 
       console.log("\nUser data:", userPromise.data);
       console.log("\nOkta Token: ", accessToken);
       console.log("\nCar: ", car);
       console.log("\nAdmin: ", admin);
+      console.log("\nLicense Plate: ", licensePlate);
 
       login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], car, licensePlate, admin, accessToken);
     } catch (error) {
