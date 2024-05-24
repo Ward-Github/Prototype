@@ -25,8 +25,8 @@ export default function TabOneScreen() {
   ]
 
   return (
-    <View style={styles.container}>
-      <View style={styles.largeRectangle}>
+    <View style={styles.mainContainer}>
+      <View style={styles.leftRectangle}>
         <Text style={styles.titleText}>LOADING STATIONS</Text>
       </View>
       <View style={styles.rightRectanglesContainer}>
@@ -53,12 +53,12 @@ export default function TabOneScreen() {
           <View style={styles.line} />
 
           <View style={styles.stationContainer}>
-            <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" />
+            <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" style={styles.modalIcon} />
             <Text style={styles.text}> STATION 8</Text>
           </View>
 
           <View style={styles.batteryContainer}>
-            <MaterialCommunityIcons name="battery-charging" size={40} color="green" />
+            <MaterialCommunityIcons name="battery-charging" size={40} color="green" style={styles.modalIcon} />
             <Text style={styles.text}> 46%</Text>
           </View>
         </View>
@@ -68,6 +68,7 @@ export default function TabOneScreen() {
         </View>
         <View style={styles.flexBoxesRight}>
           <Text style={styles.titleText}>TIME SLOT</Text>
+          
         </View>
 
       </View>
@@ -76,7 +77,7 @@ export default function TabOneScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#041B2A',
@@ -84,32 +85,42 @@ const styles = StyleSheet.create({
     flexBasis: '100%',
     padding: 5,
   },
-  largeRectangle: {
+  leftRectangle: {
     flex: 1,
     flexBasis: '50%',
     backgroundColor: '#0F2635',
     marginTop: 30,
     marginLeft: 30,
+    marginBottom: 30,
     padding: 30,
     borderRadius: 20,
   },
   rightRectanglesContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     marginTop: 30,
     marginLeft: 30,
-    rowGap: 10,
-    columnGap: 10,
+    marginBottom: 30,
+    marginRight: 30,
+    borderRadius: 20,
+    rowGap: 30,
     flexBasis: '50%',
     flexGrow: 0,
+    justifyContent: 'space-evenly',    
   },
   flexBoxesRight: {
     backgroundColor: '#0F2635',
     borderRadius: 20,
     padding: 30,
-    height: '50%',
+    maxHeight: '50%',
     width: '45%',
+    overflow: 'scroll',
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: '45%',
+    minHeight: '40%',
+
 
   },
   line: {
@@ -117,6 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E1E1E1',
     width: '90%',
     marginBottom: 20,
+    
   },
   titleText: {
     fontSize: 32,
@@ -124,6 +136,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontFamily: 'Azonix',
     textAlign: 'center',
+    flexShrink: 1,
   },
   subtitleText: {
     fontSize: 24,
@@ -134,12 +147,17 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: '#E1E1E1',
     fontFamily: 'Azonix',
+    flexShrink: 1,
+
   },
   image: {
     width: "75%",
     height: "40%",
     marginTop: 20,
     marginBottom: 20,
+    minHeight: "35%",
+    minWidth: "35%",
+    flexShrink: 1,
   },
   stationContainer: {
     flexDirection: 'row',
@@ -150,5 +168,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  modalIcon: {
+    minHeight: "5%",
+    minWidth: "5%",
   },
 });

@@ -2,7 +2,7 @@ import express from "express";
 import fs from 'fs';
 import axios from 'axios';
 import cors from 'cors';
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 
 const app = express();
 const port = 3000;
@@ -41,20 +41,21 @@ async function getUserByEmail(email) {
     throw error;
   }
 }
-async function findCar(carName) {
+async function findCar(carReference) {
   try {
+    console.log("Finding car:", carReference);
     const database = client.db("schuberg_data_test");
     const cars = database.collection("cars");
-
-    const query = { [carName]: { $exists: true } };
+    const query = { [carReference]: { $exists: true } };
     const car = await cars.findOne(query);
 
     if (!car) {
-      console.error("Car not found:", carName);
-      throw new Error("Car not found");
+        console.error("Error finding car: " + carReference, error);
+        throw new Error("Car not found");
     }
     console.log("Car found:", car);
-    return car._id; // Return just the _id of the car
+    const carObject = Object.keys(car)[0]; // Get the car name
+    return { name: carObject }; // Return the id and the car name
   } catch (error) {
     console.error("Error finding car:", error);
     throw error;
@@ -67,14 +68,14 @@ async function addUserOkta(email, carName, admin, accessToken) {
 
     const query = { _email: email };
     const user = await users.findOne(query);
-    const carId = await findCar(carName);
+    const car = await findCar(carName);
 
     if (!user) {
        // This is now the _id of the car
       console.log("User does not exist, adding user");
       const newUserSuppliedByOkta = {
         _email: email,
-        _car: carId, // Store the _id of the car
+        _car: car.name, // Store the _id of the car
         _password: "password", // Default password
         _admin: admin,
         _accesToken: accessToken,
@@ -86,7 +87,7 @@ async function addUserOkta(email, carName, admin, accessToken) {
       console.log("User already exists, updating user");
       const updateUserSuppliedByOkta = {
         _email: email,
-        _car: carId, // Store the _id of the car
+        _car: car.name, // Store the _id of the car
         _password: "password",
         _admin: admin,
         _accesToken: accessToken,
@@ -231,6 +232,16 @@ app.post('/addUserOkta', async (req, res) => {
     res.send('User added successfully');
   } catch (error) {
     res.status(500).send('An error occurred while adding the user');
+  }
+});
+
+app.get('/getCar', async (req, res) => {
+  const carName = req.query.carName;
+  try {
+    const car = await findCar(carName);
+    res.send(car);
+  } catch (error) {
+    res.status(500).send('An error occurred while fetching the car');
   }
 });
 

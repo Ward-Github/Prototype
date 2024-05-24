@@ -133,20 +133,62 @@ export default function login() {
   const loginWithEmail = async () => {
     // Perform login with email and password
     // Add your login logic here
-    setIsLoading(true);
-    try{
-      const fetchUserInfo = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      login(fetchUserInfo.data["_userId"], fetchUserInfo.data["_email"], fetchUserInfo.data["_name"], fetchUserInfo.data["car"], fetchUserInfo.data["_admin"], fetchUserInfo.data["_accessToken"]);
-    }
-    catch (error) {
-      console.log("Error:", error);
-    } finally {
-      setIsLoading(false);
+    if (!email || !password || email === "" || password === "") {
+      Alert.alert(
+        'Login failed',
+        'Please enter both email and password',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
+      return;
+    }else{
+      setIsLoading(true);
+      try{
+        const fetchUserInfo = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const car = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getCar?carName=${fetchUserInfo.data["_car"]}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        console.log(car.data)
+
+        if(!fetchUserInfo.data){
+          Alert.alert(
+            'Login failed',
+            'The email is incorrect',
+            [
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false }
+          )
+          return;
+        }else if(fetchUserInfo.data["_password"] !== password){
+          Alert.alert(
+            'Login failed',
+            'The password or email is incorrect',
+            [
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false }
+          );
+          return;
+        }else{
+          login(fetchUserInfo.data["_userId"], fetchUserInfo.data["_email"], fetchUserInfo.data["_name"], car.data["name"], fetchUserInfo.data["_admin"], fetchUserInfo.data["_accessToken"]);
+        }
+      }
+      catch (error) {
+        console.log("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -181,6 +223,16 @@ export default function login() {
                             placeholderTextColor="#A9A9A9" // Dark gray color
                             value={email}
                             onChangeText={setEmail}
+                            onSubmitEditing={() => {
+                              if (email.trim() === "") {
+                                Alert.alert("Error", "Email cannot be empty");
+                              }
+                            }}
+                            onBlur={() => {
+                              if (email.trim() === "") {
+                                Alert.alert("Error", "Email cannot be empty");
+                              }
+                            }}
                         />
                         <TextInput
                             style={styles.input}
@@ -189,6 +241,16 @@ export default function login() {
                             value={password}
                             onChangeText={setPassword}
                             secureTextEntry
+                            onSubmitEditing={() => {
+                              if (password.trim() === "") {
+                                Alert.alert("Error", "Password cannot be empty");
+                              }
+                            }}
+                            onBlur={() => {
+                              if (password.trim() === "") {
+                                Alert.alert("Error", "Password cannot be empty");
+                              }
+                            }}
                         />
                         <Pressable style={styles.button} onPress={loginWithEmail}>
                             <Text style={styles.buttonText}>Login with Email</Text>
