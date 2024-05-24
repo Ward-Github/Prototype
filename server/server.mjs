@@ -43,7 +43,7 @@ async function getUserByEmail(email) {
 }
 async function findCar(carReference) {
   try {
-    console.log("Finding car:", carReference);
+    console.log("Finding car:", carReference._id);
     const database = client.db("schuberg_data_test");
     const cars = database.collection("cars");
     const query = { [carReference]: { $exists: true } };
