@@ -52,11 +52,13 @@ app.get('/', (req, res) => {
 
 app.post('/reserve', (req, res) => {
   const username = req.body.username;
-  const timeNow = new Date().toISOString();
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
+  const priority = req.body.priority;
 
-  console.log(`User ${username} reserved at ${timeNow}`);
+  console.log(`User ${username} reserved at ${startTime} until ${endTime}`);
 
-  const newReservation = { username, timeNow };
+  const newReservation = { username, startTime, endTime, priority};
 
   fs.readFile('reservations.json', 'utf8', (err, data) => {
     if (err) {
