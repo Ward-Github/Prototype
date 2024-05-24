@@ -91,6 +91,14 @@ app.post('/reserve', (req, res) => {
   });
 });
 
+app.get('/reservations', async (req, res) => {
+  const database = client.db("schuberg_data_test");
+  const reservations = database.collection("reservations");
+
+  const allReservations = await reservations.find().toArray();
+  res.send(allReservations);
+});
+
 app.post('/submitFeedback', (req, res) => {
   const feedback = req.body.feedback;
   const user = req.body.user;

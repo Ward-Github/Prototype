@@ -97,14 +97,6 @@ export default function TabThreeScreen() {
                             dropdownStyles={styles.dropdown}
                         />
                     </View>
-                    {isAdminMode && (
-                        <View style={styles.adminContainer}>
-                            <Text style={styles.label}>Admin</Text>
-                            <Pressable style={styles.button} onPress={() => setIsModalVisible(true)}>
-                                <Text style={styles.buttonText}>Feedback</Text>
-                            </Pressable>
-                        </View>
-                    )}
                     <View style={styles.buttonContainer}>
                         {auth.user?.admin && (
                             <Pressable style={styles.button} onPress={() => setIsAdminMode(!isAdminMode)}>
