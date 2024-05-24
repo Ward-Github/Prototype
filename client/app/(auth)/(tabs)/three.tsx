@@ -6,11 +6,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { useAuth } from '@/context/AuthProvider';
 import { useAdminMode } from '@/context/AdminModeContext';
+import { TextInput } from '@/components/Themed';
 
 export default function TabThreeScreen() {
-    const [data, setData] = useState([]);
-    const { isAdminMode, setIsAdminMode } = useAdminMode();
     const auth = useAuth();
+    const [data, setData] = useState([]);
+    const [showInput, setShowInput] = useState(false);
+    const [licensePlate, setLicensePlate] = useState(auth.user?.licensePlate);
+    
+    const { isAdminMode, setIsAdminMode } = useAdminMode();
 
     useEffect(() => {
         fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/car_list`)
@@ -19,12 +23,12 @@ export default function TabThreeScreen() {
             .catch(error => console.error(error));
     }, []);
 
-    const handleSelect = (value: string) => {
+    const handleCarChange = () => {
         const body = {
             "userId": auth.user?.id,
-            "car": value
+            "licensePlate": licensePlate // Use the newCar state to get the updated value
         }
-
+    
         fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/changeCar`, {
             method: 'POST',
             headers: {
@@ -32,28 +36,29 @@ export default function TabThreeScreen() {
             },
             body: JSON.stringify(body),
         })
-            .then(response => {
-                if (!response.ok) {
-                    Toast.show({
-                        type: 'error',
-                        position: 'top',
-                        text1: 'Error',
-                        text2: `An error occurred while changing the car 😔`,
-                        visibilityTime: 3000,
-                    });
-                }
-                else {
-                    Toast.show({
-                        type: 'success',
-                        position: 'top',
-                        text1: 'Success',
-                        text2: 'Car changed successfully 🎉',
-                        visibilityTime: 3000,
-                        topOffset: 60,
-                    });
-                }
-            })
-    };
+        .then(response => {
+            if (!response.ok) {
+                Toast.show({
+                    type: 'error',
+                    position: 'top',
+                    text1: 'Error',
+                    text2: `An error occurred while changing the car 😔`,
+                    visibilityTime: 3000,
+                });
+            }
+            else {
+                Toast.show({
+                    type: 'success',
+                    position: 'top',
+                    text1: 'Success',
+                    text2: 'Car changed successfully 🎉',
+                    visibilityTime: 3000,
+                    topOffset: 60,
+                });
+                setShowInput(false); // Hide the input field
+            }
+        })
+    }
 
     return (
         <KeyboardAwareScrollView
@@ -73,21 +78,29 @@ export default function TabThreeScreen() {
                         <View style={styles.userInfo}>
                             <Text style={styles.name}>{auth.user?.name}</Text>
                             <Text style={styles.email}>{auth.user?.email}</Text>
+                            <Text style={styles.email}>{auth.user?.licensePlate}</Text>
                         </View>
                     </View>
                     <View style={styles.carContainer}>
-                        <Text style={styles.label}>Car</Text>
-                        <SelectList
-                            setSelected={(val: string) => { handleSelect(val); }}
-                            data={data}
-                            save="value"
-                            placeholder={auth.user?.car || "Select a car"}
-                            fontFamily='Poppins'
-                            arrowicon={<MaterialCommunityIcons name="chevron-down" size={24} color="#000" />}
-                            boxStyles={styles.selectBox}
-                            inputStyles={styles.selectInput}
-                            dropdownStyles={styles.dropdown}
-                        />
+                        {showInput ? (
+                            <>
+                                <Text style={styles.label}>License Plate</Text>
+                                <TextInput
+                                    style={styles.selectBox}
+                                    placeholder="Enter license plate"
+                                    placeholderTextColor="#666"
+                                    autoCapitalize="characters"
+                                    onChangeText={text => setLicensePlate(text)} // Update newCar state on input change
+                                />
+                                <Pressable style={styles.changeCarButton} onPress={handleCarChange}>
+                                    <Text style={styles.changeCarButtonText}>Change</Text>
+                                </Pressable>
+                            </>
+                        ) : (
+                            <Pressable style={styles.changeCarButton} onPress={() => { setShowInput(true); }}>
+                            <Text style={styles.changeCarButtonText}>Change Car</Text>
+                            </Pressable>
+                        )}
                     </View>
                     <View style={styles.buttonContainer}>
                         {auth.user?.admin && (
@@ -170,13 +183,19 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         marginBottom: 20,
-    },
-    selectInput: {
         color: '#333',
     },
-    dropdown: {
-        backgroundColor: '#f0f4f8',
-        borderColor: '#ddd',
+    changeCarButton: {
+        backgroundColor: '#21304f',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    changeCarButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '600',
     },
     buttonContainer: {
         padding: 20,

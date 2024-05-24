@@ -93,7 +93,7 @@ app.get('/car_list', (req, res) => {
 app.post('/changeCar', async (req, res) => {
   console.log('Received a request to /changeCar');
   const userId = req.body.userId;
-  const car = req.body.car;
+  const licensePlate = req.body.licensePlate;
 
   const headers = {
     'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ app.post('/changeCar', async (req, res) => {
 
   const body = {
     "profile": {
-      "car": car
+      "license_plate": licensePlate
     }
   };
 
@@ -132,7 +132,8 @@ app.get('/getUser', async (req, res) => {
   }).then((response) => {
     const car = response.data.profile.car;
     const admin = response.data.profile.admin;
-    res.send({ car, admin });
+    const licensePlate = response.data.profile.license_plate;
+    res.send({ car, admin, licensePlate });
   }).catch((error) => {
     console.error(error);
     res.status(500).send('An error occurred while getting the car.');
