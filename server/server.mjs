@@ -50,32 +50,27 @@ app.get('/', (req, res) => {
   res.send('Welcome to my server!');
 });
 
-app.post('/reserve', (req, res) => {
+app.post('/reserve', async (req, res) => {
   const username = req.body.username;
-  const timeNow = new Date().toISOString();
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
+  const priority = req.body.priority;
 
-  console.log(`User ${username} reserved at ${timeNow}`);
+  console.log(`User ${username} reserved at ${startTime} until ${endTime}`);
 
-  const newReservation = { username, timeNow };
+  const newReservation = { username, startTime, endTime, priority};
 
-  fs.readFile('reservations.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('An error occurred while reading the file.');
-    }
+  try {
+    const database = client.db("schuberg_data_test");
+    const reservations = database.collection("reservations");
 
-    const reservations = JSON.parse(data || '[]');
-    reservations.push(newReservation);
+    await reservations.insertOne(newReservation);
 
-    fs.writeFile('reservations.json', JSON.stringify(reservations, null, 2), 'utf8', (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('An error occurred while writing to the file.');
-      }
-
-      res.send('Reservation saved successfully.');
-    });
-  });
+    res.send('Reservation saved successfully.');
+  } catch (error) {
+    console.error("Error saving reservation:", error);
+    res.status(500).send('An error occurred while saving the reservation.');
+  }
 });
 
 app.get('/car_list', (req, res) => {
