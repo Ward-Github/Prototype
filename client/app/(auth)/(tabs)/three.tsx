@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable, ActivityIndicator } from 'react-native';
+import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable, ActivityIndicator, Button } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import { useAuth } from '@/context/AuthProvider';
 import { useAdminMode } from '@/context/AdminModeContext';
 import { TextInput } from '@/components/Themed';
+import { Camera, CameraCapturedPicture } from 'expo-camera';
+import Tesseract from 'tesseract.js';
 
 export default function TabThreeScreen() {
     const auth = useAuth();
@@ -14,10 +16,41 @@ export default function TabThreeScreen() {
     const [licensePlateProfile, setLicensePlateProfile] = useState(auth.user?.licensePlate || '');
     const [loading, setLoading] = useState(false);
     const { isAdminMode, setIsAdminMode } = useAdminMode();
+    const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+    const [cameraRef, setCameraRef] = useState<Camera | null>(null);
+    const [imageUri, setImageUri] = useState<string | null>(null);
+    const [text, setText] = useState('');
 
     useEffect(() => {
         fetchCarList();
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === 'granted');
+        })();
     }, []);
+
+    const takePicture = async () => {
+        if (cameraRef) {
+            const photo = await cameraRef.takePictureAsync();
+            setImageUri(photo.uri);
+            recognizeText(photo.uri);
+        }
+    };
+
+    const recognizeText = async (uri: string) => {
+        try {
+            const result = await Tesseract.recognize(
+                uri,
+                'eng',
+                {
+                    logger: m => console.log(m)
+                }
+            );
+            setText(result.data.text);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const fetchCarList = async () => {
         try {
@@ -83,6 +116,13 @@ export default function TabThreeScreen() {
         }
     };
 
+    if (hasPermission === null) {
+        return <View />;
+    }
+    if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
+
     return (
         <KeyboardAwareScrollView
             resetScrollToCoords={{ x: 0, y: 0 }}
@@ -115,6 +155,20 @@ export default function TabThreeScreen() {
                                     onChangeText={text => setLicensePlate(text)}
                                     value={licensePlate}
                                 />
+                                <View style={styles.container}>
+                                    {imageUri ? (
+                                        <>
+                                            <Image source={{ uri: imageUri }} style={{ width: 300, height: 300 }} />
+                                            <Text>{text}</Text>
+                                        </>
+                                    ) : (
+                                        <Camera style={styles.camera} type={Camera.Constants.Type.back} ref={ref => setCameraRef(ref)}>
+                                            <View style={styles.buttonContainer}>
+                                                <Button title="Take Picture" onPress={takePicture} />
+                                            </View>
+                                        </Camera>
+                                    )}
+                                </View>
                                 <Pressable style={styles.changeCarButton} onPress={handleCarChange}>
                                     {loading ? (
                                         <ActivityIndicator color="#fff" />
@@ -251,5 +305,15 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: '600',
+    },
+    camera: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    buttonContainer: {
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        margin: 20,
     },
 });
