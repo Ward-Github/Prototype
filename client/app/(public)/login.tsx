@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Text, View, TextInput } from "@/components/Themed";
-import { Alert, SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image, Platform } from "react-native";
+import { Alert, SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image, Platform, KeyboardAvoidingView } from "react-native";
 import { useAuth } from "@/context/AuthProvider";
 import axios from "axios";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
+import { ScreenContainer } from "react-native-screens";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -101,6 +102,23 @@ export default function login() {
       console.log("\nOkta Token: ", accessToken);
       console.log("\nCar: ", car);
       console.log("\nAdmin: ", admin);
+      
+      await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/addUserOkta`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userPromise.data["sub"],
+          email: userPromise.data["preferred_username"],
+          name: userPromise.data["name"],
+          car: car,
+          licensePlate: licensePlate,
+          admin: admin,
+          accessToken: accessToken,
+        }),
+      });
+
       console.log("\nLicense Plate: ", licensePlate);
 
       login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], car, licensePlate, admin, accessToken);
@@ -111,68 +129,260 @@ export default function login() {
     }
   };
 
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginWithEmail = async () => {
+    // Perform login with email and password
+    // Add your login logic here
+    if (!email || !password || email === "" || password === "") {
+      Alert.alert(
+        'Login failed',
+        'Please enter both email and password',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
+      return;
+    }else{
+      setIsLoading(true);
+      try{
+        const fetchUserInfo = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const car = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getCar?carName=${fetchUserInfo.data["_car"]}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        console.log(car.data)
+
+        if(!fetchUserInfo.data){
+          Alert.alert(
+            'Login failed',
+            'The email is incorrect',
+            [
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false }
+          )
+          return;
+        }else if(fetchUserInfo.data["_password"] !== password){
+          Alert.alert(
+            'Login failed',
+            'The password or email is incorrect',
+            [
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false }
+          );
+          return;
+        }else{
+          login(fetchUserInfo.data["_userId"], fetchUserInfo.data["_email"], fetchUserInfo.data["_name"], car.data["name"], fetchUserInfo.data["_licensePlate"], fetchUserInfo.data["_admin"], fetchUserInfo.data["_accessToken"]);
+        }
+      }
+      catch (error) {
+        console.log("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-        {isLoading ? (
-            <View style={styles.loadingContainer}>
-                <Text style={styles.loading}>Retrieving user info...</Text>
-                <ActivityIndicator size="large" color="#fff" />
-            </View>
-        ) : authState ? (
-            <Button title="Logout" onPress={() => setAuthState(null)} />
-        ) : (
-            <View style={styles.main}>
-                <Image source={require('../../assets/images/logo.png')} style={styles.image} />
-                <Pressable style={styles.button} onPress={loginWithOkta}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </Pressable>
-            </View>
-        )}
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
+                    <Text style={styles.loading}>Retrieving user info...</Text>
+                    <ActivityIndicator size="large" color="#21304f" />
+                </View>
+            ) : authState ? (
+                <Button title="Logout" onPress={() => setAuthState(null)} />
+            ) : (
+                <View style={styles.main}>
+                    <Text style={styles.profileHeader}>Login</Text>
+                    <View style={styles.container3}>
+                        <Pressable style={styles.button} onPress={loginWithOkta}>
+                            <Text style={styles.buttonText}>Login with Okta</Text>
+                        </Pressable>
+                        <View style={styles.dividerContainer}>
+                            <View style={styles.line} />
+                            <Text style={styles.dividerText}>or</Text>
+                            <View style={styles.line} />
+                        </View>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Email..."
+                            placeholderTextColor="#A9A9A9" // Dark gray color
+                            value={email}
+                            onChangeText={setEmail}
+                            onSubmitEditing={() => {
+                              if (email.trim() === "") {
+                                Alert.alert("Error", "Email cannot be empty");
+                              }
+                            }}
+                            onBlur={() => {
+                              if (email.trim() === "") {
+                                Alert.alert("Error", "Email cannot be empty");
+                              }
+                            }}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Password..."
+                            placeholderTextColor="#A9A9A9" // Dark gray color
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                            onSubmitEditing={() => {
+                              if (password.trim() === "") {
+                                Alert.alert("Error", "Password cannot be empty");
+                              }
+                            }}
+                            onBlur={() => {
+                              if (password.trim() === "") {
+                                Alert.alert("Error", "Password cannot be empty");
+                              }
+                            }}
+                        />
+                        <Pressable style={styles.button} onPress={loginWithEmail}>
+                            <Text style={styles.buttonText}>Login with Email</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            )}
+        </KeyboardAvoidingView>
     </SafeAreaView>
-  );
+);
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#041B2A',
+let styles = StyleSheet.create({
+profileHeader: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#21304f',
+    marginTop: 20,
+    marginHorizontal: 20,
+},
+container2: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    textAlign: 'center',
+},
+container3: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+    marginVertical: 20,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+},
+container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f0f4f8',
+},
+main: {
+    padding: 20,
+    backgroundColor: '#f0f4f8',
+},
+button: {
+  backgroundColor: '#21304f',
+  padding: 15,
+  borderRadius: 10,
+  alignItems: 'center',
+  marginTop: 20,
+},
+buttonText: {
+  color: '#fff',
+  fontSize: 18,
+  fontWeight: '600',
+},
+image: {
+    width: 350,
+    height: 150,
+    marginBottom: 20,
+},
+loading: {
+    color: '#21304f',
+    fontSize: 18,
+    marginBottom: 10,
+},
+loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f0f4f8',
+},
+input: {
+    height: 40,
+    width: 300,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20,
+    color: '#000', // Change text color to black
+    borderColor: '#21304f', // Change border color to #21304f
+    backgroundColor: 'transparent', // Remove blue background
+},
+dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    backgroundColor: '#fff',
+},
+line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#21304f',
+},
+dividerText: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    color: '#21304f',
+    fontFamily: 'Poppins',
+}
+});
+
+if (Platform.OS === 'android' || Platform.OS === 'ios') {
+styles = StyleSheet.create({
+    ...styles,
+    image: {
+        width: 300,
+        height: 125,
+        marginTop: 200,
+        marginBottom: 0,
     },
-    main: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#041B2A',
-    },
-    button: {
-        backgroundColor: '#007BFF',
+    input: {
+        height: 50,
+        width: 300,
+        margin: 12,
+        borderWidth: 1,
         padding: 10,
         borderRadius: 20,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      buttonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontFamily: 'Azonix',
-      },
-      image: {
-        width: 350,
-        height: 150,
-        marginTop: 20,
-        marginBottom: 20,
-    },
-    loading: {
-        color: '#fff',
-        fontSize: 18,
-        fontFamily: 'Azonix',
-        marginBottom: 10,
-    },
-    loadingContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#041B2A',
-    },
+        color: '#000', // Change text color to black
+        borderColor: '#21304f', // Change border color to #21304f
+        backgroundColor: 'transparent', // Remove blue background
+        fontFamily: 'Poppins', // Use Poppins font
+    }
 });
+}

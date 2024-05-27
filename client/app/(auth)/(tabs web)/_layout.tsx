@@ -2,7 +2,7 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import TabOneScreen from '.';
-import TabTwoScreen from './two';
+import TabTwoScreen from './quickReserve';
 
 const Drawer = createDrawerNavigator();
 
