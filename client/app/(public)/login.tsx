@@ -96,6 +96,7 @@ export default function login() {
 
       const car = userInfo.car;
       const admin = userInfo.admin;
+      const licensePlate = userInfo.licensePlate;
 
       console.log("\nUser data:", userPromise.data);
       console.log("\nOkta Token: ", accessToken);
@@ -112,13 +113,15 @@ export default function login() {
           email: userPromise.data["preferred_username"],
           name: userPromise.data["name"],
           car: car,
+          licensePlate: licensePlate,
           admin: admin,
           accessToken: accessToken,
         }),
       });
 
+      console.log("\nLicense Plate: ", licensePlate);
 
-      login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], car, admin, accessToken);
+      login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], car, licensePlate, admin, accessToken);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -181,7 +184,7 @@ export default function login() {
           );
           return;
         }else{
-          login(fetchUserInfo.data["_userId"], fetchUserInfo.data["_email"], fetchUserInfo.data["_name"], car.data["name"], fetchUserInfo.data["_admin"], fetchUserInfo.data["_accessToken"]);
+          login(fetchUserInfo.data["_userId"], fetchUserInfo.data["_email"], fetchUserInfo.data["_name"], car.data["name"], fetchUserInfo.data["_licensePlate"], fetchUserInfo.data["_admin"], fetchUserInfo.data["_accessToken"]);
         }
       }
       catch (error) {

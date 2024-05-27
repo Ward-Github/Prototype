@@ -100,6 +100,19 @@ async function addUserOkta(email, carName, admin, accessToken) {
   }
 }
 
+async function submitFeedback(feedback, user, timeNow) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
+
+    const newFeedback = { feedback, user, timeNow };
+    await feedbacks.insertOne(newFeedback);
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    throw error;
+  }
+}
+
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:8081'
@@ -109,32 +122,64 @@ app.get('/', (req, res) => {
   res.send('Welcome to my server!');
 });
 
-app.post('/reserve', (req, res) => {
+app.post('/reserve', async (req, res) => {
   const username = req.body.username;
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
+  const priority = req.body.priority;
+
+  console.log(`User ${username} reserved at ${startTime} until ${endTime}`);
+
+  const newReservation = { username, startTime, endTime, priority};
+
+  try {
+    const database = client.db("schuberg_data_test");
+    const reservations = database.collection("reservations");
+
+    await reservations.insertOne(newReservation);
+
+    res.send('Reservation saved successfully.');
+  } catch (error) {
+    console.error("Error saving reservation:", error);
+    res.status(500).send('An error occurred while saving the reservation.');
+  }
+});
+
+app.get('/reservations', async (req, res) => {
+  const database = client.db("schuberg_data_test");
+  const reservations = database.collection("reservations");
+
+  const allReservations = await reservations.find().toArray();
+  res.send(allReservations);
+});
+
+app.post('/submitFeedback', (req, res) => {
+  const feedback = req.body.feedback;
+  const user = req.body.user;
   const timeNow = new Date().toISOString();
 
-  console.log(`User ${username} reserved at ${timeNow}`);
+  console.log(`Feedback received at ${timeNow}: ${feedback}`);
 
-  const newReservation = { username, timeNow };
+  try {
+    submitFeedback(feedback, user, timeNow);
+    res.status(200).send('Feedback submitted successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while submitting the feedback.');
+  }
+});
 
-  fs.readFile('reservations.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('An error occurred while reading the file.');
-    }
+app.get('/feedback', async (req, res) => {
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
 
-    const reservations = JSON.parse(data || '[]');
-    reservations.push(newReservation);
-
-    fs.writeFile('reservations.json', JSON.stringify(reservations, null, 2), 'utf8', (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('An error occurred while writing to the file.');
-      }
-
-      res.send('Reservation saved successfully.');
-    });
-  });
+    const allFeedback = await feedbacks.find().toArray();
+    res.send(allFeedback);
+  } catch (error) {
+    console.error("Error fetching feedback:", error);
+    res.status(500).send('An error occurred while fetching the feedback.');
+  }
 });
 
 app.get('/car_list', (req, res) => {
@@ -152,7 +197,7 @@ app.get('/car_list', (req, res) => {
 app.post('/changeCar', async (req, res) => {
   console.log('Received a request to /changeCar');
   const userId = req.body.userId;
-  const car = req.body.car;
+  const licensePlate = req.body.licensePlate;
 
   const headers = {
     'Content-Type': 'application/json',
@@ -162,7 +207,7 @@ app.post('/changeCar', async (req, res) => {
 
   const body = {
     "profile": {
-      "car": car
+      "license_plate": licensePlate
     }
   };
 
@@ -191,7 +236,8 @@ app.get('/getUser', async (req, res) => {
   }).then((response) => {
     const car = response.data.profile.car;
     const admin = response.data.profile.admin;
-    res.send({ car, admin });
+    const licensePlate = response.data.profile.license_plate;
+    res.send({ car, admin, licensePlate });
   }).catch((error) => {
     console.error(error);
     res.status(500).send('An error occurred while getting the car.');

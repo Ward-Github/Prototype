@@ -10,10 +10,10 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: isAdminMode ? '#911111' : '#21304f',
+        tabBarActiveTintColor: '#21304f',
         tabBarInactiveTintColor: '#d8dce5', 
         tabBarStyle: { 
-          backgroundColor: isAdminMode ? '#171515' : '#ffffff', 
+          backgroundColor: '#ffffff', 
           borderTopColor: 'transparent',
           height: 90,
         },
@@ -23,7 +23,7 @@ export default function TabLayout() {
         },
         headerShown: useClientOnlyValue(false, true),
         headerStyle: {
-          backgroundColor: isAdminMode ? '#171515' : '#f0f4f8',
+          backgroundColor: '#f0f4f8',
           height: 60,
         },
         headerTitle: '',
@@ -39,7 +39,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="reserve"
         options={{
-          tabBarIcon: ({ color }) => <Ionicons name="calendar" size={25} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name={(isAdminMode ? "desktop" : "calendar")} size={25} color={color} />,
           tabBarLabel: 'Reservation',
         }}
       />
