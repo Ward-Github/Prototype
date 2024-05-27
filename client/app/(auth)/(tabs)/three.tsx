@@ -1,61 +1,89 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable, FlatList, Modal } from 'react-native';
+import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable, FlatList, Modal, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SelectList } from 'react-native-dropdown-select-list';
 import { useAuth } from '@/context/AuthProvider';
 import { useAdminMode } from '@/context/AdminModeContext';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import { TextInput } from '@/components/Themed';
 
 export default function TabThreeScreen() {
+    const auth = useAuth();
     const [data, setData] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [showInput, setShowInput] = useState(false);
+    const [licensePlate, setLicensePlate] = useState(auth.user?.licensePlate || '');
+    const [licensePlateProfile, setLicensePlateProfile] = useState(auth.user?.licensePlate || '');
+    const [loading, setLoading] = useState(false);
     const { isAdminMode, setIsAdminMode } = useAdminMode();
-    const auth = useAuth();
 
     useEffect(() => {
-        fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/car_list`)
-            .then(response => response.json())
-            .then(data => setData(data))
-            .catch(error => console.error(error));
+        fetchCarList();
     }, []);
 
-    const handleSelect = (value: string) => {
-        const body = {
-            "userId": auth.user?.id,
-            "car": value
+    const fetchCarList = async () => {
+        try {
+            const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/car_list`);
+            const data = await response.json();
+            setData(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleCarChange = async () => {
+        if (!licensePlate) {
+            Toast.show({
+                type: 'error',
+                position: 'top',
+                text1: 'Error',
+                text2: 'License plate cannot be empty',
+                visibilityTime: 3000,
+            });
+            return;
         }
 
-        fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/changeCar`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    Toast.show({
-                        type: 'error',
-                        position: 'top',
-                        text1: 'Error',
-                        text2: `An error occurred while changing the car 😔`,
-                        visibilityTime: 3000,
-                    });
-                }
-                else {
-                    Toast.show({
-                        type: 'success',
-                        position: 'top',
-                        text1: 'Success',
-                        text2: 'Car changed successfully 🎉',
-                        visibilityTime: 3000,
-                        topOffset: 60,
-                    });
-                }
-            })
+        setLoading(true);
+        const body = {
+            userId: auth.user?.id,
+            licensePlate,
+        };
+
+        try {
+            const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/changeCar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to change car');
+            }
+
+            setLicensePlateProfile(licensePlate);
+            Toast.show({
+                type: 'success',
+                position: 'top',
+                text1: 'Success',
+                text2: 'Car changed successfully 🎉',
+                visibilityTime: 3000,
+                topOffset: 60,
+            });
+            setShowInput(false);
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                position: 'top',
+                text1: 'Error',
+                text2: `An error occurred while changing the car 😔`,
+                visibilityTime: 3000,
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const { data: feedbackData, error: feedbackError, isLoading: feedbackLoading } = useQuery('feedback', async () => {
@@ -67,7 +95,6 @@ export default function TabThreeScreen() {
         <KeyboardAwareScrollView
             resetScrollToCoords={{ x: 0, y: 0 }}
             contentContainerStyle={{ flexGrow: 1 }}
-            scrollEnabled={false}
             extraScrollHeight={50}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -81,21 +108,34 @@ export default function TabThreeScreen() {
                         <View style={styles.userInfo}>
                             <Text style={styles.name}>{auth.user?.name}</Text>
                             <Text style={styles.email}>{auth.user?.email}</Text>
+                            <Text style={styles.email}>{licensePlateProfile}</Text>
                         </View>
                     </View>
                     <View style={styles.carContainer}>
-                        <Text style={styles.label}>Car</Text>
-                        <SelectList
-                            setSelected={(val: string) => { handleSelect(val); }}
-                            data={data}
-                            save="value"
-                            placeholder={auth.user?.car || "Select a car"}
-                            fontFamily='Poppins'
-                            arrowicon={<MaterialCommunityIcons name="chevron-down" size={24} color="#000" />}
-                            boxStyles={styles.selectBox}
-                            inputStyles={styles.selectInput}
-                            dropdownStyles={styles.dropdown}
-                        />
+                        {showInput ? (
+                            <>
+                                <Text style={styles.label}>License Plate</Text>
+                                <TextInput
+                                    style={styles.selectBox}
+                                    placeholder="Enter license plate"
+                                    placeholderTextColor="#666"
+                                    autoCapitalize="characters"
+                                    onChangeText={text => setLicensePlate(text)}
+                                    value={licensePlate}
+                                />
+                                <Pressable style={styles.changeCarButton} onPress={handleCarChange}>
+                                    {loading ? (
+                                        <ActivityIndicator color="#fff" />
+                                    ) : (
+                                        <Text style={styles.changeCarButtonText}>Change</Text>
+                                    )}
+                                </Pressable>
+                            </>
+                        ) : (
+                            <Pressable style={styles.changeCarButton} onPress={() => setShowInput(true)}>
+                                <Text style={styles.changeCarButtonText}>Change Car</Text>
+                            </Pressable>
+                        )}
                     </View>
                     <View style={styles.buttonContainer}>
                         {auth.user?.admin && (
@@ -211,13 +251,20 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         marginBottom: 20,
-    },
-    selectInput: {
         color: '#333',
+        padding: 10,
     },
-    dropdown: {
-        backgroundColor: '#f0f4f8',
-        borderColor: '#ddd',
+    changeCarButton: {
+        backgroundColor: '#21304f',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    changeCarButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '600',
     },
     adminContainer: {
         padding: 20,
