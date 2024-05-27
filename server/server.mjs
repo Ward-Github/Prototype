@@ -41,6 +41,19 @@ async function getMovie(movieTitle) {
   }
 }
 
+async function submitFeedback(feedback, user, timeNow) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
+
+    const newFeedback = { feedback, user, timeNow };
+    await feedbacks.insertOne(newFeedback);
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    throw error;
+  }
+}
+
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:8081'
@@ -70,6 +83,43 @@ app.post('/reserve', async (req, res) => {
   } catch (error) {
     console.error("Error saving reservation:", error);
     res.status(500).send('An error occurred while saving the reservation.');
+  }
+});
+
+app.get('/reservations', async (req, res) => {
+  const database = client.db("schuberg_data_test");
+  const reservations = database.collection("reservations");
+
+  const allReservations = await reservations.find().toArray();
+  res.send(allReservations);
+});
+
+app.post('/submitFeedback', (req, res) => {
+  const feedback = req.body.feedback;
+  const user = req.body.user;
+  const timeNow = new Date().toISOString();
+
+  console.log(`Feedback received at ${timeNow}: ${feedback}`);
+
+  try {
+    submitFeedback(feedback, user, timeNow);
+    res.status(200).send('Feedback submitted successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while submitting the feedback.');
+  }
+});
+
+app.get('/feedback', async (req, res) => {
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
+
+    const allFeedback = await feedbacks.find().toArray();
+    res.send(allFeedback);
+  } catch (error) {
+    console.error("Error fetching feedback:", error);
+    res.status(500).send('An error occurred while fetching the feedback.');
   }
 });
 
