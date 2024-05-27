@@ -61,7 +61,7 @@ async function findCar(carReference) {
     throw error;
   }
 }
-async function addUserOkta(email, carName, admin, accessToken) {
+async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
   try {
     const database = client.db("schuberg_data_test");
     const users = database.collection("users");
@@ -76,6 +76,7 @@ async function addUserOkta(email, carName, admin, accessToken) {
       const newUserSuppliedByOkta = {
         _email: email,
         _car: car.name, // Store the _id of the car
+        _LicensePlate: licensePlate, // Store the license plate
         _password: "password", // Default password
         _admin: admin,
         _accesToken: accessToken,
@@ -88,6 +89,7 @@ async function addUserOkta(email, carName, admin, accessToken) {
       const updateUserSuppliedByOkta = {
         _email: email,
         _car: car.name, // Store the _id of the car
+        _LicensePlate: licensePlate, // Store the license plate
         _password: "password",
         _admin: admin,
         _accesToken: accessToken,

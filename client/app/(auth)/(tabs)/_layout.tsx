@@ -37,14 +37,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="reserve"
+        name="two"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name={(isAdminMode ? "desktop" : "calendar")} size={25} color={color} />,
           tabBarLabel: 'Reservation',
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="three"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
           tabBarLabel: 'Profile',
