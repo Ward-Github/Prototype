@@ -7,6 +7,7 @@ import { useAdminMode } from '@/context/AdminModeContext';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { TextInput } from '@/components/Themed';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function TabThreeScreen() {
     const auth = useAuth();
