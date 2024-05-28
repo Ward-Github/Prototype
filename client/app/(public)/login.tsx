@@ -207,7 +207,7 @@ export default function login() {
                     <ActivityIndicator size="large" color="#21304f" />
                 </View>
             ) : authState ? (
-                <Button title="Logout" onPress={() => setAuthState(null)} />
+                <Button title="Database connection failed." onPress={() => setAuthState(null)} />
             ) : (
                 <View style={styles.main}>
                     <Text style={styles.profileHeader}>Login</Text>
