@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthProvider';
 import Toast from 'react-native-toast-message';
+import { SelectList } from 'react-native-dropdown-select-list';
 
 const submitFeedback = async ({ feedback, user }: { feedback: string, user: string }) => {
   try {
@@ -36,18 +37,28 @@ const UserHome = () => {
   const auth = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
   const [feedback, setFeedback] = useState('');
+  const [selectedProblem, setSelectedProblem] = useState('');
   const user = auth.user?.name || '';
 
   const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
     onSuccess: () => {
       setModalVisible(false);
       setFeedback('');
+      setSelectedProblem('');
     },
     onError: () => {
       setModalVisible(false);
       setFeedback('');
+      setSelectedProblem('');
     },
   });
+
+  const problemOptions = [
+    { key: '1', value: 'Payment not working' },
+    { key: '2', value: 'Cable not charging' },
+    { key: '3', value: 'Station unavailable' },
+    { key: '4', value: 'Other' },
+  ];
 
   return (
     <View style={styles.container}>
@@ -85,29 +96,44 @@ const UserHome = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Report problem</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Type your problem here..."
-              placeholderTextColor="#A9A9A9"
-              value={feedback}
-              onChangeText={setFeedback}
+            <SelectList 
+              setSelected={setSelectedProblem} 
+              data={problemOptions} 
+              save="value"
+              placeholder="Select a problem"
+              arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+              boxStyles={styles.selectBox}
+              inputStyles={styles.selectInput}
+              dropdownStyles={styles.dropdown}
+              search={false}
             />
+            {selectedProblem === 'Other' && (
+              <TextInput
+                style={styles.textInput}
+                placeholder="Type your problem here..."
+                placeholderTextColor="#A9A9A9"
+                value={feedback}
+                onChangeText={setFeedback}
+              />
+            )}
             <View style={styles.buttonContainer}>
-            <Button 
-              title="Send" 
-              onPress={() => {
-                Keyboard.dismiss();
-                mutation.mutate({ feedback, user });
-              }} 
-            />
-            <Button 
-              title="Cancel" 
-              color="red" 
-              onPress={() => {
-                Keyboard.dismiss();
-                setModalVisible(false);
-              }} 
-            />
+              <Button 
+                title="Send" 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
+                }} 
+              />
+              <Button 
+                title="Cancel" 
+                color="red" 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setModalVisible(false);
+                  setFeedback('');
+                  setSelectedProblem('');
+                }} 
+              />
             </View>
             {mutation.isLoading && <ActivityIndicator size="large" color="#21304f" style={styles.loadingIndicator} />}
           </View>
@@ -199,6 +225,23 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
+  },
+  selectBox: {
+    backgroundColor: '#f0f4f8',
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 45,
+    marginBottom: 20,
+  },
+  selectInput: {
+    textAlign: 'center',
+    color: '#333',
+    justifyContent : 'center',
+  },
+  dropdown: {
+    backgroundColor: '#f0f4f8',
+    borderColor: '#ddd',
   },
   buttonContainer: {
     flexDirection: 'row',
