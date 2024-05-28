@@ -118,7 +118,7 @@ export default function AdminReservationScreen() {
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Feedback</Text>
               <Pressable onPress={() => setIsFeedbackModalVisible(false)} style={styles.closeButton}>
-                <MaterialCommunityIcons name="close" size={28} color="#000" />
+                <Text style={styles.closeButtonText}>Close</Text>
               </Pressable>
             </View>
             {feedbackLoading ? (
