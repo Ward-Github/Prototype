@@ -3,6 +3,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import TabOneScreen from '.';
 import TabTwoScreen from './two';
+import TabThreeScreen from './three';
+import { useAdminMode } from '@/context/AdminModeContext';
+import adminScreen from './adminScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,7 +23,7 @@ export default function DrawerLayout() {
       }}>
       <Drawer.Screen
         name="index"
-        component={TabOneScreen} // Replace HomeComponent with the actual component you want to render
+        component={TabOneScreen}
         options={{
           title: 'Home',
           drawerIcon: ({ color }) => <Ionicons name="home" size={25} color={color} />,
@@ -29,14 +32,33 @@ export default function DrawerLayout() {
       />
       <Drawer.Screen
         name="two"
-        component={TabTwoScreen} // Replace ReservationComponent with the actual component you want to render
+        component={TabTwoScreen}
         options={{
           title: 'Reservation',
           drawerIcon: ({ color }) => <Ionicons name="calendar" size={25} color={color} />,
           drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
         }}
       />
-      {/* Add more Drawer.Screen components as needed */}
+      <Drawer.Screen
+        name="three"
+        component={TabThreeScreen}
+        options={{
+          title: 'Profile',
+          drawerIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
+          drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
+        }}
+      />
+      {useAdminMode() && (
+        <Drawer.Screen
+          name="admin"
+          component={adminScreen}
+          options={{
+            title: 'Admin',
+            drawerIcon: ({ color }) => <Ionicons name="settings" size={25} color={color} />,
+            drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
+          }}
+        />
+      )}
     </Drawer.Navigator>
   );
 }
