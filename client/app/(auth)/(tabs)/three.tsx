@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable, ActivityIndicator, Button } from 'react-native';
+import { StyleSheet, Image, View, Text, TouchableWithoutFeedback, Keyboard, Pressable, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import { useAuth } from '@/context/AuthProvider';
 import { useAdminMode } from '@/context/AdminModeContext';
 import { TextInput } from '@/components/Themed';
-import CameraComponent from '@/components/CameraComponent'; // import the new CameraComponent
+import CameraComponent from '@/components/CameraComponent';
 
 export default function TabThreeScreen() {
     const auth = useAuth();
@@ -22,6 +22,12 @@ export default function TabThreeScreen() {
     useEffect(() => {
         fetchCarList();
     }, []);
+
+    useEffect(() => {
+        if (text) {
+            setLicensePlate(text);
+        }
+    }, [text]);
 
     const fetchCarList = async () => {
         try {
