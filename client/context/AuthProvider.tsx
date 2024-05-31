@@ -9,11 +9,12 @@ type User = {
   name: string;
   licensePlate: string;
   admin: boolean;
+  pfp: string;
 };
 
 type AuthProvider = {
   user: User | null;
-  login: (id:string, email: string, name: string, licensePlate:string, admin:boolean) => boolean;
+  login: (id:string, email: string, name: string, licensePlate:string, admin:boolean, pfp: string) => boolean;
   logout: () => void;
 };
 
@@ -52,13 +53,14 @@ export function useAuth() {
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (id: string, email: string, name:string, licensePlate:string, admin:boolean) => {
+  const login = (id: string, email: string, name:string, licensePlate:string, admin:boolean, pfp:string) => {
     setUser({
       id: id,
       email: email,
       name: name,
       licensePlate: licensePlate,
       admin: admin,
+      pfp: pfp,
     });
 
     return true;
