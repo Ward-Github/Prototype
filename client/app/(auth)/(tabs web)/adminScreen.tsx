@@ -94,7 +94,7 @@ const StationDetailModal: React.FC<StationDetailModalProps> = ({ station, visibl
   </Modal>
 );
 
-export default function adminScreen() {
+export default function AdminScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const { data, isLoading } = useQuery('stations', fetchStations);
