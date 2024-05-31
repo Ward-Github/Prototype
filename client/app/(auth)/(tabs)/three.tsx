@@ -18,6 +18,7 @@ export default function TabThreeScreen() {
     const [showInput, setShowInput] = useState(false);
     const [licensePlate, setLicensePlate] = useState(auth.user?.licensePlate || '');
     const [licensePlateProfile, setLicensePlateProfile] = useState(auth.user?.licensePlate || '');
+    const [pfp, setPfp] = useState(auth.user?.pfp || 'avatar.jpg');
     const [loading, setLoading] = useState(false);
     const { isAdminMode, setIsAdminMode } = useAdminMode();
 
@@ -54,7 +55,7 @@ export default function TabThreeScreen() {
         };
 
         try {
-            const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-licenseplate`, {
+            await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-licenseplate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,14 +105,13 @@ export default function TabThreeScreen() {
         });
 
         if (!pickerResult.canceled) {
-            console.log(pickerResult);
-            console.log(pickerResult.assets[0].uri);
-            handleImageUpload(pickerResult.assets[0].uri, auth.user?.email, auth.user?.id);
+            const imageName = await handleImageUpload(pickerResult.assets[0].uri, auth.user?.id);
+            setPfp(imageName);
         }
     };
 
-    const handleImageUpload = async (uri: string, userEmail: any, userId: any) => {
-        return FileSystem.uploadAsync(
+    const handleImageUpload = async (uri: string, id: any): Promise<string> => {
+        const response = await FileSystem.uploadAsync(
             `http://${process.env.EXPO_PUBLIC_API_URL}:3000/pfp-update`,
             uri,
             {
@@ -119,11 +119,32 @@ export default function TabThreeScreen() {
                 fieldName: 'image',
                 httpMethod: 'POST',
                 parameters: {
-                    email: userEmail,
-                    userId: userId
+                    id: id
                 },
             },
         );
+    
+        if (!response) {
+            Toast.show({
+                type: 'error',
+                position: 'top',
+                text1: 'Error',
+                text2: 'An error occurred while uploading the image 😔',
+                visibilityTime: 3000,
+            });
+            return '';
+        }
+
+        Toast.show({
+            type: 'success',
+            position: 'top',
+            text1: 'Success',
+            text2: 'Profile picture set successfully 🎉',
+            visibilityTime: 3000,
+            topOffset: 60,
+        });
+    
+        return response.body;
     };
 
     return (
@@ -138,7 +159,7 @@ export default function TabThreeScreen() {
                     <View style={styles.profileContainer}>
                         <Pressable onPress={pickImage}>
                             <Image
-                                source={require('../../../assets/images/avatar.jpg')}
+                                source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${pfp}` }}
                                 style={styles.avatar}
                             />
                         </Pressable>

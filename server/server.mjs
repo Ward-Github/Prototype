@@ -146,7 +146,7 @@ app.post('/pfp-update', upload.single('image'), async (req, res) => {
     const database = client.db("schuberg_data_test");
     const users = database.collection("users");
 
-    const filter = { _email: req.body.email };
+    const filter = { _idOkta: req.body.id };
     const update = { $set: { _pfp: req.file.filename } };
 
     await users.updateOne(filter, update);
@@ -331,6 +331,7 @@ app.get('/get-user', async (req, res) => {
       _password: "password",
       _admin: false,
       _licensePlate: "",
+      _pfp: "",
     };
 
     await users.insertOne(newUser);

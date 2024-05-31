@@ -100,13 +100,14 @@ export default function login() {
       const car = userInfo._car;
       const admin = userInfo._admin;
       const licensePlate = userInfo._licensePlate;
+      const pfp = userInfo._pfp;
 
       console.log("\n---- User data ---");
       console.log("Car: ", car);
       console.log("Admin: ", admin);
       console.log("License Plate: ", licensePlate);
 
-      login(id, email, name, licensePlate, admin);
+      login(id, email, name, licensePlate, admin, pfp);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -163,7 +164,7 @@ export default function login() {
           );
           return;
         }else{
-          login(userInfo._idOkta, userInfo._email, userInfo._name, userInfo._licensePlate, userInfo._admin);
+          login(userInfo._idOkta, userInfo._email, userInfo._name, userInfo._licensePlate, userInfo._admin, userInfo._pfp);
         }
       }
       catch (error) {
