@@ -196,31 +196,23 @@ app.get('/car_list', (req, res) => {
   });
 });
 
-app.post('/changeCar', async (req, res) => {
-  console.log('Received a request to /changeCar');
+app.post('/change-licenseplate', async (req, res) => {
+  console.log('Received a request to /change-licenseplate');
   const userId = req.body.userId;
   const licensePlate = req.body.licensePlate;
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': `SSWS 00FuL6NDRx7MSvOZYhSvWbDcdrQctwfLXsShWe1vJt`
-  };
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
 
-  const body = {
-    "profile": {
-      "license_plate": licensePlate
-    }
-  };
-
-  axios.post(`https://dev-58460839.okta.com/api/v1/users/${userId}`, body, {
-    headers: headers,
-  }).then((response) => {
-    res.send(response.data);
-  }).catch((error) => {
+  const query = { _idOkta: userId };
+  try {
+    await users.updateOne(query, { $set: { _licensePlate: licensePlate } });
+    res.send('License plate updated successfully.');
+  }
+  catch (error) {
     console.error(error);
-    res.status(500).send('An error occurred while changing the car.');
-  });
+    res.status(500).send('An error occurred while updating the license plate.');
+  }
 });
 
 app.get('/getUser', async (req, res) => {
@@ -267,6 +259,48 @@ app.get('/getUserByEmail', async (req, res) => {
   } catch (error) {
     res.status(500).send('An error occurred while fetching the user');
   }
+});
+
+app.get('/get-user', async (req, res) => {
+  const { id, email, name } = req.query;
+  console.log(email)
+
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  let query = {};
+
+  if (id) {
+    query = { _idOkta: id };
+  } else if (email) {
+    query = { _email: email };
+  } else {
+    return res.status(400).send('Either id or email must be provided');
+  }
+
+  const user = await users.findOne(query);
+  console.log(user)
+
+  if (!user) {
+    if (!id || !email || !name) {
+      return res.status(400).send('id, email, and name are required to create a new user');
+    }
+    
+    const newUser = {
+      _idOkta: id,
+      _email: email,
+      _name: name,
+      _car: "",
+      _password: "password",
+      _admin: false,
+      _licensePlate: "",
+    };
+
+    await users.insertOne(newUser);
+    return res.send(newUser);
+  }
+
+  res.send(user);
 });
 
 app.post('/addUserOkta', async (req, res) => {

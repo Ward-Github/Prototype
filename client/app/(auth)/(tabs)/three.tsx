@@ -52,17 +52,17 @@ export default function TabThreeScreen() {
         };
 
         try {
-            const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/changeCar`, {
+            console.log('body', body);
+            console.log('sending request');
+            const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-licenseplate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(body),
-            });
+            }).catch(error => console.error('Error:', error));;
 
-            if (!response.ok) {
-                throw new Error('Failed to change car');
-            }
+            console.log('response', response);
 
             setLicensePlateProfile(licensePlate);
             Toast.show({
