@@ -6,8 +6,10 @@ import { useAuth } from '@/context/AuthProvider';
 import { useAdminMode } from '@/context/AdminModeContext';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import * as FileSystem from 'expo-file-system';
 import { TextInput } from '@/components/Themed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function TabThreeScreen() {
     const auth = useAuth();
@@ -92,6 +94,42 @@ export default function TabThreeScreen() {
         return response.data;
     });
 
+    const pickImage = async () => {
+        const result = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (result.granted === false) {
+            alert("Permission to access camera roll is required!");
+            return;
+        }
+
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+            base64: false,
+        });
+
+        if (!pickerResult.canceled) {
+            console.log(pickerResult);
+            console.log(pickerResult.assets[0].uri);
+            handleImageUpload(pickerResult.assets[0].uri, auth.user?.email, auth.user?.id);
+        }
+    };
+
+    const handleImageUpload = async (uri: string, userEmail: any, userId: any) => {
+        return FileSystem.uploadAsync(
+            `http://${process.env.EXPO_PUBLIC_API_URL}:3000/pfp-update`,
+            uri,
+            {
+                uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                fieldName: 'image',
+                httpMethod: 'POST',
+                parameters: {
+                    email: userEmail,
+                    userId: userId
+                },
+            },
+        );
+    };
+
     return (
         <KeyboardAwareScrollView
             resetScrollToCoords={{ x: 0, y: 0 }}
@@ -102,10 +140,12 @@ export default function TabThreeScreen() {
                 <View style={styles.container}>
                     <Text style={styles.profileHeader}>Profile</Text>
                     <View style={styles.profileContainer}>
-                        <Image
-                            source={require('../../../assets/images/avatar.jpg')}
-                            style={styles.avatar}
-                        />
+                        <Pressable onPress={pickImage}>
+                            <Image
+                                source={require('../../../assets/images/avatar.jpg')}
+                                style={styles.avatar}
+                            />
+                        </Pressable>
                         <View style={styles.userInfo}>
                             <Text style={styles.name}>{auth.user?.name}</Text>
                             <Text style={styles.email}>{auth.user?.email}</Text>

@@ -2,10 +2,26 @@ import express from "express";
 import fs from 'fs';
 import axios from 'axios';
 import cors from 'cors';
+import multer from "multer";
+import path from "path";
+import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 
 const app = express();
 const port = 3000;
+
+const storage = multer.diskStorage({
+  destination: 'images/',
+  filename: function (req, file, cb) {
+      const extension = path.extname(file.originalname);
+      const uniqueFilename = `${uuidv4()}${extension}`;
+      cb(null, uniqueFilename);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.use('/images', express.static('images'));
 
 const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5kkb7jt.mongodb.net/?retryWrites=true&w=majority&appName=Schuberg', {
   serverApi: {
@@ -122,6 +138,27 @@ app.use(cors({
 
 app.get('/', (req, res) => {
   res.send('Welcome to my server!');
+});
+
+app.post('/pfp-update', upload.single('image'), async (req, res) => {
+  console.log('Received a request to /pfp-update');
+  try {
+    const database = client.db("schuberg_data_test");
+    const users = database.collection("users");
+
+    const filter = { _email: req.body.email };
+    const update = { $set: { _pfp: req.file.filename } };
+
+    await users.updateOne(filter, update);
+
+    res.send(req.file.filename);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'An error occurred while uploading the image',
+    });
+    console.error('An error occurred while uploading the image');
+  }
 });
 
 app.post('/reserve', async (req, res) => {
