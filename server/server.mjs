@@ -161,6 +161,14 @@ app.post('/pfp-update', upload.single('image'), async (req, res) => {
   }
 });
 
+app.get('/users', async (req, res) => {
+  const database = client.db("schuberg_data_test");
+  const users = database.collection("users");
+
+  const allUsers = await users.find().toArray();
+  res.send(allUsers);
+});
+
 app.post('/reserve', async (req, res) => {
   const username = req.body.username;
   const startTime = req.body.startTime;

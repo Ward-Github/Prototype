@@ -65,10 +65,6 @@ const UserHome = () => {
       <Text style={styles.profileHeader}>Home</Text>
       <View style={styles.rectangle}>
         <Text style={styles.titleText}>Hi {auth.user?.name?.split(' ')[0]},</Text>
-        <Text style={styles.subtitleText}>Your next reservation is at 14:00</Text>
-      </View>
-      <View style={styles.rectangle}>
-        <Text style={styles.titleText}>Hi {auth.user?.name?.split(' ')[0]},</Text>
         <Text style={styles.subtitleText}>Your car is currently charging</Text>
         <AnimatedCircularProgress
           size={120}
