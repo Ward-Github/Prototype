@@ -98,6 +98,11 @@ export default function adminScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const { data, isLoading } = useQuery('stations', fetchStations);
+  const [filterStatus, setFilterStatus] = useState<string | null>(null);
+
+  const handleFilter = (status: string | null) => {
+    setFilterStatus(status);
+  };
 
   const handleStationPress = (station: Station) => {
     setSelectedStation(station);
@@ -117,10 +122,32 @@ export default function adminScreen() {
     }
   };
 
+  const filteredStations = data.filter((station: Station) => {
+    if (filterStatus === null) {
+      return true;
+    } else {
+      return station.status === filterStatus;
+    }
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <Text style={styles.titleText}>Stations</Text>
+        <TouchableOpacity onPress={() => handleFilter(null)}>
+          <Text style={styles.topBarText}>All</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleFilter('available')}>
+          <Text style={styles.topBarText}>Available</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleFilter('charging')}>
+          <Text style={styles.topBarText}>Charging</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleFilter('occupied')}>
+          <Text style={styles.topBarText}>Occupied</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleFilter('unknown')}>
+          <Text style={styles.topBarText}>Others</Text>
+        </TouchableOpacity>
       </View>
       {isLoading ? (
         <View style={styles.loadingContainer}>
@@ -129,7 +156,7 @@ export default function adminScreen() {
         </View>
       ) : (
         <FlatList
-          data={data}
+          data={filteredStations}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.stationItem} onPress={() => handleStationPress(item)}>
@@ -156,6 +183,11 @@ export default function adminScreen() {
 }
 
 const styles = StyleSheet.create({
+  topBarText: {
+    color: '#E1E1E1',
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
+  },
   container: {
     flex: 1,
     backgroundColor: '#f0f4f8',
