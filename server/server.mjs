@@ -2,10 +2,26 @@ import express from "express";
 import fs from 'fs';
 import axios from 'axios';
 import cors from 'cors';
+import multer from "multer";
+import path from "path";
+import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 
 const app = express();
 const port = 3000;
+
+const storage = multer.diskStorage({
+  destination: 'images/',
+  filename: function (req, file, cb) {
+      const extension = path.extname(file.originalname);
+      const uniqueFilename = `${uuidv4()}${extension}`;
+      cb(null, uniqueFilename);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.use('/images', express.static('images'));
 
 const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5kkb7jt.mongodb.net/?retryWrites=true&w=majority&appName=Schuberg', {
   serverApi: {
@@ -124,6 +140,27 @@ app.get('/', (req, res) => {
   res.send('Welcome to my server!');
 });
 
+app.post('/pfp-update', upload.single('image'), async (req, res) => {
+  console.log('Received a request to /pfp-update');
+  try {
+    const database = client.db("schuberg_data_test");
+    const users = database.collection("users");
+
+    const filter = { _idOkta: req.body.id };
+    const update = { $set: { _pfp: req.file.filename } };
+
+    await users.updateOne(filter, update);
+
+    res.send(req.file.filename);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'An error occurred while uploading the image',
+    });
+    console.error('An error occurred while uploading the image');
+  }
+});
+
 app.post('/reserve', async (req, res) => {
   const username = req.body.username;
   const startTime = req.body.startTime;
@@ -196,31 +233,23 @@ app.get('/car_list', (req, res) => {
   });
 });
 
-app.post('/changeCar', async (req, res) => {
-  console.log('Received a request to /changeCar');
+app.post('/change-licenseplate', async (req, res) => {
+  console.log('Received a request to /change-licenseplate');
   const userId = req.body.userId;
   const licensePlate = req.body.licensePlate;
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': `SSWS 00FuL6NDRx7MSvOZYhSvWbDcdrQctwfLXsShWe1vJt`
-  };
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
 
-  const body = {
-    "profile": {
-      "license_plate": licensePlate
-    }
-  };
-
-  axios.post(`https://dev-58460839.okta.com/api/v1/users/${userId}`, body, {
-    headers: headers,
-  }).then((response) => {
-    res.send(response.data);
-  }).catch((error) => {
+  const query = { _idOkta: userId };
+  try {
+    await users.updateOne(query, { $set: { _licensePlate: licensePlate } });
+    res.send('License plate updated successfully.');
+  }
+  catch (error) {
     console.error(error);
-    res.status(500).send('An error occurred while changing the car.');
-  });
+    res.status(500).send('An error occurred while updating the license plate.');
+  }
 });
 
 app.get('/getUser', async (req, res) => {
@@ -267,6 +296,49 @@ app.get('/getUserByEmail', async (req, res) => {
   } catch (error) {
     res.status(500).send('An error occurred while fetching the user');
   }
+});
+
+app.get('/get-user', async (req, res) => {
+  const { id, email, name } = req.query;
+  console.log(email)
+
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  let query = {};
+
+  if (id) {
+    query = { _idOkta: id };
+  } else if (email) {
+    query = { _email: email };
+  } else {
+    return res.status(400).send('Either id or email must be provided');
+  }
+
+  const user = await users.findOne(query);
+  console.log(user)
+
+  if (!user) {
+    if (!id || !email || !name) {
+      return res.status(400).send('id, email, and name are required to create a new user');
+    }
+    
+    const newUser = {
+      _idOkta: id,
+      _email: email,
+      _name: name,
+      _car: "",
+      _password: "password",
+      _admin: false,
+      _licensePlate: "",
+      _pfp: "",
+    };
+
+    await users.insertOne(newUser);
+    return res.send(newUser);
+  }
+
+  res.send(user);
 });
 
 app.post('/addUserOkta', async (req, res) => {

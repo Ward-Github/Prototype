@@ -5,7 +5,7 @@ import TabOneScreen from '.';
 import TabTwoScreen from './quickReserve';
 import TabThreeScreen from './three';
 import { useAdminMode } from '@/context/AdminModeContext';
-import adminScreen from './adminScreen';
+import AdminScreen from './adminScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -51,7 +51,7 @@ export default function DrawerLayout() {
       {useAdminMode() && (
         <Drawer.Screen
           name="admin"
-          component={adminScreen}
+          component={AdminScreen}
           options={{
             title: 'Admin',
             drawerIcon: ({ color }) => <Ionicons name="settings" size={25} color={color} />,

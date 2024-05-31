@@ -7,15 +7,14 @@ type User = {
   id: string;
   email: string;
   name: string;
-  car: string;
   licensePlate: string;
   admin: boolean;
-  accessToken: string;
+  pfp: string;
 };
 
 type AuthProvider = {
   user: User | null;
-  login: (id:string, email: string, name: string, car:string, licensePlate:string, admin:boolean, accessToken: string) => boolean;
+  login: (id:string, email: string, name: string, licensePlate:string, admin:boolean, pfp: string) => boolean;
   logout: () => void;
 };
 
@@ -54,15 +53,14 @@ export function useAuth() {
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (id: string, email: string, name:string, car:string, licensePlate:string, admin:boolean, accessToken: string) => {
+  const login = (id: string, email: string, name:string, licensePlate:string, admin:boolean, pfp:string) => {
     setUser({
       id: id,
       email: email,
       name: name,
-      car: car,
       licensePlate: licensePlate,
       admin: admin,
-      accessToken: accessToken,
+      pfp: pfp,
     });
 
     return true;
