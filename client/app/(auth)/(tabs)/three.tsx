@@ -52,8 +52,6 @@ export default function TabThreeScreen() {
         };
 
         try {
-            console.log('body', body);
-            console.log('sending request');
             const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-licenseplate`, {
                 method: 'POST',
                 headers: {
@@ -61,8 +59,6 @@ export default function TabThreeScreen() {
                 },
                 body: JSON.stringify(body),
             }).catch(error => console.error('Error:', error));;
-
-            console.log('response', response);
 
             setLicensePlateProfile(licensePlate);
             Toast.show({
