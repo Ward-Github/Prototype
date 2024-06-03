@@ -10,6 +10,7 @@ import * as FileSystem from 'expo-file-system';
 import { TextInput } from '@/components/Themed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import CameraComponent from '@/components/CameraComponent';
 
 export default function TabThreeScreen() {
     const auth = useAuth();
@@ -20,6 +21,7 @@ export default function TabThreeScreen() {
     const [licensePlateProfile, setLicensePlateProfile] = useState(auth.user?.licensePlate || '');
     const [pfp, setPfp] = useState(auth.user?.pfp || 'avatar.jpg');
     const [loading, setLoading] = useState(false);
+    const [imageUri, setImageUri] = useState<string | null>(null);
     const { isAdminMode, setIsAdminMode } = useAdminMode();
 
     useEffect(() => {
@@ -169,33 +171,8 @@ export default function TabThreeScreen() {
                             <Text style={styles.email}>{licensePlateProfile}</Text>
                         </View>
                     </View>
-                    <View style={styles.carContainer}>
-                        {showInput ? (
-                            <>
-                                <Text style={styles.label}>License Plate</Text>
-                                <TextInput
-                                    style={styles.selectBox}
-                                    placeholder="Enter license plate"
-                                    placeholderTextColor="#666"
-                                    autoCapitalize="characters"
-                                    onChangeText={text => setLicensePlate(text)}
-                                    value={licensePlate}
-                                />
-                                <Pressable style={styles.changeCarButton} onPress={handleCarChange}>
-                                    {loading ? (
-                                        <ActivityIndicator color="#fff" />
-                                    ) : (
-                                        <Text style={styles.changeCarButtonText}>Change</Text>
-                                    )}
-                                </Pressable>
-                            </>
-                        ) : (
-                            <Pressable style={styles.changeCarButton} onPress={() => setShowInput(true)}>
-                                <Text style={styles.changeCarButtonText}>Change Car</Text>
-                            </Pressable>
-                        )}
-                    </View>
                     <View style={styles.buttonContainer}>
+                        <CameraComponent setImageUri={setImageUri} setLicensePlateProfile={setLicensePlateProfile}/>
                         {auth.user?.admin && (
                             <Pressable style={styles.button} onPress={() => setIsAdminMode(!isAdminMode)}>
                                 <Text style={styles.buttonText}>{isAdminMode ? 'Disable Admin Mode' : 'Enable Admin Mode'}</Text>

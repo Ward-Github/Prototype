@@ -3,6 +3,7 @@ import fs from 'fs';
 import axios from 'axios';
 import cors from 'cors';
 import multer from "multer";
+import { exec } from 'child_process';
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
@@ -159,6 +160,34 @@ app.post('/pfp-update', upload.single('image'), async (req, res) => {
     });
     console.error('An error occurred while uploading the image');
   }
+});
+
+app.post('/get-licenseplate', upload.single('image'), (req, res) => {
+  const imageName = req.file.filename;
+  console.log(`Received a request to /get-licenseplate with image ${imageName}`);
+  if (!imageName) {
+    return res.status(400).send('Image name is required');
+  }
+
+  const imagePath = path.join(__dirname, 'images', imageName);
+  console.log(`Image path: ${imagePath}`);
+
+  exec(`python ImageToText.py ${imagePath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return res.status(500).send(`Error executing script: ${error.message}`);
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return res.status(500).send(`Script error: ${stderr}`);
+    }
+
+    console.log(`stdout: ${stdout}`);
+
+    const licensePlate = stdout.trim();
+    console.log(`License plate: ${licensePlate}`);
+    res.send(licensePlate);
+  });
 });
 
 app.post('/reserve', async (req, res) => {
