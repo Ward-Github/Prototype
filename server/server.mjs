@@ -162,6 +162,14 @@ app.post('/pfp-update', upload.single('image'), async (req, res) => {
   }
 });
 
+app.get('/users', async (req, res) => {
+  const database = client.db("schuberg_data_test");
+  const users = database.collection("users");
+
+  const allUsers = await users.find().toArray();
+  res.send(allUsers);
+});
+
 app.post('/get-licenseplate', upload.single('image'), (req, res) => {
   const imageName = req.file.filename;
   console.log(`Received a request to /get-licenseplate with image ${imageName}`);

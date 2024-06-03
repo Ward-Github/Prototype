@@ -182,39 +182,6 @@ export default function TabThreeScreen() {
                             <Text style={styles.buttonText}>Logout</Text>
                         </Pressable>
                     </View>
-                    <Modal
-                        visible={isModalVisible}
-                        onRequestClose={() => setIsModalVisible(false)}
-                        animationType="slide"
-                        transparent={true}
-                    >
-                        <View style={styles.modalOverlay}>
-                            <View style={styles.modalContent}>
-                                <View style={styles.modalHeader}>
-                                    <Text style={styles.modalTitle}>Feedback</Text>
-                                    <Pressable onPress={() => setIsModalVisible(false)} style={styles.closeButton}>
-                                        <MaterialCommunityIcons name="close" size={28} color="#000" />
-                                    </Pressable>
-                                </View>
-                                {feedbackLoading && <Text>Loading...</Text>}
-                                {feedbackError ? (
-                                    <Text>Error loading feedback</Text>
-                                ) : (
-                                    <FlatList
-                                        data={feedbackData}
-                                        keyExtractor={(item) => item._id}
-                                        renderItem={({ item }) => (
-                                            <View style={styles.feedbackItem}>
-                                                <Text style={styles.feedbackUser}>{item.user}</Text>
-                                                <Text style={styles.feedbackText}>{item.feedback}</Text>
-                                                <Text style={styles.feedbackTime}>{new Date(item.timeNow).toLocaleString()}</Text>
-                                            </View>
-                                        )}
-                                    />
-                                )}
-                            </View>
-                        </View>
-                    </Modal>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAwareScrollView>
@@ -330,7 +297,7 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 10
     },
     logoutButton: {
         backgroundColor: '#FF4D4D',

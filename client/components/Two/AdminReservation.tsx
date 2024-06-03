@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Pressable, Modal } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Pressable, Modal, Image, TextInput } from 'react-native';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import Toast from 'react-native-toast-message';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const fetchReservations = async () => {
-  const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
+  const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
+  return response.data.reverse();
 };
 
 const fetchFeedback = async () => {
   const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/feedback`);
+  return response.data.reverse();
+};
+
+const fetchUsers = async () => {
+  const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/users`);
   return response.data;
 };
 
 export default function AdminReservationScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isUsersModalVisible, setIsUsersModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const {
     data: reservations,
@@ -36,6 +38,13 @@ export default function AdminReservationScreen() {
     refetch: refetchFeedback,
   } = useQuery('feedback', fetchFeedback);
 
+  const {
+    data: usersData,
+    error: usersError,
+    isLoading: usersLoading,
+    refetch: refetchUsers,
+  } = useQuery('users', fetchUsers);
+
   useEffect(() => {
     if (isModalVisible) {
       refetchReservations();
@@ -47,6 +56,12 @@ export default function AdminReservationScreen() {
       refetchFeedback();
     }
   }, [isFeedbackModalVisible]);
+
+  useEffect(() => {
+    if (isUsersModalVisible) {
+      refetchUsers();
+    }
+  }, [isUsersModalVisible]);
 
   const renderReservationItem = ({ item }: { item: any }) => (
     <View style={styles.reservationItem}>
@@ -65,6 +80,17 @@ export default function AdminReservationScreen() {
     </View>
   );
 
+  const renderUserItem = ({ item }: { item: any }) => (
+    <View style={styles.listItem}>
+      <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${item._pfp}` }} style={styles.userAvatar} />
+      <View style={styles.userDetails}>
+        <Text style={styles.listText}>{item._name}</Text>
+        <Text style={styles.listText}>{item._email}</Text>
+        <Text style={styles.listText}>{item._licensePlate}</Text>
+      </View>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.profileHeader}>Admin Dashboard</Text>
@@ -72,7 +98,10 @@ export default function AdminReservationScreen() {
         <Text style={styles.buttonText}>View Reservations</Text>
       </Pressable>
       <Pressable style={styles.button} onPress={() => setIsFeedbackModalVisible(true)}>
-        <Text style={styles.buttonText}>View Feedback</Text>
+        <Text style={styles.buttonText}>View Problems</Text>
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => setIsUsersModalVisible(true)}>
+        <Text style={styles.buttonText}>View Users</Text>
       </Pressable>
 
       {/* Reservations Modal */}
@@ -116,9 +145,9 @@ export default function AdminReservationScreen() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Feedback</Text>
+              <Text style={styles.modalTitle}>Problems</Text>
               <Pressable onPress={() => setIsFeedbackModalVisible(false)} style={styles.closeButton}>
-                <MaterialCommunityIcons name="close" size={28} color="#000" />
+                <Text style={styles.closeButtonText}>Close</Text>
               </Pressable>
             </View>
             {feedbackLoading ? (
@@ -131,6 +160,43 @@ export default function AdminReservationScreen() {
                 renderItem={renderFeedbackItem}
                 keyExtractor={(item) => item._id}
                 contentContainerStyle={styles.feedbackList}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
+
+      {/* Users Modal */}
+      <Modal
+        visible={isUsersModalVisible}
+        onRequestClose={() => setIsUsersModalVisible(false)}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Users</Text>
+              <Pressable onPress={() => setIsUsersModalVisible(false)} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </Pressable>
+            </View>
+            <TextInput
+              placeholder="Search by email..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              style={styles.searchInput}
+            />
+            {usersLoading ? (
+              <Text style={styles.loadingText}>Loading...</Text>
+            ) : usersError ? (
+              <Text style={styles.errorText}>Error loading users</Text>
+            ) : (
+              <FlatList
+                data={usersData.filter((user: { _email: string; }) => user._email.toLowerCase().includes(searchQuery.toLowerCase()))}
+                renderItem={renderUserItem}
+                keyExtractor={(item) => item._id}
+                contentContainerStyle={styles.listContainer}
               />
             )}
           </View>
@@ -187,6 +253,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
+    color: '#21304f',
   },
   closeButton: {
     padding: 10,
@@ -204,15 +271,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   reservationItem: {
-    backgroundColor: '#ffffff',
-    padding: 15,
-    marginVertical: 8,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    paddingVertical: 10,
   },
   reservationText: {
     fontSize: 16,
@@ -249,4 +310,39 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 20,
   },
+  listItem: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  userDetails: {
+    flex: 1,
+  },
+  userAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 15,
+  },
+  listContainer: {
+    paddingHorizontal: 20,
+  },
+  searchInput: {
+    fontSize: 16,
+    padding: 10,
+    marginVertical: 10,
+    marginHorizontal: 20,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    color: '#A9A9A9',
+  }
+  
 });
