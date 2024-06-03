@@ -94,7 +94,7 @@ const StationDetailModal: React.FC<StationDetailModalProps> = ({ station, visibl
   </Modal>
 );
 
-export default function AdminScreen() {
+export default function ChargingStation() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const { data, isLoading } = useQuery('stations', fetchStations);
@@ -122,13 +122,13 @@ export default function AdminScreen() {
     }
   };
 
-  const filteredStations = data.filter((station: Station) => {
+  const filteredStations = data ? data.filter((station: Station) => {
     if (filterStatus === null) {
       return true;
     } else {
       return station.status === filterStatus;
     }
-  });
+  }) : [];
 
   return (
     <View style={styles.container}>
