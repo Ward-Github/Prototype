@@ -1,10 +1,125 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, Image } from 'react-native';
-import { View, Text, TouchableOpacity, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Button, Modal, ActivityIndicator, Keyboard, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SelectList } from 'react-native-dropdown-select-list'
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { useAuth } from '@/context/AuthProvider';
+import Toast from 'react-native-toast-message';
+import { SelectList } from 'react-native-dropdown-select-list';
+
+const submitFeedback = async ({ feedback, user }: { feedback: string, user: string }) => {
+  try {
+    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/submitFeedback`, { feedback, user }, { timeout: 5000 });
+    Toast.show({
+      type: 'success',
+      position: 'top',
+      text1: 'Success',
+      text2: 'Problem reported successfully 🎉',
+      visibilityTime: 3000,
+      topOffset: 60,
+    });
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      position: 'top',
+      text1: 'Error',
+      text2: 'An error occurred while submitting your problem 😔',
+      visibilityTime: 3000,
+      topOffset: 60,
+    });
+    throw error;
+  }
+};
+
+const ReportProblemModal = () => {
+  const auth = useAuth();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [feedback, setFeedback] = useState('');
+  const [selectedProblem, setSelectedProblem] = useState('');
+  const user = auth.user?.name || '';
+
+  const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
+    onSuccess: () => {
+      setModalVisible(false);
+      setFeedback('');
+      setSelectedProblem('');
+    },
+    onError: () => {
+      setModalVisible(false);
+      setFeedback('');
+      setSelectedProblem('');
+    },
+  })
+
+  const problemOptions = [
+    { key: '1', value: 'Payment not working' },
+    { key: '2', value: 'Cable not charging' },
+    { key: '3', value: 'Station unavailable' },
+    { key: '4', value: 'Other' },
+  ];
+
+  return (
+    <View style={styles.flexBoxesRight}>
+        <Text style={styles.titleText}>Report a problem</Text>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.feedbackButton}>
+        <Text style={styles.feedbackButtonText}>Report problem</Text>
+      </TouchableOpacity>
+      <Modal visible={isModalVisible} transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Report your problem</Text>
+            <SelectList 
+              setSelected={setSelectedProblem} 
+              data={problemOptions} 
+              save="value"
+              placeholder="Select a problem"
+              arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+              boxStyles={styles.selectBox}
+              inputStyles={styles.selectInput}
+              dropdownStyles={styles.dropdown}
+              search={false}
+            />
+            {selectedProblem === 'Other' && (
+              <TextInput
+                style={[styles.textInput, {marginTop: 20}]}
+                placeholder="Type your problem here..."
+                placeholderTextColor="#A9A9A9"
+                value={feedback}
+                onChangeText={setFeedback}
+              />
+            )}
+            <View style={styles.buttonContainer}>
+              <Button 
+                title="Send" 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
+                }} 
+              />
+              <Button 
+                title="Cancel" 
+                color="red" 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setModalVisible(false);
+                  setFeedback('');
+                  setSelectedProblem('');
+                }} 
+              />
+            </View>
+            {mutation.isLoading && <ActivityIndicator size="large" color="#21304f" style={styles.loadingIndicator} />}
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
 
 export default function TabOneScreen() {
+
+  
   const [selected, setSelected] = React.useState("");
 
   const data = [
@@ -66,13 +181,10 @@ export default function TabOneScreen() {
         <View style={styles.flexBoxesRight}>
           <Text style={styles.titleText}>RESERVATION DETAILS</Text>
         </View>
-        <View style={styles.flexBoxesRight}>
-          <Text style={styles.titleText}>TIME SLOT</Text>
-          
+        <ReportProblemModal />
         </View>
 
       </View>
-    </View>
   );
 }
 
@@ -115,13 +227,11 @@ const styles = StyleSheet.create({
     padding: 30,
     maxHeight: '50%',
     width: '45%',
-    overflow: 'scroll',
     flexGrow: 1,
     flexShrink: 1,
     minWidth: '45%',
     minHeight: '40%',
-
-
+    overflow: 'hidden',
   },
   line: {
     height: 1,
@@ -172,5 +282,65 @@ const styles = StyleSheet.create({
   modalIcon: {
     minHeight: "5%",
     minWidth: "5%",
+  },
+  feedbackButton: {
+    backgroundColor: '#21304f',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 20,
+    marginHorizontal: 20,
+  },
+  feedbackButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#21304f',
+    padding: 20,
+    borderRadius: 10,
+    width: '30%',
+  },
+  modalTitle: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: '700',
+    marginBottom: 20,
+  },
+  textInput: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    margin: 30,
+    borderRadius: 20,
+  },
+  loadingIndicator: {
+    marginTop: 20,
+  },
+  selectBox: {
+    backgroundColor: '#46B7FF',
+    borderColor: 'transparent',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  selectInput: {
+    color: '#fff',
+  },
+  dropdown: {
+    backgroundColor: '#fff',
   },
 });
