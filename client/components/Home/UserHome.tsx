@@ -1,13 +1,18 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Button, Modal, ActivityIndicator, Keyboard } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Button, Modal, ActivityIndicator, Keyboard, Image, ScrollView, Pressable, FlatList } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
-import { useState } from 'react';
 import { useAuth } from '@/context/AuthProvider';
 import Toast from 'react-native-toast-message';
 import { SelectList } from 'react-native-dropdown-select-list';
+
+const fetchHallOfShame = async () => {
+  const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/hall-of-shame`);
+  console.log(response.data);
+  return response.data;
+};
 
 const submitFeedback = async ({ feedback, user }: { feedback: string, user: string }) => {
   try {
@@ -35,9 +40,11 @@ const submitFeedback = async ({ feedback, user }: { feedback: string, user: stri
 
 const UserHome = () => {
   const auth = useAuth();
+  const queryClient = useQueryClient();
   const [isModalVisible, setModalVisible] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [selectedProblem, setSelectedProblem] = useState('');
+  const [isHallOfShameVisible, setHallOfShameVisible] = useState(false);
   const user = auth.user?.name || '';
 
   const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
@@ -53,6 +60,14 @@ const UserHome = () => {
     },
   });
 
+  const { data: hallOfShameData, isLoading: isLoadingHallOfShame, refetch: refetchHallOfShame } = useQuery('hallOfShame', fetchHallOfShame);
+
+  useEffect(() => {
+    if (isHallOfShameVisible) {
+      refetchHallOfShame();
+    }
+  }, [isHallOfShameVisible]);
+
   const problemOptions = [
     { key: '1', value: 'Payment not working' },
     { key: '2', value: 'Cable not charging' },
@@ -61,7 +76,7 @@ const UserHome = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.profileHeader}>Home</Text>
       <View style={styles.rectangle}>
         <Text style={styles.titleText}>Hi {auth.user?.name?.split(' ')[0]},</Text>
@@ -88,13 +103,44 @@ const UserHome = () => {
           <Text style={styles.feedbackButtonText}>Report problem</Text>
         </TouchableOpacity>
       </View>
+
+      <View style={styles.shameRectangle}>
+        <Text style={styles.shameTitle}>The hall of shame 🤡</Text>
+        <Text style={styles.barelyReadableText}>(make fun of this person)</Text>
+        {isLoadingHallOfShame ? (
+          <ActivityIndicator size="large" color="#21304f" />
+        ) : hallOfShameData && hallOfShameData.length > 0 ? (
+          <View style={styles.shameContainer}>
+            <View style={styles.shameItem}>
+              <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${hallOfShameData[1]._pfp}` }} style={[styles.shameImageSmall, styles.silverBorder]} />
+              <Text style={styles.shameText}>#{2} {hallOfShameData[1]._name.split(' ')[0]}</Text>
+            </View>
+            <View style={styles.shameItem}>
+              <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${hallOfShameData[0]._pfp}` }} style={[styles.shameImageLarge, styles.goldBorder]} />
+              <Text style={styles.shameText}>#{1} {hallOfShameData[0]._name.split(' ')[0]}</Text>
+            </View>
+            <View style={styles.shameItem}>
+              <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${hallOfShameData[2]._pfp}` }} style={[styles.shameImageSmall, styles.bronzeBorder]} />
+              <Text style={styles.shameText}>#{3} {hallOfShameData[2]._name.split(' ')[0]}</Text>
+            </View>
+          </View>
+        ) : (
+          <Text style={styles.noShameText}>No one to shame yet.</Text>
+        )}
+        {hallOfShameData && hallOfShameData.length > 0 && (
+          <TouchableOpacity onPress={() => setHallOfShameVisible(true)} style={styles.viewShameButton}>
+            <Text style={styles.viewShameButtonText}>View full hall of shame</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
       <Modal visible={isModalVisible} transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Report problem</Text>
-            <SelectList 
-              setSelected={setSelectedProblem} 
-              data={problemOptions} 
+            <SelectList
+              setSelected={setSelectedProblem}
+              data={problemOptions}
               save="value"
               placeholder="Select a problem"
               arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
@@ -113,29 +159,66 @@ const UserHome = () => {
               />
             )}
             <View style={styles.buttonContainer}>
-              <Button 
-                title="Send" 
+              <Button
+                title="Send"
                 onPress={() => {
                   Keyboard.dismiss();
                   mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
-                }} 
+                }}
               />
-              <Button 
-                title="Cancel" 
-                color="red" 
+              <Button
+                title="Cancel"
+                color="red"
                 onPress={() => {
                   Keyboard.dismiss();
                   setModalVisible(false);
                   setFeedback('');
                   setSelectedProblem('');
-                }} 
+                }}
               />
             </View>
             {mutation.isLoading && <ActivityIndicator size="large" color="#21304f" style={styles.loadingIndicator} />}
           </View>
         </View>
       </Modal>
-    </View>
+
+      <Modal
+        visible={isHallOfShameVisible}
+        onRequestClose={() => setHallOfShameVisible(false)}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Hall of Shame</Text>
+              <Pressable onPress={() => setHallOfShameVisible(false)} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </Pressable>
+            </View>
+            <FlatList
+              data={hallOfShameData}
+              renderItem={({ item, index }) => (
+                <View style={styles.fullShameItem}>
+                  <Image
+                    source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${item._pfp}` }}
+                    style={[
+                      styles.fullShameImage,
+                      index === 0 ? styles.goldBorder : index === 1 ? styles.silverBorder : styles.bronzeBorder
+                    ]}
+                  />
+                  <Text style={styles.fullShameText}>
+                    #{index + 1} - {item._name} | {item._shame}
+                  </Text>
+                </View>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              contentContainerStyle={styles.fullShameContainer}
+            />
+          </View>
+        </View>
+      </Modal>
+    </ScrollView>
   );
 };
 
@@ -197,22 +280,47 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+    color: '#21304f',
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
+  closeButton: {
+    padding: 10,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#21304f',
+  },
   modalContent: {
-    width: '90%',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     padding: 20,
-    borderRadius: 10,
+    height: '90%',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
   },
   modalTitle: {
-    fontSize: 24,
-    color: '#21304f',
-    marginBottom: 20,
+    fontSize: 20,
+    fontWeight: '700',
   },
   textInput: {
     width: '100%',
@@ -233,7 +341,7 @@ const styles = StyleSheet.create({
   selectInput: {
     textAlign: 'center',
     color: '#333',
-    justifyContent : 'center',
+    justifyContent: 'center',
   },
   dropdown: {
     backgroundColor: '#f0f4f8',
@@ -246,6 +354,101 @@ const styles = StyleSheet.create({
   },
   loadingIndicator: {
     marginTop: 20,
+  },
+  shameRectangle: {
+    backgroundColor: '#fff',
+    padding: 20,
+    marginVertical: 20,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  shameTitle: {
+    fontSize: 24,
+    color: '#21304f',
+    fontFamily: 'Poppins-Bold',
+  },
+  barelyReadableText: {
+    fontSize: 10,
+    color: '#21304f',
+    marginBottom: 10,
+  },
+  shameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  shameItem: {
+    alignItems: 'center',
+  },
+  shameImageLarge: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+  },
+  shameImageSmall: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 3,
+  },
+  goldBorder: {
+    borderColor: '#FFD700',
+  },
+  silverBorder: {
+    borderColor: '#C0C0C0',
+  },
+  bronzeBorder: {
+    borderColor: '#CD7F32',
+  },
+  shameText: {
+    marginTop: 5,
+    fontSize: 16,
+    color: '#21304f',
+  },
+  viewShameButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#21304f',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  viewShameButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  noShameText: {
+    fontSize: 16,
+    color: '#21304f',
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  fullShameContainer: {
+    width: '100%',
+    padding: 20,
+  },
+  fullShameItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  fullShameImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 10,
+    borderWidth: 3,
+  },
+  fullShameText: {
+    fontSize: 16,
+    color: '#21304f',
   },
 });
 

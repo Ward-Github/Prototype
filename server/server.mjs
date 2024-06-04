@@ -378,6 +378,17 @@ app.get('/get-user', async (req, res) => {
   res.send(user);
 });
 
+app.get('/hall-of-shame', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const allUsers = await users.find().toArray();
+  const filteredUsers = allUsers.filter(user => user._shame > 0);
+  const sortedUsers = filteredUsers.sort((a, b) => a._shame - b._shame);
+
+  res.send(sortedUsers.reverse());
+});
+
 app.post('/addUserOkta', async (req, res) => {
   const email = req.body.email;
   const car = req.body.car;
