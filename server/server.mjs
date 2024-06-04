@@ -392,6 +392,26 @@ app.post('/addUserOkta', async (req, res) => {
   }
 });
 
+app.post('/slack-notification', async (req, res) => {
+    const url = 'https://hooks.slack.com/services/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';
+    const data = {
+        text: "<@U076GLHT03C> has created a new reservation"
+    };
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    try {
+        const response = await axios.post(url, data, config);
+        res.status(200).send('Notification sent');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error sending notification');
+    }
+});
+
 app.get('/getCar', async (req, res) => {
   const carName = req.query.carName;
   try {
