@@ -86,14 +86,14 @@ export default function CameraComponent({ setImageUri, setLicensePlateProfile })
                 userId: auth.user?.id,
                 licensePlate: recognizedPlate,
             };
-                
-            await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-licenseplate`, {
-                method: 'POST',
+
+            const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
-            });
+                }
+            };
+
+            await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-licenseplate`, body, config);
 
             setLicensePlateProfile(recognizedPlate);
             setEditModalVisible(false);
