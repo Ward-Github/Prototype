@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Button, Modal, ActivityIndicator, Keyboard, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { useAuth } from '@/context/AuthProvider';
@@ -91,21 +90,22 @@ const ReportProblemModal = () => {
             )}
             <View style={styles.buttonContainer}>
               <Button 
-                title="Send" 
+                title="Send"
+                 
                 onPress={() => {
                   Keyboard.dismiss();
                   mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
-                }} 
+                }}
               />
               <Button 
                 title="Cancel" 
-                color="red" 
                 onPress={() => {
                   Keyboard.dismiss();
                   setModalVisible(false);
                   setFeedback('');
                   setSelectedProblem('');
                 }} 
+                color="red" 
               />
             </View>
             {mutation.isLoading && <ActivityIndicator size="large" color="#21304f" style={styles.loadingIndicator} />}
@@ -156,7 +156,7 @@ export default function TabOneScreen() {
             fontFamily='Azonix'
             search={false}
             arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-            boxStyles={{ backgroundColor: '#46B7FF', borderColor: 'transparent', alignContent: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
+            boxStyles={{ backgroundColor: '#21304f', borderColor: 'transparent', alignContent: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
             inputStyles={{ color: '#fff' }}
             dropdownStyles={{ backgroundColor: '#fff' }}
           />
@@ -167,15 +167,7 @@ export default function TabOneScreen() {
           <Image source={require('../../../assets/images/image.png')} style={styles.image} />
           <View style={styles.line} />
 
-          <View style={styles.stationContainer}>
-            <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" style={styles.modalIcon} />
-            <Text style={styles.text}> STATION 8</Text>
-          </View>
 
-          <View style={styles.batteryContainer}>
-            <MaterialCommunityIcons name="battery-charging" size={40} color="green" style={styles.modalIcon} />
-            <Text style={styles.text}> 46%</Text>
-          </View>
         </View>
 
         <View style={styles.flexBoxesRight}>
@@ -192,7 +184,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#041B2A',
+    backgroundColor: '#f0f4f8',
     justifyContent: 'space-evenly',
     flexBasis: '100%',
     padding: 5,
@@ -200,7 +192,7 @@ const styles = StyleSheet.create({
   leftRectangle: {
     flex: 1,
     flexBasis: '50%',
-    backgroundColor: '#0F2635',
+    backgroundColor: '#fff',
     marginTop: 30,
     marginLeft: 30,
     marginBottom: 30,
@@ -222,7 +214,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',    
   },
   flexBoxesRight: {
-    backgroundColor: '#0F2635',
+    backgroundColor: '#fff',
     borderRadius: 20,
     padding: 30,
     maxHeight: '50%',
@@ -242,7 +234,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 32,
-    color: '#E1E1E1',
+    color: '#21304f',
     marginBottom: 20,
     fontFamily: 'Azonix',
     textAlign: 'center',
@@ -255,7 +247,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 28,
-    color: '#E1E1E1',
+    color: '#21304f',
     fontFamily: 'Azonix',
     flexShrink: 1,
 
@@ -268,16 +260,6 @@ const styles = StyleSheet.create({
     minHeight: "35%",
     minWidth: "35%",
     flexShrink: 1,
-  },
-  stationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  batteryContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
   },
   modalIcon: {
     minHeight: "5%",
@@ -303,14 +285,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: '#21304f',
+    backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
     width: '30%',
   },
   modalTitle: {
     fontSize: 24,
-    color: '#fff',
+    color: '#21304f',
     fontWeight: '700',
     marginBottom: 20,
   },
@@ -322,7 +304,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     margin: 30,
     borderRadius: 20,
   },
@@ -330,7 +312,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   selectBox: {
-    backgroundColor: '#46B7FF',
+    backgroundColor: '#f0f4f8',
     borderColor: 'transparent',
     alignContent: 'center',
     justifyContent: 'center',
@@ -338,9 +320,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   selectInput: {
-    color: '#fff',
+    color: '#21304f',
+    fontWeight: '700',
   },
   dropdown: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f4f8',
   },
 });

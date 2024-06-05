@@ -3,8 +3,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import TabOneScreen from '.';
 import TabTwoScreen from './quickReserve';
-import AdminScreenOne from './adminScreen';
-import AdminScreenTwo from './feedback';
+import AdminScreenOne from './ChargingStations';
+import AdminScreenTwo from './adminDashboard';
 import { useAdminMode } from '@/context/AdminModeContext';
 import TabThreeScreen from './three';
 
@@ -54,10 +54,10 @@ export default function DrawerLayout() {
             }}
           />
           <Drawer.Screen
-            name="feedback"
+            name="dashboard Admin"
             component={AdminScreenTwo}
             options={{
-              title: 'Feedback',
+              title: 'Dashboard Admin',
               drawerIcon: ({ color }) => <Ionicons name="chatbox" size={25} color={color} />,
               drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
             }}
