@@ -5,13 +5,14 @@ import TabOneScreen from '.';
 import TabTwoScreen from './quickReserve';
 import AdminScreenOne from './ChargingStations';
 import AdminScreenTwo from './adminDashboard';
-import { useAdminMode } from '@/context/AdminModeContext';
 import TabThreeScreen from './three';
+import { useAuth } from '@/context/AuthProvider';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerLayout() {
-  const isAdminMode = useAdminMode(); // Call the useAdminMode function to get the boolean value
+
+  const { isAdmin } = useAuth();
 
   return (
     <Drawer.Navigator
@@ -42,7 +43,7 @@ export default function DrawerLayout() {
           drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
         }}
       />
-      {isAdminMode && (
+      {isAdmin() && (
         <>
           <Drawer.Screen
             name="chargingStations"
@@ -62,17 +63,17 @@ export default function DrawerLayout() {
               drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
             }}
           />
-          <Drawer.Screen
-            name="Profile"
-            component={TabThreeScreen}
-            options={{
-              title: 'Profile',
-              drawerIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
-              drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
-            }}
-          />
         </>
       )}
+      <Drawer.Screen
+        name="Profile"
+        component={TabThreeScreen}
+        options={{
+          title: 'Profile',
+          drawerIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
+          drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
+        }}
+      />
 
     </Drawer.Navigator>
   );

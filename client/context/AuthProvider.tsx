@@ -16,6 +16,7 @@ type AuthProvider = {
   user: User | null;
   login: (id:string, email: string, name: string, licensePlate:string, admin:boolean, pfp: string) => boolean;
   logout: () => void;
+  isAdmin: () => boolean;
 };
 
 function useProtectedRoute(user: User | null) {
@@ -40,6 +41,7 @@ export const AuthContext = createContext<AuthProvider>({
   user: null,
   login: () => false,
   logout: () => {},
+  isAdmin: () => false,
 });
 
 export function useAuth() {
@@ -70,10 +72,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const isAdmin = () => {
+    return user?.admin ?? false;
+  };
+
   useProtectedRoute(user);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
