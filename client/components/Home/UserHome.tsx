@@ -2,22 +2,19 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { useAuth } from '@/context/AuthProvider';
 import Status from './Status';
-import HallOfShame from './HallOfShame';
+import HallOfShameAndFame from './HallOfShameAndFame';
 import Feedback from './Feedback';
-import HallOfFame from './HallOfFame';
 
 const UserHome = () => {
   const auth = useAuth();
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [isHallOfShameVisible, setHallOfShameVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);;
   const [isHallOfFameVisible, setHallOfFameVisible] = useState(false);
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.profileHeader}>Home</Text>
       <Status setModalVisible={setModalVisible} />
-      <HallOfShame isHallOfShameVisible={isHallOfShameVisible} setHallOfShameVisible={setHallOfShameVisible} />
-      <HallOfFame isHallOfFameVisible={isHallOfFameVisible} setHallOfFameVisible={setHallOfFameVisible} />
+      <HallOfShameAndFame isModalVisible={isModalVisible} setModalVisible={setModalVisible} />
       <Feedback isModalVisible={isModalVisible} setModalVisible={setModalVisible} />
     </ScrollView>
   );
