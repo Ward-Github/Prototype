@@ -22,6 +22,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const problemsStorage = multer.diskStorage({
+  destination: 'images/problems/',
+  filename: function (req, file, cb) {
+    const extension = path.extname(file.originalname);
+    const uniqueFilename = `${uuidv4()}${extension}`;
+    cb(null, uniqueFilename);
+  }
+});
+
+const problemsUpload = multer({ storage: problemsStorage });
+
 app.use('/images', express.static('images'));
 
 const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5kkb7jt.mongodb.net/?retryWrites=true&w=majority&appName=Schuberg', {
@@ -119,12 +130,12 @@ async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
   }
 }
 
-async function submitFeedback(feedback, user, timeNow) {
+async function submitFeedback(feedback, user, timeNow, image) {
   try {
     const database = client.db("schuberg_data_test");
     const feedbacks = database.collection("feedback");
 
-    const newFeedback = { feedback, user, timeNow };
+    const newFeedback = { feedback, user, timeNow, image };
     await feedbacks.insertOne(newFeedback);
   } catch (error) {
     console.error("Error submitting feedback:", error);
@@ -229,19 +240,40 @@ app.get('/reservations', async (req, res) => {
   res.send(allReservations);
 });
 
-app.post('/submitFeedback', (req, res) => {
+app.post('/submit-feedback', problemsUpload.single('image'), (req, res) => {
   const feedback = req.body.feedback;
   const user = req.body.user;
   const timeNow = new Date().toISOString();
+  const image = req.file ? req.file.filename : null;
 
   console.log(`Feedback received at ${timeNow}: ${feedback}`);
 
   try {
-    submitFeedback(feedback, user, timeNow);
+    submitFeedback(feedback, user, timeNow, image);
     res.status(200).send('Feedback submitted successfully.');
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while submitting the feedback.');
+  }
+});
+
+app.get('/resolve', async (req, res) => {
+  const id = req.query.id;
+
+  console.log(`Received a request to /resolve with id ${id}`);
+
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
+
+    const query = { _id: new ObjectId(id) };
+
+    await feedbacks.deleteOne(query);
+
+    res.send('Feedback resolved successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while resolving the feedback.');
   }
 });
 
@@ -286,6 +318,24 @@ app.post('/change-licenseplate', async (req, res) => {
   catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while updating the license plate.');
+  }
+});
+
+app.delete('/delete-reservation', async (req, res) => {
+  console.log('Received a request to /delete-reservation');
+  const id = req.query.id;
+
+  const db = client.db("schuberg_data_test");
+  const reservations = db.collection("reservations");
+
+  const query = { _id: new ObjectId(id) };
+  try {
+    await reservations.deleteOne(query);
+    res.send('Reservation deleted successfully.');
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while deleting the reservation.');
   }
 });
 

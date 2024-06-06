@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Pressable, Modal, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Pressable, Modal, Image, TextInput, ActivityIndicator } from 'react-native';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
+import { Ionicons } from '@expo/vector-icons';
 
 const fetchReservations = async () => {
   const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
@@ -10,6 +12,7 @@ const fetchReservations = async () => {
 
 const fetchFeedback = async () => {
   const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/feedback`);
+  console.log(response.data);
   return response.data.reverse();
 };
 
@@ -22,6 +25,9 @@ export default function AdminReservationScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
   const [isUsersModalVisible, setIsUsersModalVisible] = useState(false);
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const {
@@ -63,20 +69,83 @@ export default function AdminReservationScreen() {
     }
   }, [isUsersModalVisible]);
 
+  const handleDeleteReservation = async (id: any) => {
+    try {
+      await axios.delete(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/delete-reservation?id=${id}`);
+      refetchReservations();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleResolveFeedback = async (id: any) => {
+    try {
+      await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/resolve?id=${id}`);
+      refetchFeedback();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleImageSelect = (image: string) => {
+    setSelectedImage(image);
+    setLoading(true);
+    setIsImageModalVisible(true);
+  };
+
   const renderReservationItem = ({ item }: { item: any }) => (
     <View style={styles.reservationItem}>
-      <Text style={styles.reservationText}>Username: {item.username}</Text>
-      <Text style={styles.reservationText}>Start Time: {item.startTime}</Text>
-      <Text style={styles.reservationText}>End Time: {item.endTime}</Text>
-      <Text style={styles.reservationText}>Priority: {item.priority}</Text>
+      <View style={styles.reservationDetails}>
+        <Text style={styles.reservationText}>Username: {item.username}</Text>
+        <Text style={styles.reservationText}>Start Time: {item.startTime}</Text>
+        <Text style={styles.reservationText}>End Time: {item.endTime}</Text>
+        <Text style={styles.reservationText}>Priority: {item.priority}</Text>
+      </View>
+      <Pressable onPress={() => handleDeleteReservation(item._id)} style={styles.trashIcon}>
+        <Ionicons name="trash" size={24} color="red" />
+      </Pressable>
     </View>
   );
 
   const renderFeedbackItem = ({ item }: { item: any }) => (
     <View style={styles.feedbackItem}>
-      <Text style={styles.feedbackUser}>{item.user}</Text>
-      <Text style={styles.feedbackText}>{item.feedback}</Text>
-      <Text style={styles.feedbackTime}>{new Date(item.timeNow).toLocaleString()}</Text>
+      {item.image && (
+        <Pressable onPress={() => handleImageSelect(`${item.image}`)}>
+          <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/problems/${item.image}` }} style={styles.feedbackImage} />
+        </Pressable>
+      )}
+      <View style={styles.feedbackContent}>
+        <Text style={styles.feedbackUser}>{item.user}</Text>
+        <Text style={styles.feedbackText}>{item.feedback}</Text>
+        <Text style={styles.feedbackTime}>{new Date(item.timeNow).toLocaleString()}</Text>
+      </View>
+      <Pressable onPress={() => handleResolveFeedback(item._id)} style={styles.resolveIcon}>
+        <Ionicons name="checkmark-circle" size={24} color="green" />
+      </Pressable>
+
+      {/* Image Modal */}
+      <Modal
+        visible={isImageModalVisible}
+        onRequestClose={() => setIsImageModalVisible(false)}
+        transparent={true}
+      >
+        <Pressable style={styles.imageModalOverlay} onPress={() => setIsImageModalVisible(false)}>
+          <View style={styles.imageModalContent}>
+            {loading && (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#000000" />
+                <Text style={styles.loadingText}>Loading image...</Text>
+              </View>
+            )}
+            <Image
+              source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/problems/${selectedImage}` }}
+              style={styles.fullSizeImage}
+              onLoad={() => setLoading(false)}
+              onError={() => setLoading(false)}
+            />
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   );
 
@@ -202,6 +271,7 @@ export default function AdminReservationScreen() {
           </View>
         </View>
       </Modal>
+      <Toast />
     </View>
   );
 }
@@ -274,10 +344,49 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  reservationDetails: {
+    flex: 1,
   },
   reservationText: {
     fontSize: 16,
     color: '#333',
+  },
+  trashIcon: {
+    padding: 10,
+  },
+  imageModalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  imageModalContent: {
+    width: '90%',
+    height: '40%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButtonImage: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+  },
+  fullSizeImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
+  loadingContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   feedbackList: {
     paddingHorizontal: 20,
@@ -286,6 +395,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  feedbackImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  feedbackContent: {
+    flex: 1,
   },
   feedbackUser: {
     fontSize: 16,
@@ -298,6 +418,9 @@ const styles = StyleSheet.create({
   feedbackTime: {
     fontSize: 12,
     color: '#999',
+  },
+  resolveIcon: {
+    padding: 10,
   },
   loadingText: {
     fontSize: 18,
@@ -344,5 +467,4 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     color: '#A9A9A9',
   }
-  
 });
