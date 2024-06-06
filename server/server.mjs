@@ -428,6 +428,20 @@ app.get('/get-user', async (req, res) => {
   res.send(user);
 });
 
+app.get('/switch-theme', async (req, res) => {
+  const { id, theme } = req.query;
+
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const query = { _idOkta: id };
+  const update = { $set: { _theme: theme } };
+
+  await users.updateOne(query, update);
+
+  res.send('Theme updated successfully.');
+});
+
 app.post('/addUserOkta', async (req, res) => {
   const email = req.body.email;
   const car = req.body.car;

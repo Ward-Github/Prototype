@@ -6,12 +6,15 @@ import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthProvider';
 import { authenticate } from '@okta/okta-react-native';
+import { useTheme } from '@/context/ThemeProvider';
+import { lightTheme, darkTheme } from '@/styles/userTwoStyles';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export default function UserReservationScreen() {
   const [batteryPercentage, setBatteryPercentage] = useState(0);
   const [desiredPercentage, setDesiredPercentage] = useState(20);
   const [defaultDesiredPercentage, setDefaultDesiredPercentage] = useState(20);
+  const { theme, setTheme } = useTheme();
 
   const [slotsNeeded, setSlotsNeeded] = useState(0);
   const [selectedStartTimeIndex, setSelectedStartTimeIndex] = useState(0);
@@ -129,6 +132,7 @@ export default function UserReservationScreen() {
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
   }, [batteryPercentage, desiredPercentage, selectedPriority]); // Voer effect uit wanneer deze waarden veranderen
 
+  const styles = theme == 'light' ? lightTheme : darkTheme;
 
   return (
     <View style={styles.container}>
@@ -209,92 +213,3 @@ export default function UserReservationScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f4f8',
-  },
-  profileHeader: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#21304f',
-    marginTop: 20,
-    marginHorizontal: 20,
-  },
-  innerRectangle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    padding: 20,
-    marginVertical: 20,
-    marginHorizontal: 10,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-  },
-  text: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      color: '#333',
-      marginBottom: 5,
-  },
-  sliderContainer: {
-    marginHorizontal: 20,
-    marginVertical: 20,
-  },
-  sliderLabel: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
-  },
-  slider: {
-    width: '100%',
-    height: 40,
-  },
-  inputContainer: {
-    marginHorizontal: 20,
-    marginVertical: 10,
-  },
-  rectangle: {
-    backgroundColor: '#ffffff',
-    padding: 20,
-    margin: 20,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  selectBox: {
-    backgroundColor: '#f0f4f8',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 5,
-    height: 45,
-},
-  selectInput: {
-      textAlign: 'center',
-      color: '#333',
-      justifyContent : 'center',
-  },
-  dropdown: {
-    backgroundColor: '#f0f4f8',
-    borderColor: '#ddd',
-},
-  button: {
-    backgroundColor: '#21304f',
-    padding: 10,
-    borderRadius: 5,
-    marginHorizontal: 20,
-    marginVertical: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});

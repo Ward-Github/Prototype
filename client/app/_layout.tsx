@@ -9,6 +9,7 @@ import Toast from 'react-native-toast-message';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AuthProvider from "@/context/AuthProvider";
 import { StatusBar } from 'expo-status-bar';
+import { ThemeProvider } from '@/context/ThemeProvider';
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ function RootLayoutNav() {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
       <AdminModeProvider>
+      <ThemeProvider>
       <Stack>
       {Platform.OS === 'web' ? (
           <Stack.Screen name="(auth)/(tabs web)" options={{ headerShown: false }} />
@@ -69,6 +71,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(public)/callback" options={{ headerShown: false }} />
       </Stack>
       <Toast />
+      </ThemeProvider>
       </AdminModeProvider>
       </QueryClientProvider>
   </AuthProvider>
