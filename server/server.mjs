@@ -389,6 +389,16 @@ app.get('/hall-of-shame', async (req, res) => {
   res.send(sortedUsers.reverse());
 });
 
+app.get('/hall-of-fame', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const allUsers = await users.find().toArray();
+  const sortedUsers = allUsers.sort((a, b) => b._fame - a._fame);
+
+  res.send(sortedUsers);
+});
+
 app.post('/addUserOkta', async (req, res) => {
   const email = req.body.email;
   const car = req.body.car;
