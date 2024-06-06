@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList, Pressable, Modal, Image, TextInput, A
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
+import { useTheme } from '@/context/ThemeProvider';
+import { lightTheme, darkTheme } from '@/styles/adminTwoStyles';
 import { Ionicons } from '@expo/vector-icons';
 
 const fetchReservations = async () => {
@@ -26,6 +28,7 @@ export default function AdminReservationScreen() {
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
   const [isUsersModalVisible, setIsUsersModalVisible] = useState(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+  const { theme, setTheme } = useTheme();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -92,6 +95,8 @@ export default function AdminReservationScreen() {
     setLoading(true);
     setIsImageModalVisible(true);
   };
+
+  const styles = theme === 'light' ? lightTheme : darkTheme;
 
   const renderReservationItem = ({ item }: { item: any }) => (
     <View style={styles.reservationItem}>
@@ -275,196 +280,3 @@ export default function AdminReservationScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f4f8',
-  },
-  profileHeader: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#21304f',
-    marginTop: 20,
-    marginHorizontal: 20,
-  },
-  button: {
-    backgroundColor: '#21304f',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-    marginHorizontal: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    height: '90%',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-    color: '#21304f',
-  },
-  closeButton: {
-    padding: 10,
-  },
-  closeButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#21304f',
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  reservationList: {
-    paddingHorizontal: 20,
-  },
-  reservationItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    paddingVertical: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  reservationDetails: {
-    flex: 1,
-  },
-  reservationText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  trashIcon: {
-    padding: 10,
-  },
-  imageModalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  imageModalContent: {
-    width: '90%',
-    height: '40%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeButtonImage: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    zIndex: 1,
-  },
-  fullSizeImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-  },
-  loadingContainer: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  feedbackList: {
-    paddingHorizontal: 20,
-  },
-  feedbackItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    paddingVertical: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  feedbackImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  feedbackContent: {
-    flex: 1,
-  },
-  feedbackUser: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  feedbackText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  feedbackTime: {
-    fontSize: 12,
-    color: '#999',
-  },
-  resolveIcon: {
-    padding: 10,
-  },
-  loadingText: {
-    fontSize: 18,
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  errorText: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: 'red',
-    marginTop: 20,
-  },
-  listItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    paddingVertical: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  listText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  userDetails: {
-    flex: 1,
-  },
-  userAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 15,
-  },
-  listContainer: {
-    paddingHorizontal: 20,
-  },
-  searchInput: {
-    fontSize: 16,
-    padding: 10,
-    marginVertical: 10,
-    marginHorizontal: 20,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    color: '#A9A9A9',
-  }
-});
