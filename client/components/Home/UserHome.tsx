@@ -1,17 +1,36 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Button, Modal, ActivityIndicator, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Button, Modal, ActivityIndicator, Keyboard, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthProvider';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import Toast from 'react-native-toast-message';
 import { SelectList } from 'react-native-dropdown-select-list';
 
-const submitFeedback = async ({ feedback, user }: { feedback: string, user: string }) => {
+const submitFeedback = async ({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => {
   try {
-    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/submitFeedback`, { feedback, user }, { timeout: 5000 });
+    if (image) {
+      await FileSystem.uploadAsync(
+          `http://${process.env.EXPO_PUBLIC_API_URL}:3000/submit-feedback`,
+          image!,
+          {
+              uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+              fieldName: 'image',
+              httpMethod: 'POST',
+              parameters: {
+                  feedback: feedback,
+                  user: user
+              },
+          },
+      );
+    } else {
+      await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/submit-feedback`, { feedback, user }, { timeout: 5000 });
+    }
+
     Toast.show({
       type: 'success',
       position: 'top',
@@ -39,17 +58,20 @@ const UserHome = () => {
   const [feedback, setFeedback] = useState('');
   const [selectedProblem, setSelectedProblem] = useState('');
   const user = auth.user?.name || '';
+  const [image, setImage] = useState<string | null>(null);
 
-  const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
+  const mutation = useMutation(({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => submitFeedback({ feedback, user, image }), {
     onSuccess: () => {
       setModalVisible(false);
       setFeedback('');
       setSelectedProblem('');
+      setImage(null);
     },
     onError: () => {
       setModalVisible(false);
       setFeedback('');
       setSelectedProblem('');
+      setImage(null);
     },
   });
 
@@ -59,6 +81,18 @@ const UserHome = () => {
     { key: '3', value: 'Station unavailable' },
     { key: '4', value: 'Other' },
   ];
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -112,12 +146,20 @@ const UserHome = () => {
                 onChangeText={setFeedback}
               />
             )}
+            <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+              <Text style={styles.imagePickerText}>Pick an image (optional)</Text>
+              {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
+            </TouchableOpacity>
             <View style={styles.buttonContainer}>
               <Button 
                 title="Send" 
                 onPress={() => {
                   Keyboard.dismiss();
-                  mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
+                  mutation.mutate({ 
+                    feedback: selectedProblem === 'Other' ? feedback : selectedProblem, 
+                    user,
+                    image 
+                  });
                 }} 
               />
               <Button 
@@ -128,6 +170,7 @@ const UserHome = () => {
                   setModalVisible(false);
                   setFeedback('');
                   setSelectedProblem('');
+                  setImage(null);
                 }} 
               />
             </View>
@@ -221,6 +264,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
+  },
+  imagePicker: {
+    alignItems: 'center',
+  },
+  imagePickerText: {
+    color: '#21304f',
+    textDecorationLine: 'underline',
+  },
+  imagePreview: {
+    width: 100,
+    height: 100,
+    marginTop: 10,
+    borderRadius: 5,
   },
   selectBox: {
     backgroundColor: '#f0f4f8',
