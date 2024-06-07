@@ -119,7 +119,7 @@ const ReportProblemModal = () => {
 
 export default function TabOneScreen() {
 
-  
+  const { user } = useAuth();
   const [selected, setSelected] = React.useState("");
 
   const data = [
@@ -166,8 +166,10 @@ export default function TabOneScreen() {
           <Text style={styles.titleText}>TESLA MODEL Y</Text>
           <Image source={require('../../../assets/images/image.png')} style={styles.image} />
           <View style={styles.line} />
-
-
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.text}>{user?.licensePlate}</Text>
+          </View>
+          
         </View>
 
         <View style={styles.flexBoxesRight}>
