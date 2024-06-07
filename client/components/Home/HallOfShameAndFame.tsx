@@ -20,6 +20,8 @@ const HallOfShameAndFame = ({ isHallOfFameVisible, setHallOfFameVisible }: { isH
   const { data: hallOfShameData, isLoading: isLoadingHallOfShame, refetch: refetchHallOfShame } = useQuery('hallOfShame', fetchHallOfShame);
   const { data: hallOfFameData, isLoading: isLoadingHallOfFame, refetch: refetchHallOfFame } = useQuery('hallOfFame', fetchHallOfFame);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   useEffect(() => {
     if (isHallOfFameVisible) {
       refetchHallOfShame();
@@ -89,12 +91,12 @@ const HallOfShameAndFame = ({ isHallOfFameVisible, setHallOfFameVisible }: { isH
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Hall of Shame and Fame</Text>
+            <Text style={styles.modalTitle}>{currentIndex === 0 ? 'Hall of Shame 🤡' : 'Hall of Fame 👑'}</Text>
               <Pressable onPress={() => setHallOfFameVisible(false)} style={styles.closeButton}>
                 <Text style={styles.closeButtonText}>Close</Text>
               </Pressable>
             </View>
-            <Swiper showsPagination={true} loop={false}>
+            <Swiper showsPagination={true} loop={false} onIndexChanged={(index) => setCurrentIndex(index)}>
               <View>
                 <FlatList
                   data={hallOfShameData}

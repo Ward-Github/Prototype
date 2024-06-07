@@ -7,14 +7,14 @@ import Feedback from './Feedback';
 
 const UserHome = () => {
   const auth = useAuth();
-  const [isModalVisible, setModalVisible] = useState(false);;
+  const [isModalVisible, setModalVisible] = useState(false);
   const [isHallOfFameVisible, setHallOfFameVisible] = useState(false);
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.profileHeader}>Home</Text>
       <Status setModalVisible={setModalVisible} />
-      <HallOfShameAndFame isModalVisible={isModalVisible} setModalVisible={setModalVisible} />
+      <HallOfShameAndFame isHallOfFameVisible={isHallOfFameVisible} setHallOfFameVisible={setHallOfFameVisible} />
       <Feedback isModalVisible={isModalVisible} setModalVisible={setModalVisible} />
     </ScrollView>
   );
