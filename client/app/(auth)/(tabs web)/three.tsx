@@ -3,6 +3,7 @@ import { StyleSheet, Image, View, Text, TextInput, TouchableOpacity, Pressable }
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import { useAuth } from '@/context/AuthProvider';
+import Toast from 'react-native-toast-message';
 
 
 export default function TabThreeScreen() {
@@ -11,9 +12,6 @@ export default function TabThreeScreen() {
       const [email, setEmail] = useState(user?.email || '');
       const [licensePlate, setLicensePlate] = useState(user?.licensePlate || '');
       const [pfp, setPfp] = useState(user?.pfp || '');
-
-      console.log(user?.name, user?.email, user?.licensePlate, user?.pfp)
-      console.log(username, email, licensePlate, pfp)
 
     const handleSave = async () => {
       const respo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/updateUser?name=${username}&email=${email}&licensePlate=${licensePlate}`, {
@@ -27,6 +25,13 @@ export default function TabThreeScreen() {
           licensePlate,
           pfp,
         }),
+      });
+
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Success',
+        text2: 'Your changes have been saved.',
       });
     };
 
@@ -63,7 +68,8 @@ export default function TabThreeScreen() {
           />
           </View>
           
-          <Pressable style={styles.button} onPress={handleSave}>
+          <Pressable style={styles.button} onPress={
+            handleSave}>
             <Text style={styles.buttonText}>Save</Text>
           </Pressable>
         </View>
