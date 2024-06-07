@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, TextInput, Animated } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, TextInput, Animated, Modal, Pressable, ActivityIndicator } from 'react-native';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 const fetchReservations = async () => {
@@ -29,6 +31,9 @@ export default function Feedback() {
     const [isFeedbackExpanded, setIsFeedbackExpanded] = useState(false);
     const [isUsersExpanded, setIsUsersExpanded] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [isImageModalVisible, setIsImageModalVisible] = useState(false);
     const rotateReservations = useRef(new Animated.Value(0)).current;
     const rotateFeedback = useRef(new Animated.Value(0)).current;
     const rotateUsers = useRef(new Animated.Value(0)).current;
@@ -131,13 +136,69 @@ export default function Feedback() {
         </View>
     );
 
-    const renderFeedbackItem = ({ item }: { item: any }) => (
+    const handleResolveFeedback = async (id: any) => {
+        try {
+          await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/resolve?id=${id}`);
+          refetchFeedback();
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      const handleImageSelect = (image: string) => {
+        setSelectedImage(image);
+        setLoading(true);
+        setIsImageModalVisible(true);
+      };
+
+      const renderFeedbackItem = ({ item }: { item: any }) => (
         <View style={styles.feedbackItem}>
+          {item.image && (
+            <Pressable onPress={() => handleImageSelect(`${item.image}`)}>
+              <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/problems/${item.image}` }} style={styles.feedbackImage} />
+            </Pressable>
+          )}
+          <View style={styles.feedbackContent}>
             <Text style={styles.feedbackUser}>{item.user}</Text>
             <Text style={styles.feedbackText}>{item.feedback}</Text>
             <Text style={styles.feedbackTime}>{new Date(item.timeNow).toLocaleString()}</Text>
+          </View>
+          <Pressable onPress={() => {handleResolveFeedback(item._id)
+            Toast.show({
+                type: 'success',
+                position: 'top',
+                text1: 'Success',
+                text2: 'Feedback resolved',
+              });
+          }} style={styles.resolveIcon}>
+            <Ionicons name="checkmark-circle" size={24} color="green" />
+          </Pressable>
+    
+          {/* Image Modal */}
+          <Modal
+            visible={isImageModalVisible}
+            onRequestClose={() => setIsImageModalVisible(false)}
+            transparent={true}
+          >
+            <Pressable style={styles.imageModalOverlay} onPress={() => setIsImageModalVisible(false)}>
+              <View style={styles.imageModalContent}>
+                {loading && (
+                  <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#000000" />
+                    <Text style={styles.loadingText}>Loading image...</Text>
+                  </View>
+                )}
+                <Image
+                  source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/problems/${selectedImage}` }}
+                  style={styles.fullSizeImage}
+                  onLoad={() => setLoading(false)}
+                  onError={() => setLoading(false)}
+                />
+              </View>
+            </Pressable>
+          </Modal>
         </View>
-    );
+      );
 
     const renderUserItem = ({ item }: { item: any }) => (
         <View style={styles.listItem}>
@@ -410,6 +471,38 @@ button: {
     listContainer: {
         paddingHorizontal: 20,
     },
+    feedbackImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginRight: 10,
+    },
+    feedbackContent: {
+        flex: 1,
+    },
+    resolveIcon: {
+        padding: 10,
+    },
+    imageModalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    },
+    imageModalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+    },
+    fullSizeImage: {
+        width: 300,
+        height: 300,
+    },
+    loadingContainer: {
+        alignItems: 'center',
+    },
+
+
 
       
 });
