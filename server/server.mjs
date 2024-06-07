@@ -43,7 +43,7 @@ const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5
   }
 });
 
-async function connectMongo() {
+async function connectMongo() { 
   try {
     await client.connect();
     console.log("Connected to MongoDB!");
@@ -53,6 +53,7 @@ async function connectMongo() {
 }
 
 connectMongo();
+
 
 
 async function getUserByEmail(email) {
@@ -117,20 +118,6 @@ async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
     }
   } catch (error) {
     console.error("Error adding user:", error);
-    throw error;
-  }
-}
-
-async function updateUser(user) {
-  try {
-    const database = client.db("schuberg_data_test");
-    const users = database.collection("users");
-    const query = { _id: user._id };
-    
-    await users.updateOne(query, { $set: user });
-  }
-  catch (error) {
-    console.error("Error updating user:", error);
     throw error;
   }
 }
