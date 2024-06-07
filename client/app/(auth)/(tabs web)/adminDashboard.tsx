@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, TextInput, A
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
+
 
 const fetchReservations = async () => {
     const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
@@ -100,12 +102,32 @@ export default function Feedback() {
         }).start();
     }, [isUsersExpanded]);
 
+    const handleDeleteReservation = async (id: any) => {
+        try {
+          await axios.delete(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/delete-reservation?id=${id}`);
+          refetchReservations();
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
     const renderReservationItem = ({ item }: { item: any }) => (
         <View style={styles.reservationItem}>
             <Text style={styles.reservationText}>Username: {item.username}</Text>
             <Text style={styles.reservationText}>Start Time: {item.startTime}</Text>
             <Text style={styles.reservationText}>End Time: {item.endTime}</Text>
             <Text style={styles.reservationText}>Priority: {item.priority}</Text>
+            <TouchableOpacity onPress={() => {
+                handleDeleteReservation(item._id);
+                Toast.show({
+                    type: 'success',
+                    position: 'top',
+                    text1: 'Success',
+                    text2: 'Reservation deleted',
+                  });
+            }}>
+                <MaterialIcons name="delete" size={24} color="red" />
+            </TouchableOpacity>
         </View>
     );
 
