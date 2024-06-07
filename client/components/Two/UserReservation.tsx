@@ -21,14 +21,26 @@ export default function UserReservationScreen() {
   const [selectedPriorityIndex, setSelectedPriorityIndex] = useState(0);
   const [selectedPriority, setSelectedPriority] = useState("");
   const auth = useAuth();
+  const [nonOccupiedLaadpaal, setNonOccupiedLaadpaal] = useState(false);
+  const [Laadpalen, setLaadpalen] = useState({
+    name: "",
+    maxPower: 0,
+    status: "",
+  });
+  
 
   const handleReservation = async () => {
+    console.log("pressed");
     if (desiredPercentage < batteryPercentage) {
       Alert.alert('Ongeldige invoer', 'Het gewenste percentage moet hoger zijn dan het huidige percentage');
       return;
     }
     if (selectedPriority === "") {
       Alert.alert('Ongeldige invoer', 'Selecteer een prioriteit');
+      return;
+    };
+    if (selectedStartTime === "") {
+      Alert.alert('Ongeldige invoer', 'Selecteer een starttijd');
       return;
     };
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
@@ -67,6 +79,21 @@ export default function UserReservationScreen() {
     }
   };
 
+  const getEvChargers = async () => {
+    try {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getEvStations`);
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      setLaadpalen(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const checkIfOccupied = async () => {
+  }
   const calculateChargeTime = () => {
     const currentPercentage = parseInt(String(batteryPercentage), 10);
     const targetPercentage = parseInt(String(desiredPercentage), 10);
@@ -205,7 +232,6 @@ export default function UserReservationScreen() {
         {/* only show calculated charge time when desired percentage is higher than current */}
         <Text style={styles.text}>{desiredPercentage > batteryPercentage ? calculateEndTime() : 'Ongeldige invoer'}</Text>
       </View>
-
       <Pressable style={styles.button} onPress={handleReservation}>
         <Text style={styles.buttonText}>Reserveer</Text>
       </Pressable>
