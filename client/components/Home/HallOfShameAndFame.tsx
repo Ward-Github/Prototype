@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator, Modal, FlatList, Pressable, Dimensions, ScrollView, Animated } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator, Modal, FlatList, Pressable, Dimensions } from 'react-native';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import Swiper from 'react-native-swiper';
 
 const fetchHallOfShame = async () => {
   const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/hall-of-shame`);
@@ -15,30 +16,16 @@ const fetchHallOfFame = async () => {
   return response.data;
 };
 
-const HallOfShameAndFame = ({ isModalVisible, setModalVisible }: { isModalVisible: boolean, setModalVisible: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const HallOfShameAndFame = ({ isHallOfFameVisible, setHallOfFameVisible }: { isHallOfFameVisible: boolean, setHallOfFameVisible: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { data: hallOfShameData, isLoading: isLoadingHallOfShame, refetch: refetchHallOfShame } = useQuery('hallOfShame', fetchHallOfShame);
   const { data: hallOfFameData, isLoading: isLoadingHallOfFame, refetch: refetchHallOfFame } = useQuery('hallOfFame', fetchHallOfFame);
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const scrollX = new Animated.Value(0);
-
   useEffect(() => {
-    if (isModalVisible) {
+    if (isHallOfFameVisible) {
       refetchHallOfShame();
       refetchHallOfFame();
     }
-  }, [isModalVisible]);
-
-  const onScroll = Animated.event(
-    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-    { useNativeDriver: false }
-  );
-
-  const handleScrollEnd = (e: { nativeEvent: { contentOffset: { x: any; }; }; }) => {
-    const contentOffset = e.nativeEvent.contentOffset.x;
-    const pageIndex = Math.round(contentOffset / Dimensions.get('window').width);
-    setCurrentPage(pageIndex);
-  };
+  }, [isHallOfFameVisible]);
 
   return (
     <View style={styles.container}>
@@ -90,42 +77,25 @@ const HallOfShameAndFame = ({ isModalVisible, setModalVisible }: { isModalVisibl
           <Text style={styles.noItemText}>No one to celebrate yet.</Text>
         )}
       </View>
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.viewButton}>
+      <TouchableOpacity onPress={() => setHallOfFameVisible(true)} style={styles.viewButton}>
         <Text style={styles.viewButtonText}>View full hall</Text>
       </TouchableOpacity>
       <Modal
-        visible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        visible={isHallOfFameVisible}
+        onRequestClose={() => setHallOfFameVisible(false)}
         animationType="slide"
         transparent={true}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>{currentPage === 0 ? 'Hall of Shame' : 'Hall of Fame'}</Text>
-              <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
+              <Text style={styles.modalTitle}>Hall of Shame and Fame</Text>
+              <Pressable onPress={() => setHallOfFameVisible(false)} style={styles.closeButton}>
                 <Text style={styles.closeButtonText}>Close</Text>
               </Pressable>
             </View>
-            <View style={styles.indicatorContainer}>
-              <View style={[styles.indicator, currentPage === 0 ? styles.indicatorActive : null]} />
-              <View style={[styles.indicator, currentPage === 1 ? styles.indicatorActive : null]} />
-            </View>
-            <ScrollView
-              horizontal
-              pagingEnabled
-              snapToAlignment="center"
-              decelerationRate="fast"
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ flexGrow: 1 }}
-              onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                { useNativeDriver: false }
-              )}
-              scrollEventThrottle={16}
-              onMomentumScrollEnd={handleScrollEnd}
-            >
-              <View style={styles.fullList}>
+            <Swiper showsPagination={true} loop={false}>
+              <View>
                 <FlatList
                   data={hallOfShameData}
                   renderItem={({ item, index }) => (
@@ -134,7 +104,7 @@ const HallOfShameAndFame = ({ isModalVisible, setModalVisible }: { isModalVisibl
                         source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${item._pfp}` }}
                         style={[
                           styles.fullImage,
-                          index === 0 ? styles.goldBorder : index === 1 ? styles.silverBorder : styles.bronzeBorder
+                          index === 0 ? styles.goldBorder : index === 1 ? styles.silverBorder : index === 2 ? styles.bronzeBorder : null
                         ]}
                       />
                       <Text style={styles.fullItemText}>
@@ -146,7 +116,7 @@ const HallOfShameAndFame = ({ isModalVisible, setModalVisible }: { isModalVisibl
                   contentContainerStyle={styles.fullContainer}
                 />
               </View>
-              <View style={styles.fullList}>
+              <View>
                 <FlatList
                   data={hallOfFameData}
                   renderItem={({ item, index }) => (
@@ -167,7 +137,7 @@ const HallOfShameAndFame = ({ isModalVisible, setModalVisible }: { isModalVisibl
                   contentContainerStyle={styles.fullContainer}
                 />
               </View>
-            </ScrollView>
+            </Swiper>
           </View>
         </View>
       </Modal>
@@ -284,6 +254,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: '700',
+    color: '#21304f',
   },
   closeButton: {
     padding: 10,
@@ -308,13 +279,6 @@ const styles = StyleSheet.create({
   },
   indicatorActive: {
     backgroundColor: '#21304f',
-  },
-  scrollViewContent: {
-    flex: 1,
-  },
-  fullList: {
-    width: Dimensions.get('window').width,
-    padding: 20,
   },
   listTitle: {
     fontSize: 24,
