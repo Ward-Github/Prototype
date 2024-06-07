@@ -16,6 +16,8 @@ import CameraComponent from '@/components/CameraComponent';
 
 export default function TabThreeScreen() {
     const auth = useAuth();
+    const [name] = useState(auth.user?.name || '');
+    const [email] = useState(auth.user?.email || '');
     const [data, setData] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showInput, setShowInput] = useState(false);
@@ -23,78 +25,9 @@ export default function TabThreeScreen() {
     const [licensePlate, setLicensePlate] = useState(auth.user?.licensePlate || '');
     const [licensePlateProfile, setLicensePlateProfile] = useState(auth.user?.licensePlate || '');
     const [pfp, setPfp] = useState(auth.user?.pfp || 'avatar.jpg');
-    const [loading, setLoading] = useState(false);
     const [imageUri, setImageUri] = useState<string | null>(null);
     const { isAdminMode, setIsAdminMode } = useAdminMode();
 
-    useEffect(() => {
-        fetchCarList();
-    }, []);
-
-    const fetchCarList = async () => {
-        try {
-            const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/car_list`);
-            const data = await response.json();
-            setData(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const handleCarChange = async () => {
-        if (!licensePlate) {
-            Toast.show({
-                type: 'error',
-                position: 'top',
-                text1: 'Error',
-                text2: 'License plate cannot be empty',
-                visibilityTime: 3000,
-            });
-            return;
-        }
-
-        setLoading(true);
-        const body = {
-            userId: auth.user?.id,
-            licensePlate,
-        };
-
-        try {
-            await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-licenseplate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
-            }).catch(error => console.error('Error:', error));;
-
-            setLicensePlateProfile(licensePlate);
-            Toast.show({
-                type: 'success',
-                position: 'top',
-                text1: 'Success',
-                text2: 'Car changed successfully 🎉',
-                visibilityTime: 3000,
-                topOffset: 60,
-            });
-            setShowInput(false);
-        } catch (error) {
-            Toast.show({
-                type: 'error',
-                position: 'top',
-                text1: 'Error',
-                text2: `An error occurred while changing the car 😔`,
-                visibilityTime: 3000,
-            });
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const { data: feedbackData, error: feedbackError, isLoading: feedbackLoading } = useQuery('feedback', async () => {
-        const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/feedback`);
-        return response.data;
-    });
 
     const pickImage = async () => {
         const result = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -189,8 +122,8 @@ export default function TabThreeScreen() {
                             />
                         </Pressable>
                         <View style={styles.userInfo}>
-                            <Text style={styles.name}>{auth.user?.name}</Text>
-                            <Text style={styles.email}>{auth.user?.email}</Text>
+                            <Text style={[styles.name, name.length > 20 && { fontSize: 16 }]}>{name}</Text>
+                            <Text style={[styles.email, email.length > 20 && { fontSize: 14 }]}>{email}</Text>
                             <Text style={styles.email}>{licensePlateProfile}</Text>
                         </View>
                     </View>

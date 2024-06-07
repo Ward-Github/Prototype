@@ -434,6 +434,27 @@ app.get('/get-user', async (req, res) => {
   res.send(user);
 });
 
+app.get('/hall-of-shame', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const allUsers = await users.find().toArray();
+  const filteredUsers = allUsers.filter(user => user._shame > 0);
+  const sortedUsers = filteredUsers.sort((a, b) => a._shame - b._shame);
+
+  res.send(sortedUsers.reverse());
+});
+
+app.get('/hall-of-fame', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const allUsers = await users.find().toArray();
+  const sortedUsers = allUsers.sort((a, b) => b._fame - a._fame);
+
+  res.send(sortedUsers);
+});
+
 app.get('/switch-theme', async (req, res) => {
   const { id, theme } = req.query;
 
