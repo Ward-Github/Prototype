@@ -11,8 +11,9 @@ export default function TabThreeScreen() {
       const [email, setEmail] = useState(user?.email || '');
       const [licensePlate, setLicensePlate] = useState(user?.licensePlate || '');
       const [pfp, setPfp] = useState(user?.pfp || '');
-    
-    
+
+      console.log(user?.name, user?.email, user?.licensePlate, user?.pfp)
+      console.log(username, email, licensePlate, pfp)
 
     const handleSave = async () => {
       const respo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/updateUser?name=${username}&email=${email}&licensePlate=${licensePlate}`, {

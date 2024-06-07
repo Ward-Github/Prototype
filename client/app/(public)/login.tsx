@@ -82,12 +82,10 @@ export default function login() {
       });
 
       const id = userPromise.data["sub"];
-      const email = userPromise.data["preferred_username"];
-      const name = userPromise.data["name"];
 
       console.log("\nID:", id);
 
-      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/get-user?id=${id}&email=${email}&name=${name}`, {
+      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/get-user?id=${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -97,6 +95,8 @@ export default function login() {
       const userInfo = await fetchUserInfo.json();
       console.log(userInfo)
 
+      const email = userInfo._email; 
+      const name = userInfo._name;
       const car = userInfo._car;
       const admin = userInfo._admin;
       const licensePlate = userInfo._licensePlate;
