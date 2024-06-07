@@ -7,6 +7,7 @@ import { exec } from 'child_process';
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+import { constrainedMemory } from "process";
 
 const app = express();
 const port = 3000;
@@ -420,6 +421,35 @@ app.get('/getCar', async (req, res) => {
   } catch (error) {
     res.status(500).send('An error occurred while fetching the car');
   }
+});
+
+app.post('/addEvStation', async (req, res) => {
+  
+  console.log('Received a request to /addEvStation');
+  const db = client.db("schuberg_data_test");
+  const name = req.body.name;
+  const maxPower = req.body.maxPower;
+  const status = req.body.status;
+
+  const newEvStation = { name, maxPower, status };
+  const evStations = db.collection('charging_station');
+
+  try {
+    await evStations.insertOne(newEvStation);
+    res.send('EvStation added successfully');
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while adding the ev station');
+  }
+}); 
+
+app,get('/getEvStations', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  const allEvStations = await evStations.find().toArray();
+  res.send(allEvStations);
 });
 
 app.listen(port, () => {
