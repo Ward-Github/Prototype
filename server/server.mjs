@@ -22,6 +22,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const problemsStorage = multer.diskStorage({
+  destination: 'images/problems/',
+  filename: function (req, file, cb) {
+    const extension = path.extname(file.originalname);
+    const uniqueFilename = `${uuidv4()}${extension}`;
+    cb(null, uniqueFilename);
+  }
+});
+
+const problemsUpload = multer({ storage: problemsStorage });
+
 app.use('/images', express.static('images'));
 
 const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5kkb7jt.mongodb.net/?retryWrites=true&w=majority&appName=Schuberg', {
@@ -32,7 +43,7 @@ const client = new MongoClient('mongodb+srv://groep3:LGSsnFvo6lM2S84H@schuberg.5
   }
 });
 
-async function connectMongo() {
+async function connectMongo() { 
   try {
     await client.connect();
     console.log("Connected to MongoDB!");
@@ -42,6 +53,7 @@ async function connectMongo() {
 }
 
 connectMongo();
+
 
 
 async function getUserByEmail(email) {
@@ -102,16 +114,7 @@ async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
       await users.insertOne(newUserSuppliedByOkta);
     }
     else{ // This is now the _id of the car
-      console.log("User already exists, updating user");
-      const updateUserSuppliedByOkta = {
-        _email: email,
-        _car: car.name, // Store the _id of the car
-        _LicensePlate: licensePlate, // Store the license plate
-        _password: "password",
-        _admin: admin,
-        _accesToken: accessToken,
-      };
-      await users.updateOne(query, { $set: updateUserSuppliedByOkta });
+      updateUser(user);
     }
   } catch (error) {
     console.error("Error adding user:", error);
@@ -119,12 +122,26 @@ async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
   }
 }
 
-async function submitFeedback(feedback, user, timeNow) {
+async function updateUser(user) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const users = database.collection("users");
+    const query = { _id: user._id };
+    
+    await users.updateOne(query, { $set: user });
+  }
+  catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+}
+
+async function submitFeedback(feedback, user, timeNow, image) {
   try {
     const database = client.db("schuberg_data_test");
     const feedbacks = database.collection("feedback");
 
-    const newFeedback = { feedback, user, timeNow };
+    const newFeedback = { feedback, user, timeNow, image };
     await feedbacks.insertOne(newFeedback);
   } catch (error) {
     console.error("Error submitting feedback:", error);
@@ -229,19 +246,40 @@ app.get('/reservations', async (req, res) => {
   res.send(allReservations);
 });
 
-app.post('/submitFeedback', (req, res) => {
+app.post('/submit-feedback', problemsUpload.single('image'), (req, res) => {
   const feedback = req.body.feedback;
   const user = req.body.user;
   const timeNow = new Date().toISOString();
+  const image = req.file ? req.file.filename : null;
 
   console.log(`Feedback received at ${timeNow}: ${feedback}`);
 
   try {
-    submitFeedback(feedback, user, timeNow);
+    submitFeedback(feedback, user, timeNow, image);
     res.status(200).send('Feedback submitted successfully.');
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while submitting the feedback.');
+  }
+});
+
+app.get('/resolve', async (req, res) => {
+  const id = req.query.id;
+
+  console.log(`Received a request to /resolve with id ${id}`);
+
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
+
+    const query = { _id: new ObjectId(id) };
+
+    await feedbacks.deleteOne(query);
+
+    res.send('Feedback resolved successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while resolving the feedback.');
   }
 });
 
@@ -286,6 +324,24 @@ app.post('/change-licenseplate', async (req, res) => {
   catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while updating the license plate.');
+  }
+});
+
+app.delete('/delete-reservation', async (req, res) => {
+  console.log('Received a request to /delete-reservation');
+  const id = req.query.id;
+
+  const db = client.db("schuberg_data_test");
+  const reservations = db.collection("reservations");
+
+  const query = { _id: new ObjectId(id) };
+  try {
+    await reservations.deleteOne(query);
+    res.send('Reservation deleted successfully.');
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while deleting the reservation.');
   }
 });
 
@@ -399,6 +455,20 @@ app.get('/hall-of-fame', async (req, res) => {
   res.send(sortedUsers);
 });
 
+app.get('/switch-theme', async (req, res) => {
+  const { id, theme } = req.query;
+
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const query = { _idOkta: id };
+  const update = { $set: { _theme: theme } };
+
+  await users.updateOne(query, update);
+
+  res.send('Theme updated successfully.');
+});
+
 app.post('/addUserOkta', async (req, res) => {
   const email = req.body.email;
   const car = req.body.car;
@@ -443,8 +513,50 @@ app.get('/getCar', async (req, res) => {
   }
 });
 
+
+
+app.post('/updateUser', async (req, res) => {
+  const { id, name, email, licensePlate } = req.query;
+  const database = client.db("schuberg_data_test");
+  const users = database.collection("users");
+
+  const query = { _email: email };
+  const user = await users.findOne(query);
+  console.log("zit erin");
+  
+
+  try {
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      res.status(404).send('User not found');
+      return;
+    }
+
+    if (name !== undefined) {
+      user._name = name;
+    }
+
+    if (email !== undefined) {
+      user._email = email;
+    }
+
+    if (licensePlate !== undefined) {
+      user._licensePlate = licensePlate;
+    }
+
+
+    await updateUser(user);
+
+    res.status(200).send('User updated');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while updating the user');
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
 

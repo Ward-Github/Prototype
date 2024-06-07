@@ -82,12 +82,10 @@ export default function login() {
       });
 
       const id = userPromise.data["sub"];
-      const email = userPromise.data["preferred_username"];
-      const name = userPromise.data["name"];
 
       console.log("\nID:", id);
 
-      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/get-user?id=${id}&email=${email}&name=${name}`, {
+      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/get-user?id=${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -97,17 +95,20 @@ export default function login() {
       const userInfo = await fetchUserInfo.json();
       console.log(userInfo)
 
+      const email = userInfo._email; 
+      const name = userInfo._name;
       const car = userInfo._car;
       const admin = userInfo._admin;
       const licensePlate = userInfo._licensePlate;
       const pfp = userInfo._pfp;
+      const theme = userInfo._theme;
 
       console.log("\n---- User data ---");
       console.log("Car: ", car);
       console.log("Admin: ", admin);
       console.log("License Plate: ", licensePlate);
 
-      login(id, email, name, licensePlate, admin, pfp);
+      login(id, email, name, licensePlate, admin, pfp, theme);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -164,7 +165,7 @@ export default function login() {
           );
           return;
         }else{
-          login(userInfo._idOkta, userInfo._email, userInfo._name, userInfo._licensePlate, userInfo._admin, userInfo._pfp);
+          login(userInfo._idOkta, userInfo._email, userInfo._name, userInfo._licensePlate, userInfo._admin, userInfo._pfp, userInfo._theme);
         }
       }
       catch (error) {

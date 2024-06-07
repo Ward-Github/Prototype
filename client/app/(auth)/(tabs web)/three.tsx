@@ -1,109 +1,80 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image, View, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, View, Text, TextInput, TouchableOpacity, Pressable } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
+import { useAuth } from '@/context/AuthProvider';
 import Toast from 'react-native-toast-message';
 
+
 export default function TabThreeScreen() {
-    const [username, setUsername] = React.useState("Mark Broekhoven");
-    const [email, setEmail] = React.useState("Mark.Broekhoven@gmail.com");
-    const [car, setCar] = React.useState("Tesla Model Y");
+      const { user } = useAuth();
+      const [username, setUsername] = useState(user?.name || '');
+      const [email, setEmail] = useState(user?.email || '');
+      const [licensePlate, setLicensePlate] = useState(user?.licensePlate || '');
+      const [pfp, setPfp] = useState(user?.pfp || '');
 
-    const [isChanged, setIsChanged] = useState(false);
-    const [isSaved, setIsSaved] = useState(true);
+    const handleSave = async () => {
+      const respo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/updateUser?name=${username}&email=${email}&licensePlate=${licensePlate}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          licensePlate,
+          pfp,
+        }),
+      });
 
-    const handleSave = () => {
-      setIsChanged(false);
-      setIsSaved(true);
-    };
-  
-    const handleChange = () => {
-      setIsChanged(true);
-      setIsSaved(false);
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Success',
+        text2: 'Your changes have been saved.',
+      });
     };
 
     return (
-      <KeyboardAwareScrollView
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={{ flex: 1 }}
-        scrollEnabled={false}
-        extraScrollHeight={50}
-      >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-              <View style={styles.rectangle}>
-                  <Image 
-                      source={require('../../../assets/images/avatar.jpg')} 
-                      style={styles.avatar}
-                  />
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Username</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        value={username} 
-                        onChangeText={(text) => {
-                          setUsername(text);
-                          handleChange();
-                        }}
-                    />
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Email</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        value={email} 
-                        onChangeText={(text) => {
-                          setEmail(text);
-                          handleChange();
-                        }}
-                    />
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Car</Text>
-                    <TextInput 
-                      style={styles.input} 
-                      value={car} 
-                      onChangeText={(text) => {
-                        setCar(text);
-                        handleChange();
-                      }}
-                    />
-                  </View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      if (isChanged) {
-                        handleSave();
-                        Toast.show({
-                          type: 'success',
-                          position: 'top',
-                          text1: 'Success',
-                          text2: 'Changes have been saved successfully 🎉',
-                          visibilityTime: 3000,
-                          topOffset: 60,
-                        });
-                      } else {
-                        Toast.show({
-                          type: 'error',
-                          position: 'top',
-                          text1: 'Fail',
-                          text2: 'No changes to save 😔',
-                          visibilityTime: 3000,
-                          topOffset: 60,
-                        });
-                      }
-                    }}
-                    style={{
-                      backgroundColor: isChanged && !isSaved ? '#007AFF' : '#8E8E93',
-                      padding: 18,
-                      borderRadius: 10,
-                    }}
-                  >
-                    <Text style={{color: '#FFFFFF', fontFamily: 'Azonix'}}>Save Changes</Text>
-                  </TouchableOpacity>
-              </View>
+        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+        <View style={styles.rectangle}>
+          <View style={styles.inputContainer}>
+          <Image
+            source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${pfp}` }}
+            style={{ width: 150, height: 150, borderRadius: 100, marginBottom: 20, alignSelf: 'center'}}
+            onError={(error) => console.error(error)}
+          />
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            style={styles.input}
+            value={username}
+            onChangeText={setUsername}
+          />
           </View>
-      </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
-  );
+          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+          />
+          </View>
+          <View style={styles.inputContainer}>
+          <Text style={styles.label}>License Plate</Text>
+          <TextInput
+            style={styles.input}
+            value={licensePlate}
+            onChangeText={setLicensePlate}
+          />
+          </View>
+          
+          <Pressable style={styles.button} onPress={
+            handleSave}>
+            <Text style={styles.buttonText}>Save</Text>
+          </Pressable>
+        </View>
+        </KeyboardAwareScrollView>
+      );
 }
 
 const styles = StyleSheet.create({
@@ -123,13 +94,6 @@ const styles = StyleSheet.create({
       paddingLeft: 20,
       paddingRight: 20,
   },
-  avatar: {
-      width: 150,
-      height: 150,
-      borderRadius: 75,
-      alignSelf: 'center',
-      marginBottom: 40,
-  },
   inputContainer: {
       marginBottom: 20,
       width: '100%',
@@ -147,4 +111,17 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       paddingLeft: 10,
   },
+  button: {
+      backgroundColor: '#21304f',
+      padding: 15,
+      borderRadius: 10,
+      alignItems: 'center',
+      marginTop: 20,
+      marginHorizontal: 20,
+  },
+  buttonText: {
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: '600',
+  }, 
 });

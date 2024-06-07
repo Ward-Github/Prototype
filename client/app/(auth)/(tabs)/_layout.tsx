@@ -3,17 +3,19 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { useAdminMode } from '@/context/AdminModeContext';
+import { useTheme } from '@/context/ThemeProvider';
 
 export default function TabLayout() {
   const { isAdminMode } = useAdminMode();
+  const { theme, setTheme } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#21304f',
-        tabBarInactiveTintColor: '#d8dce5', 
+        tabBarActiveTintColor: theme == 'dark' ? '#ffffff' : '#21304f',
+        tabBarInactiveTintColor: theme == 'dark' ? '#a9a9a9' : '#d8dce5', 
         tabBarStyle: { 
-          backgroundColor: '#ffffff', 
+          backgroundColor: theme == 'light' ? '#ffffff' : '#1E1E1E', 
           borderTopColor: 'transparent',
           height: 90,
         },
@@ -23,7 +25,7 @@ export default function TabLayout() {
         },
         headerShown: useClientOnlyValue(false, true),
         headerStyle: {
-          backgroundColor: '#f0f4f8',
+          backgroundColor: theme == 'light' ? '#f0f4f8' : '#121212',
           height: 60,
         },
         headerTitle: '',

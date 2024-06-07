@@ -4,11 +4,16 @@ import { useAuth } from '@/context/AuthProvider';
 import Status from './Status';
 import HallOfShameAndFame from './HallOfShameAndFame';
 import Feedback from './Feedback';
+import { lightTheme, darkTheme } from '@/styles/Home/userHomeStyles';
+import { useTheme } from '@/context/ThemeProvider';
 
 const UserHome = () => {
   const auth = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
   const [isHallOfFameVisible, setHallOfFameVisible] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  const styles = theme === 'light' ? lightTheme : darkTheme;
 
   return (
     <ScrollView style={styles.container}>
@@ -19,19 +24,5 @@ const UserHome = () => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f4f8',
-  },
-  profileHeader: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#21304f',
-    marginTop: 20,
-    marginLeft: 20,
-  },
-});
 
 export default UserHome;

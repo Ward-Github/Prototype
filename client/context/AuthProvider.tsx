@@ -1,5 +1,4 @@
-import { ReactNode, createContext, useEffect } from "react";
-import { useContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useContext, useState } from "react";
 import { router, useSegments } from "expo-router";
 import { Platform } from "react-native";
 
@@ -10,12 +9,14 @@ type User = {
   licensePlate: string;
   admin: boolean;
   pfp: string;
+  theme: 'light' | 'dark';
 };
 
-type AuthProvider = {
+type AuthContextType = {
   user: User | null;
-  login: (id:string, email: string, name: string, licensePlate:string, admin:boolean, pfp: string) => boolean;
+  login: (id: string, email: string, name: string, licensePlate: string, admin: boolean, pfp: string, theme: 'light' | 'dark') => boolean;
   logout: () => void;
+  isAdmin: () => boolean;
 };
 
 function useProtectedRoute(user: User | null) {
@@ -30,37 +31,39 @@ function useProtectedRoute(user: User | null) {
       if (Platform.OS === "web") {
         router.replace("/(auth)/(tabs web)/");
       } else {
-      router.replace("/(auth)/(tabs)/");
+        router.replace("/(auth)/(tabs)/");
       }
     }
   }, [user, segments]);
 }
 
-export const AuthContext = createContext<AuthProvider>({
+export const AuthContext = createContext<AuthContextType>({
   user: null,
   login: () => false,
   logout: () => {},
+  isAdmin: () => false,
 });
 
 export function useAuth() {
-  if (!useContext(AuthContext)) {
+  const context = useContext(AuthContext);
+  if (!context) {
     throw new Error("useAuth must be used within a <AuthProvider />");
   }
-
-  return useContext(AuthContext);
+  return context;
 }
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (id: string, email: string, name:string, licensePlate:string, admin:boolean, pfp:string) => {
+  const login = (id: string, email: string, name: string, licensePlate: string, admin: boolean, pfp: string, theme: 'light' | 'dark') => {
     setUser({
-      id: id,
-      email: email,
-      name: name,
-      licensePlate: licensePlate,
-      admin: admin,
-      pfp: pfp,
+      id,
+      email,
+      name,
+      licensePlate,
+      admin,
+      pfp,
+      theme,
     });
 
     return true;
@@ -70,10 +73,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const isAdmin = () => {
+    return user?.admin ?? false;
+  };
+
   useProtectedRoute(user);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

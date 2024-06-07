@@ -3,9 +3,14 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useAuth } from '@/context/AuthProvider';
+import { useTheme } from '@/context/ThemeProvider';
+import { lightTheme, darkTheme } from '@/styles/Home/userHomeStyles';
 
 const Status = ({ setModalVisible }: { setModalVisible: any }) => {
   const auth = useAuth();
+  const { theme, setTheme } = useTheme();
+
+  const styles = theme === 'light' ? lightTheme : darkTheme;
 
   return (
     <View style={styles.rectangle}>
@@ -35,54 +40,5 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  rectangle: {
-    backgroundColor: '#fff',
-    padding: 20,
-    marginVertical: 20,
-    marginHorizontal: 20,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  titleText: {
-    fontSize: 32,
-    color: '#21304f',
-    fontFamily: 'Poppins-Bold',
-  },
-  subtitleText: {
-    fontSize: 24,
-    color: '#21304f',
-    marginTop: 20,
-  },
-  circularProgress: {
-    marginTop: 20,
-    alignSelf: 'center',
-  },
-  progressContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  progressText: {
-    fontSize: 14,
-    color: '#21304f',
-    marginTop: 5,
-  },
-  feedbackButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#FF4D4D',
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  feedbackButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-});
 
 export default Status;

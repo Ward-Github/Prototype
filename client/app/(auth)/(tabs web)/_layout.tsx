@@ -3,15 +3,16 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import TabOneScreen from '.';
 import TabTwoScreen from './quickReserve';
-import AdminScreenOne from './adminScreen';
-import AdminScreenTwo from './feedback';
-import { useAdminMode } from '@/context/AdminModeContext';
+import AdminScreenOne from './ChargingStations';
+import AdminScreenTwo from './adminDashboard';
 import TabThreeScreen from './three';
+import { useAuth } from '@/context/AuthProvider';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerLayout() {
-  const isAdminMode = useAdminMode(); // Call the useAdminMode function to get the boolean value
+
+  const { isAdmin } = useAuth();
 
   return (
     <Drawer.Navigator
@@ -42,7 +43,7 @@ export default function DrawerLayout() {
           drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
         }}
       />
-      {isAdminMode && (
+      {isAdmin() && (
         <>
           <Drawer.Screen
             name="chargingStations"
@@ -54,25 +55,25 @@ export default function DrawerLayout() {
             }}
           />
           <Drawer.Screen
-            name="feedback"
+            name="dashboard Admin"
             component={AdminScreenTwo}
             options={{
-              title: 'Feedback',
+              title: 'Dashboard Admin',
               drawerIcon: ({ color }) => <Ionicons name="chatbox" size={25} color={color} />,
-              drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
-            }}
-          />
-          <Drawer.Screen
-            name="Profile"
-            component={TabThreeScreen}
-            options={{
-              title: 'Profile',
-              drawerIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
               drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
             }}
           />
         </>
       )}
+      <Drawer.Screen
+        name="Profile"
+        component={TabThreeScreen}
+        options={{
+          title: 'Profile',
+          drawerIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
+          drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
+        }}
+      />
 
     </Drawer.Navigator>
   );

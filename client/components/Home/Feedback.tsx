@@ -1,15 +1,36 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Modal, ActivityIndicator, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Modal, ActivityIndicator, Keyboard, Image, TouchableOpacity } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import Toast from 'react-native-toast-message';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
+import { useTheme } from '@/context/ThemeProvider';
+import { lightTheme, darkTheme } from '@/styles/Home/userHomeStyles';
 import { useAuth } from '@/context/AuthProvider';
 
-const submitFeedback = async ({ feedback, user }: { feedback: string, user: string }) => {
+const submitFeedback = async ({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => {
   try {
-    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/submitFeedback`, { feedback, user }, { timeout: 5000 });
+    if (image) {
+      await FileSystem.uploadAsync(
+          `http://${process.env.EXPO_PUBLIC_API_URL}:3000/submit-feedback`,
+          image!,
+          {
+              uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+              fieldName: 'image',
+              httpMethod: 'POST',
+              parameters: {
+                  feedback: feedback,
+                  user: user
+              },
+          },
+      );
+    } else {
+      await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/submit-feedback`, { feedback, user }, { timeout: 5000 });
+    }
+
     Toast.show({
       type: 'success',
       position: 'top',
@@ -37,17 +58,21 @@ const Feedback = ({ isModalVisible, setModalVisible }: { isModalVisible: boolean
   const [feedback, setFeedback] = useState('');
   const [selectedProblem, setSelectedProblem] = useState('');
   const user = auth.user?.name || '';
+  const { theme, setTheme } = useTheme();
+  const [image, setImage] = useState<string | null>(null);
 
-  const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
+  const mutation = useMutation(({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => submitFeedback({ feedback, user, image }), {
     onSuccess: () => {
       setModalVisible(false);
       setFeedback('');
       setSelectedProblem('');
+      setImage(null);
     },
     onError: () => {
       setModalVisible(false);
       setFeedback('');
       setSelectedProblem('');
+      setImage(null);
     },
   });
 
@@ -58,112 +83,78 @@ const Feedback = ({ isModalVisible, setModalVisible }: { isModalVisible: boolean
     { key: '4', value: 'Other' },
   ];
 
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const styles = theme === 'light' ? lightTheme : darkTheme; 
+
   return (
     <Modal visible={isModalVisible} transparent={true}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Report problem</Text>
-          <SelectList
-            setSelected={setSelectedProblem}
-            data={problemOptions}
-            save="value"
-            placeholder="Select a problem"
-            arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-            boxStyles={styles.selectBox}
-            inputStyles={styles.selectInput}
-            dropdownStyles={styles.dropdown}
-            search={false}
-          />
-          {selectedProblem === 'Other' && (
-            <TextInput
-              style={styles.textInput}
-              placeholder="Type your problem here..."
-              placeholderTextColor="#A9A9A9"
-              value={feedback}
-              onChangeText={setFeedback}
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Report problem</Text>
+            <SelectList 
+              setSelected={setSelectedProblem} 
+              data={problemOptions} 
+              save="value"
+              placeholder="Select a problem"
+              arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+              boxStyles={styles.selectBox}
+              inputStyles={styles.selectInput}
+              dropdownStyles={styles.dropdown}
+              search={false}
             />
-          )}
-          <View style={styles.buttonContainer}>
-            <Button
-              title="Send"
-              onPress={() => {
-                Keyboard.dismiss();
-                mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
-              }}
-            />
-            <Button
-              title="Cancel"
-              color="red"
-              onPress={() => {
-                Keyboard.dismiss();
-                setModalVisible(false);
-                setFeedback('');
-                setSelectedProblem('');
-              }}
-            />
+            {selectedProblem === 'Other' && (
+              <TextInput
+                style={styles.textInput}
+                placeholder="Type your problem here..."
+                placeholderTextColor="#A9A9A9"
+                value={feedback}
+                onChangeText={setFeedback}
+              />
+            )}
+            <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+              <Text style={styles.imagePickerText}>Pick an image (optional)</Text>
+              {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
+            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <Button 
+                title="Send" 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  mutation.mutate({ 
+                    feedback: selectedProblem === 'Other' ? feedback : selectedProblem, 
+                    user,
+                    image 
+                  });
+                }} 
+              />
+              <Button 
+                title="Cancel" 
+                color="red" 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setModalVisible(false);
+                  setFeedback('');
+                  setSelectedProblem('');
+                  setImage(null);
+                }} 
+              />
+            </View>
+            {mutation.isLoading && <ActivityIndicator size="large" color="#21304f" style={styles.loadingIndicator} />}
           </View>
-          {mutation.isLoading && <ActivityIndicator size="large" color="#21304f" style={styles.loadingIndicator} />}
         </View>
-      </View>
-    </Modal>
+      </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    width: '80%',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  selectBox: {
-    backgroundColor: '#f0f4f8',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 5,
-    height: 45,
-    marginBottom: 20,
-  },
-  selectInput: {
-    textAlign: 'center',
-    color: '#333',
-    justifyContent: 'center',
-  },
-  dropdown: {
-    backgroundColor: '#f0f4f8',
-    borderColor: '#ddd',
-  },
-  textInput: {
-    width: '100%',
-    borderColor: '#21304f',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  loadingIndicator: {
-    marginTop: 20,
-  },
-});
 
 export default Feedback;
