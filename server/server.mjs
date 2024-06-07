@@ -102,19 +102,24 @@ async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
       await users.insertOne(newUserSuppliedByOkta);
     }
     else{ // This is now the _id of the car
-      console.log("User already exists, updating user");
-      const updateUserSuppliedByOkta = {
-        _email: email,
-        _car: car.name, // Store the _id of the car
-        _LicensePlate: licensePlate, // Store the license plate
-        _password: "password",
-        _admin: admin,
-        _accesToken: accessToken,
-      };
-      await users.updateOne(query, { $set: updateUserSuppliedByOkta });
+      updateUser(user);
     }
   } catch (error) {
     console.error("Error adding user:", error);
+    throw error;
+  }
+}
+
+async function updateUser(user) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const users = database.collection("users");
+    const query = { _id: user._id };
+    
+    await users.updateOne(query, { $set: user });
+  }
+  catch (error) {
+    console.error("Error updating user:", error);
     throw error;
   }
 }
@@ -422,8 +427,50 @@ app.get('/getCar', async (req, res) => {
   }
 });
 
+
+
+app.post('/updateUser', async (req, res) => {
+  const { id, name, email, licensePlate } = req.query;
+  const database = client.db("schuberg_data_test");
+  const users = database.collection("users");
+
+  const query = { _email: email };
+  const user = await users.findOne(query);
+  console.log("zit erin");
+  
+
+  try {
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      res.status(404).send('User not found');
+      return;
+    }
+
+    if (name !== undefined) {
+      user._name = name;
+    }
+
+    if (email !== undefined) {
+      user._email = email;
+    }
+
+    if (licensePlate !== undefined) {
+      user._licensePlate = licensePlate;
+    }
+
+
+    await updateUser(user);
+
+    res.status(200).send('User updated');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while updating the user');
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
 
