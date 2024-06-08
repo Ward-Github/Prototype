@@ -21,79 +21,126 @@ export default function UserReservationScreen() {
   const [selectedPriorityIndex, setSelectedPriorityIndex] = useState(0);
   const [selectedPriority, setSelectedPriority] = useState("");
   const auth = useAuth();
-  const [nonOccupiedLaadpaal, setNonOccupiedLaadpaal] = useState(false);
-  const [Laadpalen, setLaadpalen] = useState({
+  const [EvStation, setEvStation] = useState({
+    id: "",
     name: "",
     maxPower: 0,
     status: "",
   });
-  
 
   const handleReservation = async () => {
-    console.log("pressed");
     if (desiredPercentage < batteryPercentage) {
-      Alert.alert('Ongeldige invoer', 'Het gewenste percentage moet hoger zijn dan het huidige percentage');
+      Alert.alert(
+        "Ongeldige invoer",
+        "Het gewenste percentage moet hoger zijn dan het huidige percentage"
+      );
       return;
     }
     if (selectedPriority === "") {
-      Alert.alert('Ongeldige invoer', 'Selecteer een prioriteit');
+      Alert.alert("Ongeldige invoer", "Selecteer een prioriteit");
       return;
-    };
+    }
     if (selectedStartTime === "") {
-      Alert.alert('Ongeldige invoer', 'Selecteer een starttijd');
+      Alert.alert("Ongeldige invoer", "Selecteer een starttijd");
       return;
-    };
+    }
+
+    await getRandomNonOccupiedEvStation();
+
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
     try {
-      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: auth.user?.id,
-          startTime: startTimes[selectedStartTimeIndex],
-          endTime: calculateEndTime(),
-          priority: selectedPriorityIndex,
-        }),
-      });
+      const response = await fetch(
+        `http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: auth.user?.id,
+            startTime: startTimes[selectedStartTimeIndex],
+            endTime: calculateEndTime(),
+            priority: selectedPriorityIndex,
+            EvstationId: EvStation.id,
+          }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Server error');
+        // throw error with status code
+        throw new Error("Server error occurred while making the reservation 😔");
+        
       }
+      await updateEvStationStatus(EvStation.id, "occupied");
 
       Toast.show({
-        type: 'success',
-        position: 'top',
-        text1: 'Success',
-        text2: 'Reservation saved successfully 🎉',
+        type: "success",
+        position: "top",
+        text1: "Success",
+        text2: `Reservation saved successfully 🎉 \n
+        Your Ev Station is ${EvStation.name}`,
         visibilityTime: 3000,
         topOffset: 60,
       });
+      // reset form
     } catch (error) {
       Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: 'Error',
-        text2: 'An error occurred while making the reservation 😔',
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "An error occurred while making the reservation 😔",
         visibilityTime: 3000,
       });
     }
   };
 
-  const getEvChargers = async () => {
-    try {
-      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getEvStations`);
-      if (!response.ok) {
-        throw new Error('Server error');
-      }
-      const data = await response.json();
-      setLaadpalen(data);
-    } catch (error) {
-      console.error(error);
+
+  const getRandomNonOccupiedEvStation = async () => {
+  try {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getRandomNonOccupiedEvStation`);
+    if (!response.ok) {
+      throw new Error('Server error');
     }
+    const data = await response.json();
+    setEvStation(data);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
   }
 
-  const checkIfOccupied = async () => {
+  const updateEvStationStatus = async (id: Object, status: string) => {
+  try {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/updateEvStationStatus`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        status,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Server error');
+    }
+  } catch (error) {
+    console.error(error);
   }
+  }
+
+  const getEvChargers = async () => {
+  try {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getEvStations`);
+    if (!response.ok) {
+      throw new Error('Server error');
+    }
+    const data = await response.json();
+    setEvStation(data);
+  } catch (error) {
+    console.error(error);
+  }
+  }
+
   const calculateChargeTime = () => {
     const currentPercentage = parseInt(String(batteryPercentage), 10);
     const targetPercentage = parseInt(String(desiredPercentage), 10);
