@@ -25,49 +25,51 @@ export default function TabOneScreen() {
   ]
 
   return (
-    <View style={styles.container}>
-      <View style={styles.largeRectangle}>
-        <Text style={styles.titleText}>LOADING STATIONS</Text>
+    <View style={styles.mainContainer}>
+      <View style={styles.leftRectangle}>
+        <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>LOADING STATIONS</Text>
       </View>
-      <View style={styles.rightRectanglesContainer}>
+      <View style={styles.rightRectangle}>
+        <View style={styles.columnContainer}>
+          <View style={styles.flexBoxesRight}>
+            <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>FAST RESERVATION</Text>
+            <View style={{flex: 1, flexGrow: 0}}>
+              <SelectList
+                setSelected={(val: React.SetStateAction<string>) => setSelected(val)}
+                data={data}
+                save="value"
+                placeholder="TIME"
+                fontFamily='Azonix'
+                search={false}
+                arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+                boxStyles={{ backgroundColor: '#46B7FF', borderColor: 'transparent', alignContent: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 10, flexShrink: 1 }}
+                inputStyles={{ color: '#fff' }}
+                dropdownStyles={{ backgroundColor: '#fff' }}
+              />
+            </View>
+          </View>
+          <View style={[styles.flexBoxesRight, { alignItems: 'center' }]}>
+            <Text style={styles.titleText} >TESLA MODEL Y</Text>
+            <Image source={require('../../../assets/images/image.png')} style={styles.image} />
+            <View style={styles.line} />
 
-        <View style={styles.flexBoxesRight}>
-          <Text style={styles.titleText}>FAST RESERVATION</Text>
-          <SelectList
-            setSelected={(val: React.SetStateAction<string>) => setSelected(val)}
-            data={data}
-            save="value"
-            placeholder="TIME"
-            fontFamily='Azonix'
-            search={false}
-            arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-            boxStyles={{ backgroundColor: '#46B7FF', borderColor: 'transparent', alignContent: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
-            inputStyles={{ color: '#fff' }}
-            dropdownStyles={{ backgroundColor: '#fff' }}
-          />
-        </View>
+            <View style={styles.stationContainer}>
+              <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" style={styles.modalIcon} />
+              <Text style={styles.text} numberOfLines={1} ellipsizeMode='clip'> STATION 8</Text>
+            </View>
 
-        <View style={[styles.flexBoxesRight, { alignItems: 'center' }]}>
-          <Text style={styles.titleText}>TESLA MODEL Y</Text>
-          <Image source={require('../../../assets/images/image.png')} style={styles.image} />
-          <View style={styles.line} />
-
-          <View style={styles.stationContainer}>
-            <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" />
-            <Text style={styles.text}> STATION 8</Text>
+            <View style={styles.batteryContainer}>
+              <MaterialCommunityIcons name="battery-charging" size={40} color="green" style={styles.modalIcon} />
+              <Text style={styles.text} numberOfLines={1} ellipsizeMode='clip'> 46%</Text>
+            </View>
           </View>
 
-          <View style={styles.batteryContainer}>
-            <MaterialCommunityIcons name="battery-charging" size={40} color="green" />
-            <Text style={styles.text}> 46%</Text>
+          <View style={styles.flexBoxesRight}>
+            <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>RESERVATION DETAILS</Text>
           </View>
-        </View>
-
-        <View style={styles.flexBoxesRight}>
-          <Text style={styles.titleText}>RESERVATION DETAILS</Text>
-        </View>
-        <View style={styles.flexBoxesRight}>
-          <Text style={styles.titleText}>TIME SLOT</Text>
+          <View style={styles.flexBoxesRight}>
+            <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>TIME SLOT</Text>
+          </View>
         </View>
 
       </View>
@@ -76,70 +78,98 @@ export default function TabOneScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#041B2A',
     justifyContent: 'space-evenly',
     flexBasis: '100%',
     padding: 5,
+    flexGrow: 0,
+    flexShrink: 1,
+    maxWidth: '100%',
   },
-  largeRectangle: {
+  leftRectangle: {
     flex: 1,
     flexBasis: '50%',
     backgroundColor: '#0F2635',
+    marginBottom: 30,
+    marginRight: 15,
     marginTop: 30,
     marginLeft: 30,
     padding: 30,
     borderRadius: 20,
   },
-  rightRectanglesContainer: {
+  rightRectangle: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexBasis: '50%',
+    marginBottom: 30,
+    marginRight: 30,
     marginTop: 30,
-    marginLeft: 30,
+    marginLeft: 15,
+    borderRadius: 20,
+    overflow: 'visible',
+  },
+  columnContainer: {
+    flex: 1,
+    flexBasis: '100%',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
     rowGap: 10,
     columnGap: 10,
-    flexBasis: '50%',
-    flexGrow: 0,
+    flexGrow: 1,
   },
   flexBoxesRight: {
     backgroundColor: '#0F2635',
     borderRadius: 20,
+    flex: 1,
     padding: 30,
-    height: '50%',
-    width: '45%',
-
+    minHeight: '45%',
+    minWidth: '49%',
+    maxWidth: '49%',
+    maxHeight: '50%',
+    overflow: 'scroll',
   },
   line: {
     height: 1,
     backgroundColor: '#E1E1E1',
     width: '90%',
     marginBottom: 20,
+    
   },
   titleText: {
+    
     fontSize: 32,
     color: '#E1E1E1',
     marginBottom: 20,
     fontFamily: 'Azonix',
     textAlign: 'center',
+    
+    
   },
   subtitleText: {
+   
+    flexWrap: 'nowrap',
     fontSize: 24,
     color: '#E1E1E1',
     fontFamily: 'Azonix',
+    
   },
   text: {
+  
     fontSize: 28,
     color: '#E1E1E1',
     fontFamily: 'Azonix',
+
   },
   image: {
+
     width: "75%",
     height: "40%",
     marginTop: 20,
     marginBottom: 20,
+    minHeight: "35%",
+    minWidth: "35%",
   },
   stationContainer: {
     flexDirection: 'row',
@@ -150,5 +180,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  modalIcon: {
+    minHeight: "5%",
+    minWidth: "5%",
   },
 });

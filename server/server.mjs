@@ -2,7 +2,7 @@ import express from "express";
 import fs from 'fs';
 import axios from 'axios';
 import cors from 'cors';
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 
 const app = express();
 const port = 3000;
@@ -41,40 +41,42 @@ async function getUserByEmail(email) {
     throw error;
   }
 }
-async function findCar(carName) {
+async function findCar(carReference) {
   try {
+    console.log("Finding car:", carReference._id);
     const database = client.db("schuberg_data_test");
     const cars = database.collection("cars");
-
-    const query = { [carName]: { $exists: true } };
+    const query = { [carReference]: { $exists: true } };
     const car = await cars.findOne(query);
 
     if (!car) {
-      console.error("Car not found:", carName);
-      throw new Error("Car not found");
+        console.error("Error finding car: " + carReference);
+        throw new Error("Car not found");
     }
     console.log("Car found:", car);
-    return car._id; // Return just the _id of the car
+    const carObject = Object.keys(car)[0]; // Get the car name
+    return { name: carObject }; // Return the id and the car name
   } catch (error) {
     console.error("Error finding car:", error);
     throw error;
   }
 }
-async function addUserOkta(email, carName, admin, accessToken) {
+async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
   try {
     const database = client.db("schuberg_data_test");
     const users = database.collection("users");
 
     const query = { _email: email };
     const user = await users.findOne(query);
-    const carId = await findCar(carName);
-
+    const car = await findCar(carName);
+    
     if (!user) {
        // This is now the _id of the car
       console.log("User does not exist, adding user");
       const newUserSuppliedByOkta = {
         _email: email,
-        _car: carId, // Store the _id of the car
+        _car: car.name, // Store the _id of the car
+        _LicensePlate: licensePlate, // Store the license plate
         _password: "password", // Default password
         _admin: admin,
         _accesToken: accessToken,
@@ -86,7 +88,8 @@ async function addUserOkta(email, carName, admin, accessToken) {
       console.log("User already exists, updating user");
       const updateUserSuppliedByOkta = {
         _email: email,
-        _car: carId, // Store the _id of the car
+        _car: car.name, // Store the _id of the car
+        _LicensePlate: licensePlate, // Store the license plate
         _password: "password",
         _admin: admin,
         _accesToken: accessToken,
@@ -95,6 +98,19 @@ async function addUserOkta(email, carName, admin, accessToken) {
     }
   } catch (error) {
     console.error("Error adding user:", error);
+    throw error;
+  }
+}
+
+async function submitFeedback(feedback, user, timeNow) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
+
+    const newFeedback = { feedback, user, timeNow };
+    await feedbacks.insertOne(newFeedback);
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
     throw error;
   }
 }
@@ -108,32 +124,64 @@ app.get('/', (req, res) => {
   res.send('Welcome to my server!');
 });
 
-app.post('/reserve', (req, res) => {
+app.post('/reserve', async (req, res) => {
   const username = req.body.username;
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
+  const priority = req.body.priority;
+
+  console.log(`User ${username} reserved at ${startTime} until ${endTime}`);
+
+  const newReservation = { username, startTime, endTime, priority};
+
+  try {
+    const database = client.db("schuberg_data_test");
+    const reservations = database.collection("reservations");
+
+    await reservations.insertOne(newReservation);
+
+    res.send('Reservation saved successfully.');
+  } catch (error) {
+    console.error("Error saving reservation:", error);
+    res.status(500).send('An error occurred while saving the reservation.');
+  }
+});
+
+app.get('/reservations', async (req, res) => {
+  const database = client.db("schuberg_data_test");
+  const reservations = database.collection("reservations");
+
+  const allReservations = await reservations.find().toArray();
+  res.send(allReservations);
+});
+
+app.post('/submitFeedback', (req, res) => {
+  const feedback = req.body.feedback;
+  const user = req.body.user;
   const timeNow = new Date().toISOString();
 
-  console.log(`User ${username} reserved at ${timeNow}`);
+  console.log(`Feedback received at ${timeNow}: ${feedback}`);
 
-  const newReservation = { username, timeNow };
+  try {
+    submitFeedback(feedback, user, timeNow);
+    res.status(200).send('Feedback submitted successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while submitting the feedback.');
+  }
+});
 
-  fs.readFile('reservations.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('An error occurred while reading the file.');
-    }
+app.get('/feedback', async (req, res) => {
+  try {
+    const database = client.db("schuberg_data_test");
+    const feedbacks = database.collection("feedback");
 
-    const reservations = JSON.parse(data || '[]');
-    reservations.push(newReservation);
-
-    fs.writeFile('reservations.json', JSON.stringify(reservations, null, 2), 'utf8', (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('An error occurred while writing to the file.');
-      }
-
-      res.send('Reservation saved successfully.');
-    });
-  });
+    const allFeedback = await feedbacks.find().toArray();
+    res.send(allFeedback);
+  } catch (error) {
+    console.error("Error fetching feedback:", error);
+    res.status(500).send('An error occurred while fetching the feedback.');
+  }
 });
 
 app.get('/car_list', (req, res) => {
@@ -151,7 +199,7 @@ app.get('/car_list', (req, res) => {
 app.post('/changeCar', async (req, res) => {
   console.log('Received a request to /changeCar');
   const userId = req.body.userId;
-  const car = req.body.car;
+  const licensePlate = req.body.licensePlate;
 
   const headers = {
     'Content-Type': 'application/json',
@@ -161,7 +209,7 @@ app.post('/changeCar', async (req, res) => {
 
   const body = {
     "profile": {
-      "car": car
+      "license_plate": licensePlate
     }
   };
 
@@ -190,7 +238,8 @@ app.get('/getUser', async (req, res) => {
   }).then((response) => {
     const car = response.data.profile.car;
     const admin = response.data.profile.admin;
-    res.send({ car, admin });
+    const licensePlate = response.data.profile.license_plate;
+    res.send({ car, admin, licensePlate });
   }).catch((error) => {
     console.error(error);
     res.status(500).send('An error occurred while getting the car.');
@@ -231,6 +280,16 @@ app.post('/addUserOkta', async (req, res) => {
     res.send('User added successfully');
   } catch (error) {
     res.status(500).send('An error occurred while adding the user');
+  }
+});
+
+app.get('/getCar', async (req, res) => {
+  const carName = req.query.carName;
+  try {
+    const car = await findCar(carName);
+    res.send(car);
+  } catch (error) {
+    res.status(500).send('An error occurred while fetching the car');
   }
 });
 
