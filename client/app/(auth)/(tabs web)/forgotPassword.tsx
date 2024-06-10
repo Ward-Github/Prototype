@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, Text } from 'react-native';
 
 const ForgotPasswordPage = () => {
-    
+    const email = 'karsten@okta.com';
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -17,7 +17,7 @@ const ForgotPasswordPage = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ newPassword: password }),
+                    body: JSON.stringify({email: email, newPassword: password }),
                 });
                 if (response.ok) {
                     Alert.alert('Success', 'Password updated successfully');
