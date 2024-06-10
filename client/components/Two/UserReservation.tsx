@@ -27,8 +27,8 @@ export default function UserReservationScreen() {
     maxPower: 0,
     status: "",
   });
-
   const handleReservation = async () => {
+
     if (desiredPercentage < batteryPercentage) {
       Alert.alert(
         "Ongeldige invoer",
@@ -44,10 +44,12 @@ export default function UserReservationScreen() {
       Alert.alert("Ongeldige invoer", "Selecteer een starttijd");
       return;
     }
-
-    await getRandomNonOccupiedEvStation();
-
+     const response = await getRandomNonOccupiedEvStation();
+     if (response === null) {
+       return;
+     }
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
+    console.log("EVSTATION ID: ", EvStation.id);
     try {
       const response = await fetch(
         `http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`,
@@ -59,17 +61,16 @@ export default function UserReservationScreen() {
             startTime: startTimes[selectedStartTimeIndex],
             endTime: calculateEndTime(),
             priority: selectedPriorityIndex,
-            EvstationId: EvStation.id,
+            EvstationId: EvStation.id.toString(),
           }),
         }
       );
-
+      await updateEvStationStatus(EvStation.id, "charging");
       if (!response.ok) {
         // throw error with status code
         throw new Error("Server error occurred while making the reservation 😔");
-        
       }
-      await updateEvStationStatus(EvStation.id, "occupied");
+
 
       Toast.show({
         type: "success",
@@ -92,25 +93,79 @@ export default function UserReservationScreen() {
     }
   };
 
+  const getReservations = async () => {
+    console.log("getReservations called");
+    try {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
+  
+      if (!response.ok) {
+        Alert.alert("An error occurred while fetching reservations");
+      } else {
+        const allReservations = await response.json();
+  
+        for (const reservation of allReservations) {
+          // Extract hours and minutes from endTime (assuming HH:mm format)
+          const [hours, minutes] = reservation.endTime.split(":").map(Number);
+  
+          // Create a Date object for the endTime 
+          const endTimeDate = new Date();
+          endTimeDate.setHours(hours, minutes, 0, 0); // Set time while keeping today's date
+  
+          console.log("Reservation end time:", endTimeDate);
+  
+          if (endTimeDate < new Date()) {
+            resetEvStationstatus(reservation.EvStationId);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+      Alert.alert("An error occurred while fetching reservations");
+    }
+  };
+    const resetEvStationstatus = async (id : string) => {
+    console.log("enter reset");
+    try {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/resetEvStationStatus`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getRandomNonOccupiedEvStation = async () => {
   try {
     const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getRandomNonOccupiedEvStation`);
     if (!response.ok) {
-      throw new Error('Server error');
+      Alert.alert("No available EV stations found");
+      return null;
     }
     const data = await response.json();
-    setEvStation(data);
-    console.log(data);
+    setEvStation(
+      {
+        id: data._id,
+        name: data.name,
+        maxPower: data.maxPower,
+        status: data.status,
+      }
+    );
   } catch (error) {
     console.error(error);
   }
   }
 
-  const updateEvStationStatus = async (id: Object, status: string) => {
-  try {
+  const updateEvStationStatus = async (id: string, status: string) => {
+    console.log("updateEvStationStatus called with id:", id, "and status:", status);
+    try {
     const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/updateEvStationStatus`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -128,25 +183,12 @@ export default function UserReservationScreen() {
   }
   }
 
-  const getEvChargers = async () => {
-  try {
-    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getEvStations`);
-    if (!response.ok) {
-      throw new Error('Server error');
-    }
-    const data = await response.json();
-    setEvStation(data);
-  } catch (error) {
-    console.error(error);
-  }
-  }
-
   const calculateChargeTime = () => {
     const currentPercentage = parseInt(String(batteryPercentage), 10);
     const targetPercentage = parseInt(String(desiredPercentage), 10);
 
     // Haal de laadsnelheid van de auto op uit de profielgegevens (voorbeeld)
-    const chargeSpeedKw = 22; // Vervang door de daadwerkelijke waarde
+    const chargeSpeedKw = 22;
 
     // Schatting van de laadtijd in minuten (aanpassen indien nodig)
     // Laadtijd (in minuten) = ((Gewenste percentage - Huidig percentage) / 100 * Accucapaciteit (kWh)) / Laadvermogen (kW) * 60
@@ -202,6 +244,7 @@ export default function UserReservationScreen() {
   
 
   useEffect(() => {
+    getReservations();
     calculateChargeTime(); // Bereken tijdsloten automatisch bij verandering van percentages
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
   }, [batteryPercentage, desiredPercentage, selectedPriority]); // Voer effect uit wanneer deze waarden veranderen

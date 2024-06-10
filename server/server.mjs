@@ -217,13 +217,14 @@ app.post('/get-licenseplate', upload.single('image'), (req, res) => {
 });
 
 app.post('/reserve', async (req, res) => {
+  console.log(req.body);
   const username = req.body.username;
   const startTime = req.body.startTime;
   const endTime = req.body.endTime;
   const priority = req.body.priority;
-  const EvStationId = req.body.EvStationId;
+  const EvStationId = req.body.EvstationId;
 
-  console.log(`User ${username} reserved at ${startTime} until ${endTime}`);
+  console.log(`User ${username} reserved at ${startTime} until ${endTime} at EvStation ${EvStationId}`);
 
   const newReservation = { username, startTime, endTime, priority, EvStationId};
 
@@ -569,6 +570,10 @@ app.get('/getRandomNonOccupiedEvStation', async (req, res) => {
   const evStations = db.collection('charging_station');
 
   const nonOccupiedEvStations = await evStations.find({ status: 'available' }).toArray();
+  if (nonOccupiedEvStations.length === 0) {
+    console.log('No available EV stations found');
+    return res.status(404).send('No available EV stations found');
+  }
   const randomNonOccupiedEvStation = nonOccupiedEvStations[Math.floor(Math.random() * nonOccupiedEvStations.length)];
 
   console.log(randomNonOccupiedEvStation);
@@ -576,32 +581,42 @@ app.get('/getRandomNonOccupiedEvStation', async (req, res) => {
 },
 );
 
-app.post('/updateEvStationStatus', async (req, res) => {
+app.put('/updateEvStationStatus', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  const { id, status } = req.body; // Assuming data is sent in body
+
+  const validStatuses = ['occupied', 'available', "charging", "unknown"]; // Add more if needed
+  if (!validStatuses.includes(status)) {
+    return res.status(400).send('Invalid status value');
+  }
+
   try {
-    const db = client.db("schuberg_data_test");
-    const evStations = db.collection('charging_station');
-
-    const { id, status } = req.body; // Assuming data is sent in body
-
-    // Validation (optional)
-    const validStatuses = ['occupied', 'available', "charging", "unkown"]; // Add more if needed
-    if (!validStatuses.includes(status)) {
-      return res.status(400).send('Invalid status value');
-    }
-
     const query = { _id: new ObjectId(id) };
     const update = { $set: { status } };
-    const options = { returnDocument: 'after' }; // To get the updated document
-
-    const result = await evStations.findOneAndUpdate(query, update, options);
-
-    if (!result.value) { // Check if the document was found and updated
-      return res.status(404).send('EV station not found');
-    }
-    res.send('EV station status updated successfully');
+    await evStations.updateOne(query, update);
+    res.send('EvStation status updated successfully');
   } catch (error) {
-    console.error("Error updating EV station status:", error);
-    res.status(500).send('An error occurred while updating the status'); 
+    console.error(error);
+    res.status(500).send('An error occurred while updating the ev station status');
+  }
+});
+
+app.put('/resetEvStationStatus', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  const { id } = req.body; // Assuming data is sent in body
+  console.log(id);
+  try {
+    const query = { _id: new ObjectId(id) };
+    const update = { $set: { status: 'available' } };
+    await evStations.updateOne(query, update);
+    res.send('EvStation status reset successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while resetting the ev station status');
   }
 });
 
