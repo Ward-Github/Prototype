@@ -142,40 +142,47 @@ export default function TabOneScreen() {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.leftRectangle}>
-        <Text style={styles.titleText}>LOADING STATIONS</Text>
+        <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>LOADING STATIONS</Text>
       </View>
-      <View style={styles.rightRectanglesContainer}>
-
-        <View style={styles.flexBoxesRight}>
-          <Text style={styles.titleText}>FAST RESERVATION</Text>
-          <SelectList
-            setSelected={(val: React.SetStateAction<string>) => setSelected(val)}
-            data={data}
-            save="value"
-            placeholder="TIME"
-            fontFamily='Azonix'
-            search={false}
-            arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-            boxStyles={{ backgroundColor: '#21304f', borderColor: 'transparent', alignContent: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
-            inputStyles={{ color: '#fff' }}
-            dropdownStyles={{ backgroundColor: '#fff' }}
-          />
-        </View>
-
-        <View style={[styles.flexBoxesRight, { alignItems: 'center' }]}>
-          <Text style={styles.titleText}>TESLA MODEL Y</Text>
-          <Image source={require('../../../assets/images/image.png')} style={styles.image} />
-          <View style={styles.line} />
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.text}>{user?.licensePlate}</Text>
+      <View style={styles.rightRectangle}>
+        <View style={styles.columnContainer}>
+          <View style={styles.flexBoxesRight}>
+            <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>FAST RESERVATION</Text>
+            <View style={{flex: 1, flexGrow: 0}}>
+              <SelectList
+                setSelected={(val: React.SetStateAction<string>) => setSelected(val)}
+                data={data}
+                save="value"
+                placeholder="TIME"
+                fontFamily='Azonix'
+                search={false}
+                arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+                boxStyles={{ backgroundColor: '#46B7FF', borderColor: 'transparent', alignContent: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 10, flexShrink: 1 }}
+                inputStyles={{ color: '#fff' }}
+                dropdownStyles={{ backgroundColor: '#fff' }}
+              />
+            </View>
           </View>
-          
-        </View>
+          <View style={[styles.flexBoxesRight, { alignItems: 'center' }]}>
+            <Text style={styles.titleText} >TESLA MODEL Y</Text>
+            <Image source={require('../../../assets/images/image.png')} style={styles.image} />
+            <View style={styles.line} />
 
-        <View style={styles.flexBoxesRight}>
-          <Text style={styles.titleText}>RESERVATION DETAILS</Text>
-        </View>
-        <ReportProblemModal />
+            <View style={styles.stationContainer}>
+              <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" style={styles.modalIcon} />
+              <Text style={styles.text} numberOfLines={1} ellipsizeMode='clip'> STATION 8</Text>
+            </View>
+
+            <View style={styles.batteryContainer}>
+              <MaterialCommunityIcons name="battery-charging" size={40} color="green" style={styles.modalIcon} />
+              <Text style={styles.text} numberOfLines={1} ellipsizeMode='clip'> 46%</Text>
+            </View>
+          </View>
+
+          <View style={styles.flexBoxesRight}>
+            <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>RESERVATION DETAILS</Text>
+          </View>
+          <ReportProblemModal />
         </View>
 
       </View>
@@ -190,35 +197,48 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexBasis: '100%',
     padding: 5,
+    flexGrow: 0,
+    flexShrink: 1,
+    maxWidth: '100%',
   },
   leftRectangle: {
     flex: 1,
     flexBasis: '50%',
     backgroundColor: '#fff',
+    marginBottom: 30,
+    marginRight: 15,
     marginTop: 30,
     marginLeft: 30,
-    marginBottom: 30,
     padding: 30,
     borderRadius: 20,
   },
-  rightRectanglesContainer: {
+  rightRectangle: {
     flex: 1,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    marginTop: 30,
-    marginLeft: 30,
+    flexBasis: '50%',
     marginBottom: 30,
     marginRight: 30,
+    marginTop: 30,
+    marginLeft: 15,
     borderRadius: 20,
-    rowGap: 30,
-    flexBasis: '50%',
-    flexGrow: 0,
-    justifyContent: 'space-evenly',    
+    overflow: 'visible',
+  },
+  columnContainer: {
+    flex: 1,
+    flexBasis: '100%',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    rowGap: 10,
+    columnGap: 10,
+    flexGrow: 1,
   },
   flexBoxesRight: {
     backgroundColor: '#fff',
     borderRadius: 20,
+    flex: 1,
     padding: 30,
+    minHeight: '45%',
+    minWidth: '49%',
+    maxWidth: '49%',
     maxHeight: '50%',
     width: '45%',
     flexGrow: 1,
@@ -235,26 +255,32 @@ const styles = StyleSheet.create({
     
   },
   titleText: {
+    
     fontSize: 32,
     color: '#21304f',
     marginBottom: 20,
     fontFamily: 'Azonix',
     textAlign: 'center',
-    flexShrink: 1,
+    
+    
   },
   subtitleText: {
+   
+    flexWrap: 'nowrap',
     fontSize: 24,
     color: '#E1E1E1',
     fontFamily: 'Azonix',
+    
   },
   text: {
+  
     fontSize: 28,
     color: '#21304f',
     fontFamily: 'Azonix',
-    flexShrink: 1,
 
   },
   image: {
+
     width: "75%",
     height: "40%",
     marginTop: 20,
@@ -263,26 +289,8 @@ const styles = StyleSheet.create({
     minWidth: "35%",
     flexShrink: 1,
   },
-  modalIcon: {
-    minHeight: "5%",
-    minWidth: "5%",
-  },
-  feedbackButton: {
-    backgroundColor: '#21304f',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-    marginHorizontal: 20,
-  },
-  feedbackButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  stationContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
