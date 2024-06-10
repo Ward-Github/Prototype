@@ -269,7 +269,7 @@ export default function UserReservationScreen() {
             dropdownStyles={styles.dropdown}
           />
         <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>Huidig batterijpercentage: {batteryPercentage}%</Text>
+          <Text style={styles.sliderLabel}>Huidig batterij %: {batteryPercentage}%</Text>
           <Slider
             style={styles.slider}
             minimumValue={0}
@@ -286,7 +286,7 @@ export default function UserReservationScreen() {
             }
           />
 
-          <Text style={styles.sliderLabel}>Gewenst batterijpercentage: {desiredPercentage}%</Text>
+          <Text style={styles.sliderLabel}>Gewenst batterij %: {desiredPercentage}%</Text>
           <Slider
             style={styles.slider}
             minimumValue={defaultDesiredPercentage}
