@@ -57,23 +57,23 @@ function RootLayoutNav() {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <AdminModeProvider>
-      <ThemeProvider>
-          <SafeAreaView style={{ height: '100%', width: '100%', maxHeight: '100%', maxWidth: '100%', flex: 1, flexBasis: '100%', flexGrow: 0, flexWrap: 'nowrap' }}>
-            <Stack>
-              {Platform.OS === 'web' ? (
-                <Stack.Screen name="(auth)/(tabs web)" options={{ headerShown: false }} />
-              ) : (
-                <Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
-              )}
-              <Stack.Screen
-                name="(public)/login"
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen name="(public)/callback" options={{ headerShown: false }} />
-            </Stack>
-          </SafeAreaView>
-          <Toast />
-      </ThemeProvider>
+          <ThemeProvider>
+            <SafeAreaView style={{ height: '100%', width: '100%', maxHeight: '100%', maxWidth: '100%', flex: 1, flexBasis: '100%', flexGrow: 0, flexWrap: 'nowrap' }}>
+              <Stack>
+                {Platform.OS === 'web' ? (
+                  <Stack.Screen name="(auth)/(tabs web)" options={{ headerShown: false }} />
+                ) : (
+                  <Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
+                )}
+                <Stack.Screen
+                  name="(public)/login"
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen name="(public)/callback" options={{ headerShown: false }} />
+              </Stack>
+            </SafeAreaView>
+            <Toast />
+          </ThemeProvider>
         </AdminModeProvider>
       </QueryClientProvider>
     </AuthProvider>

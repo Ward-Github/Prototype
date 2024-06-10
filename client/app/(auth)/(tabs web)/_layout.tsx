@@ -6,6 +6,7 @@ import TabTwoScreen from './quickReserve';
 import AdminScreenOne from './ChargingStations';
 import AdminScreenTwo from './adminDashboard';
 import TabThreeScreen from './three';
+import forgotPassword from './forgotPassword';
 import { useAuth } from '@/context/AuthProvider';
 
 const Drawer = createDrawerNavigator();
@@ -73,6 +74,10 @@ export default function DrawerLayout() {
           drawerIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
           drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
         }}
+      />
+      <Drawer.Screen
+        name="ForgotPassword"
+        component={forgotPassword}
       />
 
     </Drawer.Navigator>

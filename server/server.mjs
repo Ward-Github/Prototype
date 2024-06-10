@@ -51,10 +51,21 @@ async function connectMongo() {
     console.error("Error connecting to MongoDB:", error);
   }
 }
-
+const nodemailer = require('nodemailer');
 connectMongo();
 
-
+const transporter = nodemailer.createTransport({
+  host: process.env.HOST,
+  port: process.env.PORT,
+  secure: false,
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
 async function getUserByEmail(email) {
   try {
@@ -555,6 +566,65 @@ app.post('/updateUser', async (req, res) => {
   }
 });
 
+
+app.post('/updatePw', async (req, res) => {
+  const {  email, newPassword } = req.body;
+  
+  
+  console.log("zit erin");
+  try {
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      res.status(404).send('User not found');
+      return;
+    }
+
+    if (newPassword !== undefined) {
+      user._password = newPassword;
+    }
+
+    await updateUser(user);
+
+    res.status(200).send('User updated');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while updating the user');
+  }
+});
+
+app.post('/forgot-password-email', (req, res) => {
+  const {email} = req.body;
+  console.log(email)
+
+  const mailOptions = {
+    from: process.env.USER,
+    to: email,
+    subject: "Wachtwoord resetten",
+    html: "<html>" +
+      "<body>" +
+      "<div style='width:100%; height:100%; background-color:#f4f4f4; padding:30px;'>" +
+      "<div style='width:600px; height: auto; margin:0 auto; padding:25px; border-radius:5px; background-color:white;'>" +
+      "<h1 style='color:#7F3689;'>Wachtwoord resetten</h1>" +
+      "<p style='color:#919191; font-size:16px; margin-bottom:25px;'>Om uw wachtwoord te wijzigen, gelieve op de onderstaande link te klikken.</p>" +
+      "<div style='text-align:center; padding:25px; background-color:#fafafa;'>" +
+      "<p style='color:black; font-size:20px; margin-bottom:25px;'><a href='" + "http://localhost:8081" + "/forgotpassword/' style='padding: 10px 25px;background-color: #7f3689;color: white;border-radius: 5px;text-decoration: none;'>Nieuw wachtwoord aanmaken</a></p>" +
+      "</div>" +
+      "</div>" +
+      "</div>" +
+      "</body>" +
+      "</html>",
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).send({ EmailSent: true });
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -178,6 +178,35 @@ export default function login() {
     }
   };
 
+  const sendResetPasswordEmail = async (Email: string) => {
+    console.log(Email)
+    try {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/forgot-password-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email: Email }),
+      });
+
+      if (!response.ok) {
+        throw new Error('HTTP error ' + response.status);
+      }
+
+      const data = await response.json();
+      
+      console.log(data);
+      if (data.EmailSent) {
+        Alert.alert('Success', 'Reset password email has been sent.');
+      } else {
+        Alert.alert('Error', 'There was an error sending the email.');
+      }
+
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'There was an error sending the email.');
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView
@@ -238,9 +267,19 @@ export default function login() {
                               }
                             }}
                         />
-                        <Pressable style={styles.button} onPress={loginWithEmail}>
-                            <Text style={styles.buttonText}>Login with Email</Text>
-                        </Pressable>
+                        <View>
+
+                          <Pressable style={styles.button} onPress={loginWithEmail}>
+                              <Text style={styles.buttonText}>Login with Email</Text>
+                          </Pressable>
+                          <View style={styles.line} />
+                          <Pressable 
+                            style={styles.button} 
+                            onPress={() => sendResetPasswordEmail(email)}
+                          >
+                            <Text style={styles.buttonText}>Forgot Password?</Text>
+                          </Pressable>
+                        </View>
                     </View>
                 </View>
             )}
