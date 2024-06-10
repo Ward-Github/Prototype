@@ -61,11 +61,11 @@ const ReportProblemModal = () => {
   return (
     <View style={styles.flexBoxesRight}>
         <Text style={styles.titleText}>Report a problem</Text>
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.feedbackButton}>
-        <Text style={styles.feedbackButtonText}>Report problem</Text>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <Text >Report problem</Text>
       </TouchableOpacity>
       <Modal visible={isModalVisible} transparent={true}>
-        <View style={styles.modalContainer}>
+        <View >
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Report your problem</Text>
             <SelectList 
@@ -169,12 +169,12 @@ export default function TabOneScreen() {
             <View style={styles.line} />
 
             <View style={styles.stationContainer}>
-              <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1" style={styles.modalIcon} />
+              <MaterialCommunityIcons name="ev-station" size={40} color="#E1E1E1"  />
               <Text style={styles.text} numberOfLines={1} ellipsizeMode='clip'> STATION 8</Text>
             </View>
 
-            <View style={styles.batteryContainer}>
-              <MaterialCommunityIcons name="battery-charging" size={40} color="green" style={styles.modalIcon} />
+            <View >
+              <MaterialCommunityIcons name="battery-charging" size={40} color="green"  />
               <Text style={styles.text} numberOfLines={1} ellipsizeMode='clip'> 46%</Text>
             </View>
           </View>
@@ -184,7 +184,7 @@ export default function TabOneScreen() {
           </View>
           <ReportProblemModal />
         </View>
-
+        </View>
       </View>
   );
 }
@@ -243,8 +243,6 @@ const styles = StyleSheet.create({
     width: '45%',
     flexGrow: 1,
     flexShrink: 1,
-    minWidth: '45%',
-    minHeight: '40%',
     overflow: 'hidden',
   },
   line: {
