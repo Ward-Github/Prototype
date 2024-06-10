@@ -1,26 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Pressable, Modal } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Pressable, Modal, Image, TextInput, ActivityIndicator } from 'react-native';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme } from '@/context/ThemeProvider';
+import { lightTheme, darkTheme } from '@/styles/adminTwoStyles';
+import { Ionicons } from '@expo/vector-icons';
 
 const fetchReservations = async () => {
-  const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
+  const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
+  return response.data.reverse();
 };
 
 const fetchFeedback = async () => {
   const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/feedback`);
+  console.log(response.data);
+  return response.data.reverse();
+};
+
+const fetchUsers = async () => {
+  const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/users`);
   return response.data;
 };
 
 export default function AdminReservationScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isUsersModalVisible, setIsUsersModalVisible] = useState(false);
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const {
     data: reservations,
@@ -36,6 +47,13 @@ export default function AdminReservationScreen() {
     refetch: refetchFeedback,
   } = useQuery('feedback', fetchFeedback);
 
+  const {
+    data: usersData,
+    error: usersError,
+    isLoading: usersLoading,
+    refetch: refetchUsers,
+  } = useQuery('users', fetchUsers);
+
   useEffect(() => {
     if (isModalVisible) {
       refetchReservations();
@@ -48,20 +66,102 @@ export default function AdminReservationScreen() {
     }
   }, [isFeedbackModalVisible]);
 
+  useEffect(() => {
+    if (isUsersModalVisible) {
+      refetchUsers();
+    }
+  }, [isUsersModalVisible]);
+
+  const handleDeleteReservation = async (id: any) => {
+    try {
+      await axios.delete(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/delete-reservation?id=${id}`);
+      refetchReservations();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleResolveFeedback = async (id: any) => {
+    try {
+      await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/resolve?id=${id}`);
+      refetchFeedback();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleImageSelect = (image: string) => {
+    setSelectedImage(image);
+    setLoading(true);
+    setIsImageModalVisible(true);
+  };
+
+  const styles = theme === 'light' ? lightTheme : darkTheme;
+
   const renderReservationItem = ({ item }: { item: any }) => (
     <View style={styles.reservationItem}>
-      <Text style={styles.reservationText}>Username: {item.username}</Text>
-      <Text style={styles.reservationText}>Start Time: {item.startTime}</Text>
-      <Text style={styles.reservationText}>End Time: {item.endTime}</Text>
-      <Text style={styles.reservationText}>Priority: {item.priority}</Text>
+      <View style={styles.reservationDetails}>
+        <Text style={styles.reservationText}>Username: {item.username}</Text>
+        <Text style={styles.reservationText}>Start Time: {item.startTime}</Text>
+        <Text style={styles.reservationText}>End Time: {item.endTime}</Text>
+        <Text style={styles.reservationText}>Priority: {item.priority}</Text>
+      </View>
+      <Pressable onPress={() => handleDeleteReservation(item._id)} style={styles.trashIcon}>
+        <Ionicons name="trash" size={24} color="red" />
+      </Pressable>
     </View>
   );
 
   const renderFeedbackItem = ({ item }: { item: any }) => (
     <View style={styles.feedbackItem}>
-      <Text style={styles.feedbackUser}>{item.user}</Text>
-      <Text style={styles.feedbackText}>{item.feedback}</Text>
-      <Text style={styles.feedbackTime}>{new Date(item.timeNow).toLocaleString()}</Text>
+      {item.image && (
+        <Pressable onPress={() => handleImageSelect(`${item.image}`)}>
+          <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/problems/${item.image}` }} style={styles.feedbackImage} />
+        </Pressable>
+      )}
+      <View style={styles.feedbackContent}>
+        <Text style={styles.feedbackUser}>{item.user}</Text>
+        <Text style={styles.feedbackText}>{item.feedback}</Text>
+        <Text style={styles.feedbackTime}>{new Date(item.timeNow).toLocaleString()}</Text>
+      </View>
+      <Pressable onPress={() => handleResolveFeedback(item._id)} style={styles.resolveIcon}>
+        <Ionicons name="checkmark-circle" size={24} color="green" />
+      </Pressable>
+
+      {/* Image Modal */}
+      <Modal
+        visible={isImageModalVisible}
+        onRequestClose={() => setIsImageModalVisible(false)}
+        transparent={true}
+      >
+        <Pressable style={styles.imageModalOverlay} onPress={() => setIsImageModalVisible(false)}>
+          <View style={styles.imageModalContent}>
+            {loading && (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#000000" />
+                <Text style={styles.loadingText}>Loading image...</Text>
+              </View>
+            )}
+            <Image
+              source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/problems/${selectedImage}` }}
+              style={styles.fullSizeImage}
+              onLoad={() => setLoading(false)}
+              onError={() => setLoading(false)}
+            />
+          </View>
+        </Pressable>
+      </Modal>
+    </View>
+  );
+
+  const renderUserItem = ({ item }: { item: any }) => (
+    <View style={styles.listItem}>
+      <Image source={{ uri: `http://${process.env.EXPO_PUBLIC_API_URL}:3000/images/${item._pfp}` }} style={styles.userAvatar} />
+      <View style={styles.userDetails}>
+        <Text style={styles.listText}>{item._name}</Text>
+        <Text style={styles.listText}>{item._email}</Text>
+        <Text style={styles.listText}>{item._licensePlate}</Text>
+      </View>
     </View>
   );
 
@@ -72,7 +172,10 @@ export default function AdminReservationScreen() {
         <Text style={styles.buttonText}>View Reservations</Text>
       </Pressable>
       <Pressable style={styles.button} onPress={() => setIsFeedbackModalVisible(true)}>
-        <Text style={styles.buttonText}>View Feedback</Text>
+        <Text style={styles.buttonText}>View Problems</Text>
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => setIsUsersModalVisible(true)}>
+        <Text style={styles.buttonText}>View Users</Text>
       </Pressable>
 
       {/* Reservations Modal */}
@@ -116,9 +219,9 @@ export default function AdminReservationScreen() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Feedback</Text>
+              <Text style={styles.modalTitle}>Problems</Text>
               <Pressable onPress={() => setIsFeedbackModalVisible(false)} style={styles.closeButton}>
-                <MaterialCommunityIcons name="close" size={28} color="#000" />
+                <Text style={styles.closeButtonText}>Close</Text>
               </Pressable>
             </View>
             {feedbackLoading ? (
@@ -136,117 +239,44 @@ export default function AdminReservationScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Users Modal */}
+      <Modal
+        visible={isUsersModalVisible}
+        onRequestClose={() => setIsUsersModalVisible(false)}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Users</Text>
+              <Pressable onPress={() => setIsUsersModalVisible(false)} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </Pressable>
+            </View>
+            <TextInput
+              placeholder="Search by email..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              style={styles.searchInput}
+            />
+            {usersLoading ? (
+              <Text style={styles.loadingText}>Loading...</Text>
+            ) : usersError ? (
+              <Text style={styles.errorText}>Error loading users</Text>
+            ) : (
+              <FlatList
+                data={usersData.filter((user: { _email: string; }) => user._email.toLowerCase().includes(searchQuery.toLowerCase()))}
+                renderItem={renderUserItem}
+                keyExtractor={(item) => item._id}
+                contentContainerStyle={styles.listContainer}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
+      <Toast />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f4f8',
-  },
-  profileHeader: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#21304f',
-    marginTop: 20,
-    marginHorizontal: 20,
-  },
-  button: {
-    backgroundColor: '#21304f',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-    marginHorizontal: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    height: '90%',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  closeButton: {
-    padding: 10,
-  },
-  closeButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#21304f',
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  reservationList: {
-    paddingHorizontal: 20,
-  },
-  reservationItem: {
-    backgroundColor: '#ffffff',
-    padding: 15,
-    marginVertical: 8,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  reservationText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  feedbackList: {
-    paddingHorizontal: 20,
-  },
-  feedbackItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    paddingVertical: 10,
-  },
-  feedbackUser: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  feedbackText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  feedbackTime: {
-    fontSize: 12,
-    color: '#999',
-  },
-  loadingText: {
-    fontSize: 18,
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  errorText: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: 'red',
-    marginTop: 20,
-  },
-});

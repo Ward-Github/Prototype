@@ -8,6 +8,7 @@ import Toast from 'react-native-toast-message';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AuthProvider from "@/context/AuthProvider";
 import { StatusBar } from 'expo-status-bar';
+import { ThemeProvider } from '@/context/ThemeProvider';
 import { StyleSheet } from 'react-native';
 
 const queryClient = new QueryClient();
@@ -56,6 +57,7 @@ function RootLayoutNav() {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <AdminModeProvider>
+      <ThemeProvider>
           <SafeAreaView style={{ height: '100%', width: '100%', maxHeight: '100%', maxWidth: '100%', flex: 1, flexBasis: '100%', flexGrow: 0, flexWrap: 'nowrap' }}>
             <Stack>
               {Platform.OS === 'web' ? (
@@ -71,6 +73,7 @@ function RootLayoutNav() {
             </Stack>
           </SafeAreaView>
           <Toast />
+      </ThemeProvider>
         </AdminModeProvider>
       </QueryClientProvider>
     </AuthProvider>

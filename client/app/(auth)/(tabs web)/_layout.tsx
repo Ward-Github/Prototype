@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import TabOneScreen from '.';
 import TabTwoScreen from './quickReserve';
+import AdminScreenOne from './ChargingStations';
+import AdminScreenTwo from './adminDashboard';
+import TabThreeScreen from './three';
+import { useAuth } from '@/context/AuthProvider';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerLayout() {
+
+  const { isAdmin } = useAuth();
+
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerActiveTintColor: '#2196F3', // Set the active drawer item color
-        drawerInactiveTintColor: '#E1E1E1', // Set the inactive drawer item color
-        drawerStyle: { backgroundColor: '#0F2635' }, // Set the background color
+        drawerActiveTintColor: '#2196F3',
+        drawerInactiveTintColor: '#E1E1E1',
+        drawerStyle: { backgroundColor: '#0F2635' },
         headerStyle: { backgroundColor: '#1B73E4' },
         headerTitleStyle: { fontFamily: 'Azonix' },
         headerTintColor: '#FFFFFF',
@@ -20,7 +27,7 @@ export default function DrawerLayout() {
       }}>
       <Drawer.Screen
         name="index"
-        component={TabOneScreen} // Replace HomeComponent with the actual component you want to render
+        component={TabOneScreen}
         options={{
           title: 'Home',
           drawerIcon: ({ color }) => <Ionicons name="home" size={25} color={color} />,
@@ -29,14 +36,45 @@ export default function DrawerLayout() {
       />
       <Drawer.Screen
         name="two"
-        component={TabTwoScreen} // Replace ReservationComponent with the actual component you want to render
+        component={TabTwoScreen}
         options={{
           title: 'Reservation',
           drawerIcon: ({ color }) => <Ionicons name="calendar" size={25} color={color} />,
           drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
         }}
       />
-      {/* Add more Drawer.Screen components as needed */}
+      {isAdmin() && (
+        <>
+          <Drawer.Screen
+            name="chargingStations"
+            component={AdminScreenOne}
+            options={{
+              title: 'Charging Stations',
+              drawerIcon: ({ color }) => <Ionicons name="battery-charging" size={25} color={color} />,
+              drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
+            }}
+          />
+          <Drawer.Screen
+            name="dashboard Admin"
+            component={AdminScreenTwo}
+            options={{
+              title: 'Dashboard Admin',
+              drawerIcon: ({ color }) => <Ionicons name="chatbox" size={25} color={color} />,
+              drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
+            }}
+          />
+        </>
+      )}
+      <Drawer.Screen
+        name="Profile"
+        component={TabThreeScreen}
+        options={{
+          title: 'Profile',
+          drawerIcon: ({ color }) => <Ionicons name="person" size={25} color={color} />,
+          drawerLabelStyle: { fontSize: 10, fontFamily: 'Azonix' },
+        }}
+      />
+
     </Drawer.Navigator>
   );
 }

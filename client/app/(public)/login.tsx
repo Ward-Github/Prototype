@@ -81,47 +81,34 @@ export default function login() {
         },
       });
 
-      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUser?userId=${userPromise.data["sub"]}`, {
+      const id = userPromise.data["sub"];
+
+      console.log("\nID:", id);
+
+      const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/get-user?id=${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      console.log(fetchUserInfo)
-
       const userInfo = await fetchUserInfo.json();
-
       console.log(userInfo)
 
-      const car = userInfo.car;
-      const admin = userInfo.admin;
-      const licensePlate = userInfo.licensePlate;
+      const email = userInfo._email; 
+      const name = userInfo._name;
+      const car = userInfo._car;
+      const admin = userInfo._admin;
+      const licensePlate = userInfo._licensePlate;
+      const pfp = userInfo._pfp;
+      const theme = userInfo._theme;
 
-      console.log("\nUser data:", userPromise.data);
-      console.log("\nOkta Token: ", accessToken);
-      console.log("\nCar: ", car);
-      console.log("\nAdmin: ", admin);
-      
-      await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/addUserOkta`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: userPromise.data["sub"],
-          email: userPromise.data["preferred_username"],
-          name: userPromise.data["name"],
-          car: car,
-          licensePlate: licensePlate,
-          admin: admin,
-          accessToken: accessToken,
-        }),
-      });
+      console.log("\n---- User data ---");
+      console.log("Car: ", car);
+      console.log("Admin: ", admin);
+      console.log("License Plate: ", licensePlate);
 
-      console.log("\nLicense Plate: ", licensePlate);
-
-      login(userPromise.data["sub"], userPromise.data["preferred_username"], userPromise.data["name"], car, licensePlate, admin, accessToken);
+      login(id, email, name, licensePlate, admin, pfp, theme);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -129,11 +116,13 @@ export default function login() {
     }
   };
 
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const loginWithEmail = async () => {
     // Perform login with email and password
+    // Add your login logic here
     if (!email || !password || email === "" || password === "") {
       Alert.alert(
         'Login failed',
@@ -147,21 +136,17 @@ export default function login() {
     }else{
       setIsLoading(true);
       try{
-        const fetchUserInfo = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getUserByEmail?email=${email}`, {
+        const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/get-user?email=${email}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
-        const car = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getCar?carName=${fetchUserInfo.data["_car"]}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        console.log(car.data)
 
-        if(!fetchUserInfo.data){
+        const userInfo = await fetchUserInfo.json();
+        console.log(userInfo)
+
+        if(!userInfo){
           Alert.alert(
             'Login failed',
             'The email is incorrect',
@@ -171,7 +156,7 @@ export default function login() {
             { cancelable: false }
           )
           return;
-        }else if(fetchUserInfo.data["_password"] !== password){
+        }else if(userInfo._password !== password){
           Alert.alert(
             'Login failed',
             'The password or email is incorrect',
@@ -182,7 +167,7 @@ export default function login() {
           );
           return;
         }else{
-          login(fetchUserInfo.data["_userId"], fetchUserInfo.data["_email"], fetchUserInfo.data["_name"], car.data["name"], fetchUserInfo.data["_licensePlate"], fetchUserInfo.data["_admin"], fetchUserInfo.data["_accessToken"]);
+          login(userInfo._idOkta, userInfo._email, userInfo._name, userInfo._licensePlate, userInfo._admin, userInfo._pfp, userInfo._theme);
         }
       }
       catch (error) {
@@ -205,7 +190,7 @@ export default function login() {
                     <ActivityIndicator size="large" color="#21304f" />
                 </View>
             ) : authState ? (
-                <Button title="Logout" onPress={() => setAuthState(null)} />
+                <Button title="Database connection failed." onPress={() => setAuthState(null)} />
             ) : (
                 <View style={styles.main}>
                     <Text style={styles.profileHeader}>Login</Text>

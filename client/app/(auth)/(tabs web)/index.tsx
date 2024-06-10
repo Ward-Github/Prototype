@@ -1,10 +1,125 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, Image } from 'react-native';
-import { View, Text, TouchableOpacity, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Button, Modal, ActivityIndicator, Keyboard, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SelectList } from 'react-native-dropdown-select-list'
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { useAuth } from '@/context/AuthProvider';
+import Toast from 'react-native-toast-message';
+import { SelectList } from 'react-native-dropdown-select-list';
+
+const submitFeedback = async ({ feedback, user }: { feedback: string, user: string }) => {
+  try {
+    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/submitFeedback`, { feedback, user }, { timeout: 5000 });
+    Toast.show({
+      type: 'success',
+      position: 'top',
+      text1: 'Success',
+      text2: 'Problem reported successfully 🎉',
+      visibilityTime: 3000,
+      topOffset: 60,
+    });
+  } catch (error) {
+    Toast.show({
+      type: 'error',
+      position: 'top',
+      text1: 'Error',
+      text2: 'An error occurred while submitting your problem 😔',
+      visibilityTime: 3000,
+      topOffset: 60,
+    });
+    throw error;
+  }
+};
+
+const ReportProblemModal = () => {
+  const auth = useAuth();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [feedback, setFeedback] = useState('');
+  const [selectedProblem, setSelectedProblem] = useState('');
+  const user = auth.user?.name || '';
+
+  const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
+    onSuccess: () => {
+      setModalVisible(false);
+      setFeedback('');
+      setSelectedProblem('');
+    },
+    onError: () => {
+      setModalVisible(false);
+      setFeedback('');
+      setSelectedProblem('');
+    },
+  })
+
+  const problemOptions = [
+    { key: '1', value: 'Payment not working' },
+    { key: '2', value: 'Cable not charging' },
+    { key: '3', value: 'Station unavailable' },
+    { key: '4', value: 'Other' },
+  ];
+
+  return (
+    <View style={styles.flexBoxesRight}>
+        <Text style={styles.titleText}>Report a problem</Text>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.feedbackButton}>
+        <Text style={styles.feedbackButtonText}>Report problem</Text>
+      </TouchableOpacity>
+      <Modal visible={isModalVisible} transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Report your problem</Text>
+            <SelectList 
+              setSelected={setSelectedProblem} 
+              data={problemOptions} 
+              save="value"
+              placeholder="Select a problem"
+              arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+              boxStyles={styles.selectBox}
+              inputStyles={styles.selectInput}
+              dropdownStyles={styles.dropdown}
+              search={false}
+            />
+            {selectedProblem === 'Other' && (
+              <TextInput
+                style={[styles.textInput, {marginTop: 20}]}
+                placeholder="Type your problem here..."
+                placeholderTextColor="#A9A9A9"
+                value={feedback}
+                onChangeText={setFeedback}
+              />
+            )}
+            <View style={styles.buttonContainer}>
+              <Button 
+                title="Send"
+                 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
+                }}
+              />
+              <Button 
+                title="Cancel" 
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setModalVisible(false);
+                  setFeedback('');
+                  setSelectedProblem('');
+                }} 
+                color="red" 
+              />
+            </View>
+            {mutation.isLoading && <ActivityIndicator size="large" color="#21304f" style={styles.loadingIndicator} />}
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
 
 export default function TabOneScreen() {
+
+  const { user } = useAuth();
   const [selected, setSelected] = React.useState("");
 
   const data = [
@@ -67,13 +182,10 @@ export default function TabOneScreen() {
           <View style={styles.flexBoxesRight}>
             <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>RESERVATION DETAILS</Text>
           </View>
-          <View style={styles.flexBoxesRight}>
-            <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>TIME SLOT</Text>
-          </View>
+          <ReportProblemModal />
         </View>
 
       </View>
-    </View>
   );
 }
 
@@ -81,7 +193,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#041B2A',
+    backgroundColor: '#f0f4f8',
     justifyContent: 'space-evenly',
     flexBasis: '100%',
     padding: 5,
@@ -92,7 +204,7 @@ const styles = StyleSheet.create({
   leftRectangle: {
     flex: 1,
     flexBasis: '50%',
-    backgroundColor: '#0F2635',
+    backgroundColor: '#fff',
     marginBottom: 30,
     marginRight: 15,
     marginTop: 30,
@@ -120,7 +232,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   flexBoxesRight: {
-    backgroundColor: '#0F2635',
+    backgroundColor: '#fff',
     borderRadius: 20,
     flex: 1,
     padding: 30,
@@ -128,7 +240,12 @@ const styles = StyleSheet.create({
     minWidth: '49%',
     maxWidth: '49%',
     maxHeight: '50%',
-    overflow: 'scroll',
+    width: '45%',
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: '45%',
+    minHeight: '40%',
+    overflow: 'hidden',
   },
   line: {
     height: 1,
@@ -140,7 +257,7 @@ const styles = StyleSheet.create({
   titleText: {
     
     fontSize: 32,
-    color: '#E1E1E1',
+    color: '#21304f',
     marginBottom: 20,
     fontFamily: 'Azonix',
     textAlign: 'center',
@@ -158,7 +275,7 @@ const styles = StyleSheet.create({
   text: {
   
     fontSize: 28,
-    color: '#E1E1E1',
+    color: '#21304f',
     fontFamily: 'Azonix',
 
   },
@@ -170,19 +287,53 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     minHeight: "35%",
     minWidth: "35%",
+    flexShrink: 1,
   },
   stationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '30%',
+  },
+  modalTitle: {
+    fontSize: 24,
+    color: '#21304f',
+    fontWeight: '700',
     marginBottom: 20,
   },
-  batteryContainer: {
+  textInput: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  buttonContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    justifyContent: 'space-between',
+    margin: 30,
+    borderRadius: 20,
   },
-  modalIcon: {
-    minHeight: "5%",
-    minWidth: "5%",
+  loadingIndicator: {
+    marginTop: 20,
+  },
+  selectBox: {
+    backgroundColor: '#f0f4f8',
+    borderColor: 'transparent',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  selectInput: {
+    color: '#21304f',
+    fontWeight: '700',
+  },
+  dropdown: {
+    backgroundColor: '#f0f4f8',
   },
 });
