@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TextInput } from "@/components/Themed";
-import { Alert, SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image, Platform, KeyboardAvoidingView } from "react-native";
+import { Alert, SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image, Platform, KeyboardAvoidingView, Text, View, TextInput, Modal } from "react-native";
 import { useAuth } from "@/context/AuthProvider";
 import axios from "axios";
 import * as AuthSession from "expo-auth-session";
@@ -20,6 +19,8 @@ const oktaConfig = {
 export default function login() {
     const [authState, setAuthState] = useState<AuthSession.AuthSessionResult | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [forgotEmail, setForgotEmail] = useState("");
 
     const { login } = useAuth();
 
@@ -176,7 +177,38 @@ export default function login() {
     }
   };
 
-  return (
+  const sendResetPasswordEmail = async (Email: string) => {
+    console.log(Email)
+    try {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/forgot-password-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email: Email }),
+      });
+
+      if (!response.ok) {
+        throw new Error('HTTP error ' + response.status);
+      }
+
+      const data = await response.json();
+      
+      console.log(data);
+      if (data.EmailSent) {
+        Alert.alert('Success', 'Reset password email has been sent.');
+        setModalVisible(false);
+      } else {
+        Alert.alert('Error', 'There was an error sending the email.');
+      }
+
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'There was an error sending the email.');
+    }
+  };
+
+return (
     <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView
             style={styles.container}
@@ -236,34 +268,77 @@ export default function login() {
                               }
                             }}
                         />
-                        <Pressable style={styles.button} onPress={loginWithEmail}>
-                            <Text style={styles.buttonText}>Login with Email</Text>
-                        </Pressable>
+                        <View style={styles.email}>
+                          <Pressable style={styles.button} onPress={loginWithEmail}>
+                              <Text style={styles.buttonText}>Login with Email</Text>
+                          </Pressable>
+                          <Pressable 
+                              style={styles.button} 
+                              onPress={() => setModalVisible(true)}
+                          >
+                              <Text style={styles.buttonText}>Forgot Password?</Text>
+                          </Pressable>
+                        </View>
                     </View>
                 </View>
             )}
         </KeyboardAvoidingView>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Reset Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email"
+                placeholderTextColor="#A9A9A9"
+                value={forgotEmail}
+                onChangeText={setForgotEmail}
+              />
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => sendResetPasswordEmail(forgotEmail)}
+              >
+                <Text style={styles.textStyle}>Submit</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
     </SafeAreaView>
 );
 };
 
 let styles = StyleSheet.create({
-profileHeader: {
+  profileHeader: {
     fontSize: 24,
     fontWeight: '700',
     color: '#21304f',
     marginTop: 20,
     marginHorizontal: 20,
-},
-container2: {
+  },
+  container2: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'transparent',
     justifyContent: 'center',
     textAlign: 'center',
-},
-container3: {
+  },
+  container3: {
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 20,
@@ -275,46 +350,49 @@ container3: {
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,
-},
-container: {
+  },
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f0f4f8',
-},
-main: {
+  },
+  email : {
+    backgroundColor: 'transparent',  
+  },
+  main: {
     padding: 20,
     backgroundColor: '#f0f4f8',
-},
-button: {
-  backgroundColor: '#21304f',
-  padding: 15,
-  borderRadius: 10,
-  alignItems: 'center',
-  marginTop: 20,
-},
-buttonText: {
-  color: '#fff',
-  fontSize: 18,
-  fontWeight: '600',
-},
-image: {
+  },
+  button: {
+    backgroundColor: '#21304f',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  image: {
     width: 350,
     height: 150,
     marginBottom: 20,
-},
-loading: {
+  },
+  loading: {
     color: '#21304f',
     fontSize: 18,
     marginBottom: 10,
-},
-loadingContainer: {
+  },
+  loadingContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f0f4f8',
-},
-input: {
+  },
+  input: {
     height: 40,
     width: 300,
     margin: 12,
@@ -324,46 +402,83 @@ input: {
     color: '#000', // Change text color to black
     borderColor: '#21304f', // Change border color to #21304f
     backgroundColor: 'transparent', // Remove blue background
-},
-dividerContainer: {
+  },
+  dividerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
     backgroundColor: '#fff',
-},
-line: {
+  },
+  line: {
     flex: 1,
     height: 1,
     backgroundColor: '#21304f',
-},
-dividerText: {
+  },
+  dividerText: {
     marginHorizontal: 10,
     fontSize: 16,
     color: '#21304f',
     fontFamily: 'Poppins',
-}
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonClose: {
+    backgroundColor: "#21304f",
+    marginTop: 10,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#21304f',
+  },
 });
 
 if (Platform.OS === 'android' || Platform.OS === 'ios') {
-styles = StyleSheet.create({
+  styles = StyleSheet.create({
     ...styles,
     image: {
-        width: 300,
-        height: 125,
-        marginTop: 200,
-        marginBottom: 0,
+      width: 300,
+      height: 125,
+      marginTop: 200,
+      marginBottom: 0,
     },
     input: {
-        height: 50,
-        width: 300,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 20,
-        color: '#000', // Change text color to black
-        borderColor: '#21304f', // Change border color to #21304f
-        backgroundColor: 'transparent', // Remove blue background
-        fontFamily: 'Poppins', // Use Poppins font
+      height: 50,
+      width: 300,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      borderRadius: 20,
+      color: '#000', // Change text color to black
+      borderColor: '#21304f', // Change border color to #21304f
+      backgroundColor: 'transparent', // Remove blue background
+      fontFamily: 'Poppins', // Use Poppins font
     }
-});
+  });
 }
