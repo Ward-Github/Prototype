@@ -8,6 +8,8 @@ import Toast from 'react-native-toast-message';
 import { SelectList } from 'react-native-dropdown-select-list';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { darkTheme, lightTheme } from '@/webstyles/indexStyles';
+import { useTheme } from '@/context/ThemeProvider';
 
 
 const submitFeedback = async ({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => {
@@ -58,7 +60,7 @@ const ReportProblemModal = () => {
   const [selectedProblem, setSelectedProblem] = useState('');
   const user = auth.user?.name || '';
   const [image, setImage] = useState<string | null>(null);
-
+  const { theme, setTheme } = useTheme();
 
   const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
     onSuccess: () => {
@@ -91,6 +93,7 @@ const ReportProblemModal = () => {
       setImage(result.assets[0].uri);
     }
   };
+  const styles = theme === 'light' ? lightTheme : darkTheme;
 
   return (
     <View style={styles.flexBoxesRight}>
@@ -156,7 +159,6 @@ const ReportProblemModal = () => {
   );
 };
 
-
 export default function TabOneScreen() {
 
   const { user } = useAuth();
@@ -178,6 +180,7 @@ export default function TabOneScreen() {
     { key: '13', value: '20:00 - 21:00' },
     { key: '14', value: '21:00 - 22:00' },
   ]
+  const styles = theme === 'light' ? lightTheme : darkTheme;
 
   return (
     <View style={styles.mainContainer}>
@@ -221,182 +224,3 @@ export default function TabOneScreen() {
       </View>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#f0f4f8',
-    justifyContent: 'space-evenly',
-    flexBasis: '100%',
-    padding: 5,
-  },
-  leftRectangle: {
-    flex: 1,
-    flexBasis: '50%',
-    backgroundColor: '#fff',
-    marginTop: 30,
-    marginLeft: 30,
-    marginBottom: 30,
-    padding: 30,
-    borderRadius: 20,
-  },
-  rightRectanglesContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    marginTop: 30,
-    marginLeft: 30,
-    marginBottom: 30,
-    marginRight: 30,
-    borderRadius: 20,
-    rowGap: 30,
-    flexBasis: '50%',
-    flexGrow: 0,
-    justifyContent: 'space-evenly',    
-  },
-  flexBoxesRight: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 30,
-    maxHeight: '50%',
-    width: '45%',
-    flexGrow: 1,
-    flexShrink: 1,
-    minWidth: '45%',
-    minHeight: '40%',
-    overflow: 'hidden',
-  },
-  line: {
-    height: 1,
-    backgroundColor: '#E1E1E1',
-    width: '90%',
-    marginBottom: 20,
-    
-  },
-  titleText: {
-    fontSize: 32,
-    color: '#21304f',
-    marginBottom: 20,
-    fontFamily: 'Azonix',
-    textAlign: 'center',
-    flexShrink: 1,
-  },
-  subtitleText: {
-    fontSize: 24,
-    color: '#E1E1E1',
-    fontFamily: 'Azonix',
-  },
-  text: {
-    fontSize: 28,
-    color: '#21304f',
-    fontFamily: 'Azonix',
-    flexShrink: 1,
-
-  },
-  image: {
-    width: "75%",
-    height: "40%",
-    marginTop: 20,
-    marginBottom: 20,
-    minHeight: "35%",
-    minWidth: "35%",
-    flexShrink: 1,
-  },
-  modalIcon: {
-    minHeight: "5%",
-    minWidth: "5%",
-  },
-  feedbackButton: {
-    backgroundColor: '#21304f',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-    marginHorizontal: 20,
-  },
-  feedbackButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    width: '30%',
-  },
-  modalTitle: {
-    fontSize: 24,
-    color: '#21304f',
-    fontWeight: '700',
-    marginBottom: 20,
-  },
-  textInput: {
-    backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 30,
-    borderRadius: 20,
-  },
-  loadingIndicator: {
-    marginTop: 20,
-  },
-  selectBox: {
-    backgroundColor: '#f0f4f8',
-    borderColor: 'transparent',
-    alignContent: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  selectInput: {
-    color: '#21304f',
-    fontWeight: '700',
-  },
-  dropdown: {
-    backgroundColor: '#f0f4f8',
-  },
-  imagePicker: {
-    backgroundColor: '#f0f4f8',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  imagePickerText: {
-    color: '#21304f',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  imagePreview: {
-    width: 100,
-    height: 100,
-    marginTop: 10,
-  },
-  uploadButton: {
-    backgroundColor: '#f0f4f8',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  dropdownContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-});
