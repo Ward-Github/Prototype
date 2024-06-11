@@ -180,7 +180,7 @@ export default function login() {
   const sendResetPasswordEmail = async (Email: string) => {
     console.log(Email)
     try {
-      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/forgot-password-email`, {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

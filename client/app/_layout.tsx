@@ -69,6 +69,7 @@ function RootLayoutNav() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="(public)/callback" options={{ headerShown: false }} />
+        <Stack.Screen name="(public)/forgot-password" options={{ headerShown: false }} />
       </Stack>
       <Toast />
       </ThemeProvider>
