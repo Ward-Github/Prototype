@@ -121,8 +121,6 @@ export default function login() {
   const [password, setPassword] = useState("");
 
   const loginWithEmail = async () => {
-    // Perform login with email and password
-    // Add your login logic here
     if (!email || !password || email === "" || password === "") {
       Alert.alert(
         'Login failed',

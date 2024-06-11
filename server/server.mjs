@@ -80,7 +80,7 @@ async function findCar(carReference) {
     const car = await cars.findOne(query);
 
     if (!car) {
-        console.error("Error finding car: " + carReference);
+        console.error("Error finding car: " + carReference, error);
         throw new Error("Car not found");
     }
     console.log("Car found:", car);
@@ -99,7 +99,7 @@ async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
     const query = { _email: email };
     const user = await users.findOne(query);
     const car = await findCar(carName);
-    
+
     if (!user) {
        // This is now the _id of the car
       console.log("User does not exist, adding user");
