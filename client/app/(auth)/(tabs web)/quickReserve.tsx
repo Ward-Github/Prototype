@@ -1,8 +1,14 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message'
+import { lightTheme, darkTheme } from '@/webstyles/quickReserveStyles';
+import { useTheme } from '@/context/ThemeProvider';
+import { useState } from 'react';
 
 export default function TabTwoScreen() {
+  const { theme } = useTheme();
+  const styles = theme === 'light' ? lightTheme : darkTheme;
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const handlePress = () => {
     fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`, {
       method: 'POST',
@@ -47,48 +53,16 @@ export default function TabTwoScreen() {
               <View style={styles.textContainer}>
                 <Text style={styles.text}>SNEL</Text>
                 <Text style={styles.text}>RESERVEREN</Text>
-              </View>
-              <MaterialCommunityIcons name="fast-forward-outline" size={56} color="#E1E1E1" style={{ marginRight: 20 }}/>
-            </View>
+                </View>
+          <MaterialCommunityIcons
+            name="fast-forward-outline"
+            size={56}
+            color={isDarkMode ? '#E1E1E1' : '#21304f'}
+            style={styles.icon}
+          />
+        </View>
           </TouchableOpacity>
         </View>
       </View>
     );
 }
-
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#041B2A',
-  },
-  rectangle: {
-      width: '95%', 
-      height: '95%', 
-      backgroundColor: '#0F2635', 
-      justifyContent: 'flex-start',
-      alignItems: 'center', 
-      paddingTop: 20,
-  },
-  innerRectangle: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width : '95%',
-      backgroundColor: '#0F3B5A',
-  },
-  textContainer: {
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 20,
-      marginBottom: 20,
-      marginRight: 20,
-  },
-  text: {
-      fontSize: 28,
-      fontFamily: 'Azonix',
-      color: '#E1E1E1',
-  },
-});
