@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image, View, Text, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Image, View, Text, TextInput, TouchableOpacity, Pressable, Switch } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import { useAuth } from '@/context/AuthProvider';
@@ -90,7 +90,13 @@ export default function TabThreeScreen() {
             onChangeText={setLicensePlate}
           />
           </View>
-          
+          <View style={styles.themeSwitchContainer}>
+                        <Text style={styles.themeSwitchLabel}>Dark mode</Text>
+                        <Switch
+                            value={theme === 'dark'}
+                            onValueChange={toggleTheme}
+                        />
+          </View>
           <Pressable style={styles.button} onPress={
             handleSave}>
             <Text style={styles.buttonText}>Save</Text>

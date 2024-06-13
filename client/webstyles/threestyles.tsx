@@ -47,6 +47,26 @@ export const lightTheme = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
     },
+    themeSwitchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 20,
+        backgroundColor: '#fff',
+        marginTop: 20,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    themeSwitchLabel: {
+        fontSize: 16,
+        color: '#21304f',
+        marginHorizontal: 20,
+        fontWeight: '600',
+    },
 });
 
 export const darkTheme = StyleSheet.create({
@@ -94,6 +114,25 @@ export const darkTheme = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontSize: 18,
+        fontWeight: '600',
+    },
+    themeSwitchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 20,
+        marginTop: 20,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    themeSwitchLabel: {
+        fontSize: 16,
+        color: '#fff',
+        marginHorizontal: 20,
         fontWeight: '600',
     },
 });
