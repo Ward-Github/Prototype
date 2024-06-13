@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Alert, SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image, Platform, KeyboardAvoidingView, Text, View, TextInput, Modal } from "react-native";
+import {SafeAreaView, Button, StyleSheet, ActivityIndicator, Pressable, Image, Platform, KeyboardAvoidingView, Text, View, TextInput, Modal } from "react-native";
 import { useAuth } from "@/context/AuthProvider";
 import axios from "axios";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
-import { ScreenContainer } from "react-native-screens";
+import Toast from 'react-native-toast-message';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -17,16 +17,21 @@ const oktaConfig = {
 };
 
 export default function login() {
-    const [authState, setAuthState] = useState<AuthSession.AuthSessionResult | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [forgotEmail, setForgotEmail] = useState("");
+  const [authState, setAuthState] = useState<AuthSession.AuthSessionResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotCode, setForgotCode] = useState("");
+  const [forgotPassword, setForgotPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
+  const [hasCode, setHasCode] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const { login } = useAuth();
+  const { login } = useAuth();
 
   const discovery = AuthSession.useAutoDiscovery(oktaConfig.issuerUrl);
   const redirectUri = AuthSession.makeRedirectUri({
-    // For usage inbare and standalone
     path: "callback",
   });
 
@@ -96,20 +101,7 @@ export default function login() {
       const userInfo = await fetchUserInfo.json();
       console.log(userInfo)
 
-      const email = userInfo._email; 
-      const name = userInfo._name;
-      const car = userInfo._car;
-      const admin = userInfo._admin;
-      const licensePlate = userInfo._licensePlate;
-      const pfp = userInfo._pfp;
-      const theme = userInfo._theme;
-
-      console.log("\n---- User data ---");
-      console.log("Car: ", car);
-      console.log("Admin: ", admin);
-      console.log("License Plate: ", licensePlate);
-
-      login(id, email, name, licensePlate, admin, pfp, theme);
+      login(id, userInfo._email, userInfo._name, userInfo._licensePlate, userInfo._admin, userInfo._pfp, userInfo._theme);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -118,67 +110,80 @@ export default function login() {
   };
 
   
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
 
   const loginWithEmail = async () => {
     if (!email || !password || email === "" || password === "") {
-      Alert.alert(
-        'Login failed',
-        'Please enter both email and password',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-        { cancelable: false }
-      );
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'Please provide both email and password',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
       return;
     }else{
       setIsLoading(true);
       try{
-        const fetchUserInfo = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/get-user?email=${email}`, {
-          method: 'GET',
+        const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/login`, {
+          method: 'POST', // Use POST method for login
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
         });
-
-        const userInfo = await fetchUserInfo.json();
-        console.log(userInfo)
-
-        if(!userInfo){
-          Alert.alert(
-            'Login failed',
-            'The email is incorrect',
-            [
-              { text: 'OK', onPress: () => console.log('OK Pressed') },
-            ],
-            { cancelable: false }
-          )
-          return;
-        }else if(userInfo._password !== password){
-          Alert.alert(
-            'Login failed',
-            'The password or email is incorrect',
-            [
-              { text: 'OK', onPress: () => console.log('OK Pressed') },
-            ],
-            { cancelable: false }
-          );
-          return;
-        }else{
+        if (response.ok) {
+          const userInfo = await response.json(); // Get user data from response
+          console.log(userInfo);
           login(userInfo._idOkta, userInfo._email, userInfo._name, userInfo._licensePlate, userInfo._admin, userInfo._pfp, userInfo._theme);
+        } else {
+          const errorData = await response.json();
+          Toast.show({
+            type: 'error',
+            position: 'top',
+            text1: 'Error',
+            text2: 'An error occurred while logging in',
+            visibilityTime: 3000,
+            topOffset: 60,
+          });
+          throw errorData.error;
         }
-      }
-      catch (error) {
-        console.log("Error:", error);
+      } catch (error) {
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: 'Error',
+          text2: 'An error occurred while logging in',
+          visibilityTime: 3000,
+          topOffset: 60,
+        });
+        throw error;
       } finally {
         setIsLoading(false);
       }
-    }
+    };
   };
+    
+
 
   const sendResetPasswordEmail = async (Email: string) => {
-    console.log(Email)
+    if (!Email || Email === "" || Email === null || Email.includes(" ")) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'Please provide a valid email',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
+      setForgotEmail("");
+      return;
+    }
+    console.log("Reset Password called with email: " + Email)
     try {
       const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/forgot-password`, {
         method: 'POST',
@@ -187,32 +192,139 @@ export default function login() {
         },
         body: JSON.stringify({email: Email }),
       });
-
+      
+      console.log("forgor response: "+response.status)
       if (!response.ok) {
+        if(response.status === 404){
+          Toast.show({
+            type: 'error',
+            position: 'top',
+            text1: 'Error',
+            text2: 'No user found with that email',
+            visibilityTime: 3000,
+            topOffset: 60,
+          })
+          setForgotEmail("");
+          setModalVisible(false);
+          return;
+        }
         throw new Error('HTTP error ' + response.status);
       }
-
       const data = await response.json();
-      
-      console.log(data);
+
+      console.log(data.EmailSent);
       if (data.EmailSent) {
-        Alert.alert('Success', 'Reset password email has been sent.');
-        setModalVisible(false);
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: 'Success',
+          text2: 'Password reset email sent',
+          visibilityTime: 3000,
+          topOffset: 60,
+        });
+        setHasCode(true);
       } else {
-        Alert.alert('Error', 'There was an error sending the email.');
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: 'Error',
+          text2: 'There was an error sending the password reset email',
+          visibilityTime: 3000,
+          topOffset: 60,
+        });
+        setModalVisible(false);
       }
 
     } catch (error) {
       console.error(error);
-      Alert.alert('Error', 'There was an error sending the email.');
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'An error with the server occured :(',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
+      setModalVisible(false);
     }
   };
+
+  const sendNewPassword = async (Email: string, Password: string) => {
+    console.log(Email, Password);
+    if (!Email || !Password || Email === "" || Password === "") {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'Please provide a valid email and password',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
+      return;
+    } else if (Password !== checkPassword) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'Passwords do not match, please try again',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
+      console.log("Passwords don't match, please try again");
+      return;
+    } else {
+      try {
+        const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/change-password`, { // Call the change-password endpoint
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: Email, newPassword: Password, code: forgotCode }),
+        });
+
+        if (!response.ok) {
+          throw new Error('HTTP error ' + response.status);
+        } else {
+          const data = await response.json();
+          if (data.PasswordUpdated) {
+            Toast.show({
+              type: 'success',
+              position: 'top',
+              text1: 'Success',
+              text2: 'Password reset successful',
+              visibilityTime: 3000,
+              topOffset: 60,
+            });
+            setEmail(forgotEmail);
+            setPassword(forgotPassword); // Set the password in the login fields
+            setForgotPassword("");
+            setCheckPassword("");
+            setForgotCode("");
+            setForgotEmail("");
+            setModalVisible(false);
+          } else {
+            Toast.show({
+              type: 'Error',
+              position: 'top',
+              text1: 'Error',
+              text2: 'Password reset has failed. Please contact support.',
+              visibilityTime: 3000,
+              topOffset: 60,
+            });
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
 
 return (
     <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView
             style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === 'ios'|| Platform.OS === 'android' ? 'padding' : 'height'}
         >
             {isLoading ? (
                 <View style={styles.loadingContainer}>
@@ -223,8 +335,8 @@ return (
                 <Button title="Database connection failed." onPress={() => setAuthState(null)} />
             ) : (
                 <View style={styles.main}>
-                    <Text style={styles.profileHeader}>Login</Text>
                     <View style={styles.container3}>
+                      <Image source={require("../../assets/images/logo.png")} style={styles.image} />
                         <Pressable style={styles.button} onPress={loginWithOkta}>
                             <Text style={styles.buttonText}>Login with Okta</Text>
                         </Pressable>
@@ -238,45 +350,27 @@ return (
                             placeholder="Email..."
                             placeholderTextColor="#A9A9A9" // Dark gray color
                             value={email}
-                            onChangeText={setEmail}
-                            onSubmitEditing={() => {
-                              if (email.trim() === "") {
-                                Alert.alert("Error", "Email cannot be empty");
-                              }
-                            }}
-                            onBlur={() => {
-                              if (email.trim() === "") {
-                                Alert.alert("Error", "Email cannot be empty");
-                              }
-                            }}
+                            onChangeText={modalVisible ? () => { } : setEmail}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Password..."
                             placeholderTextColor="#A9A9A9" // Dark gray color
                             value={password}
-                            onChangeText={setPassword}
+                            onChangeText={modalVisible ? () => { } : setPassword}
                             secureTextEntry
-                            onSubmitEditing={() => {
-                              if (password.trim() === "") {
-                                Alert.alert("Error", "Password cannot be empty");
-                              }
-                            }}
-                            onBlur={() => {
-                              if (password.trim() === "") {
-                                Alert.alert("Error", "Password cannot be empty");
-                              }
-                            }}
+                            
                         />
                         <View style={styles.email}>
-                          <Pressable style={styles.button} onPress={loginWithEmail}>
+                          <Pressable style={styles.button} onPress={loginWithEmail} disabled={modalVisible}>
                               <Text style={styles.buttonText}>Login with Email</Text>
                           </Pressable>
                           <Pressable 
-                              style={styles.button} 
+                              style={{backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent',}} 
                               onPress={() => setModalVisible(true)}
+                              disabled={modalVisible}
                           >
-                              <Text style={styles.buttonText}>Forgot Password?</Text>
+                              <Text style={styles.buttonPWText}>Forgot Password?</Text>
                           </Pressable>
                         </View>
                     </View>
@@ -289,35 +383,105 @@ return (
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
             setModalVisible(!modalVisible);
           }}
+          onShow={() => {setHasCode(false); setForgotEmail(''); setHasCode(false); }}
+          style={{justifyContent: 'center', alignItems: 'center', maxWidth: 200}}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Reset Password</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your email"
-                placeholderTextColor="#A9A9A9"
-                value={forgotEmail}
-                onChangeText={setForgotEmail}
-              />
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => sendResetPasswordEmail(forgotEmail)}
-              >
-                <Text style={styles.textStyle}>Submit</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Close</Text>
-              </Pressable>
+              {!hasCode ?(
+
+                <View style={{width: '100%'}}>
+                  <Text style={styles.modalText} numberOfLines={3} ellipsizeMode="tail">Enter your email address and we will send you a code to reset your password.</Text>
+                  <TextInput
+                    style={styles.modalInput}
+                    placeholder="Enter your email"
+                    placeholderTextColor="#A9A9A9"
+                    value={forgotEmail}
+                    onChangeText={setForgotEmail}
+                  />
+                  
+                  <View style={{flexDirection: 'row', columnGap: 10, width: '75%'}}>
+
+                    <Pressable
+                      style={[styles.button, styles.buttonClose, {width: '100%'}]}
+                      onPress={() => sendResetPasswordEmail(forgotEmail)}
+                    >
+                      <Text style={styles.textStyle}>Submit</Text>
+                    </Pressable>
+                    
+                  
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalVisible(!modalVisible)}
+                    >
+                      <Text style={[styles.textStyle, {height: 'auto'}]}>Close</Text>
+                    </Pressable>
+                  </View>
+                  <Pressable
+                    style={{ backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', }}
+                    onPress={() => setHasCode(true)}
+                  >
+                    <Text style={styles.buttonPWText}>I allready have a code</Text>
+                  </Pressable>
+                </View>
+              ):(
+                <View>
+                  <TextInput
+                    style={styles.modalInput}
+                    placeholder="Enter your email"
+                    placeholderTextColor="#A9A9A9"
+                    value={forgotEmail}
+                    onChangeText={setForgotEmail}
+                  />
+                  <TextInput
+                  style={styles.modalInput}
+                    placeholder="Enter your code"
+                    placeholderTextColor="#A9A9A9"
+                    value={forgotCode}
+                    onChangeText={setForgotCode}
+                  />
+                  <TextInput
+                  style={styles.modalInput}
+                    placeholder="Enter your new password"
+                    placeholderTextColor="#A9A9A9"
+                    value={forgotPassword}
+                    onChangeText={setForgotPassword}
+                    secureTextEntry
+                  />
+                  <TextInput
+                  style={styles.modalInput}
+                    placeholder="Enter your new password again"
+                    placeholderTextColor="#A9A9A9"
+                    value={checkPassword}
+                    onChangeText={setCheckPassword}
+                    secureTextEntry
+                  />
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => sendNewPassword(forgotEmail, forgotPassword)}
+                  >
+                    <Text style={styles.textStyle}>Submit</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setModalVisible(!modalVisible); setHasCode(false); setForgotPassword("");
+                    setCheckPassword("");
+                    setForgotCode("");
+                    setForgotEmail(""); }}
+                  >
+                    <Text style={styles.textStyle}>Close</Text>
+                  </Pressable>
+                </View>
+              )}
+              
             </View>
           </View>
         </Modal>
+        
     </SafeAreaView>
 );
 };
@@ -357,8 +521,8 @@ let styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#f0f4f8',
   },
-  email : {
-    backgroundColor: 'transparent',  
+  email: {
+    backgroundColor: 'transparent',
   },
   main: {
     padding: 20,
@@ -403,6 +567,18 @@ let styles = StyleSheet.create({
     borderColor: '#21304f', // Change border color to #21304f
     backgroundColor: 'transparent', // Remove blue background
   },
+  modalInput: {
+    height: 50,
+    width: 300,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20,
+    color: '#000', // Change text color to black
+    borderColor: '#21304f', // Change border color to #21304f
+    backgroundColor: 'transparent', // Remove blue background
+    fontFamily: 'Poppins', // Use Poppins font
+  },
   dividerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -440,6 +616,7 @@ let styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: 500
   },
   buttonClose: {
     backgroundColor: "#21304f",
@@ -457,6 +634,11 @@ let styles = StyleSheet.create({
     fontWeight: '700',
     color: '#21304f',
   },
+  buttonPWText: {
+    color: '#21304f',
+    fontSize: 12,
+    fontWeight: '600',
+  },
 });
 
 if (Platform.OS === 'android' || Platform.OS === 'ios') {
@@ -465,7 +647,6 @@ if (Platform.OS === 'android' || Platform.OS === 'ios') {
     image: {
       width: 300,
       height: 125,
-      marginTop: 200,
       marginBottom: 0,
     },
     input: {
@@ -479,6 +660,34 @@ if (Platform.OS === 'android' || Platform.OS === 'ios') {
       borderColor: '#21304f', // Change border color to #21304f
       backgroundColor: 'transparent', // Remove blue background
       fontFamily: 'Poppins', // Use Poppins font
-    }
+    },
+    modalInput: {
+      height: 50,
+      width: 200,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      borderRadius: 20,
+      color: '#000', // Change text color to black
+      borderColor: '#21304f', // Change border color to #21304f
+      backgroundColor: 'transparent', // Remove blue background
+      fontFamily: 'Poppins', // Use Poppins font
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      width: 350
+    },
   });
 }
