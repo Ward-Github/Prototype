@@ -11,7 +11,6 @@ import * as FileSystem from 'expo-file-system';
 import { darkTheme, lightTheme } from '@/webstyles/indexStyles';
 import { useTheme } from '@/context/ThemeProvider';
 
-
 const submitFeedback = async ({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => {
   try {
     if (image) {
@@ -60,20 +59,22 @@ const ReportProblemModal = () => {
   const [selectedProblem, setSelectedProblem] = useState('');
   const user = auth.user?.name || '';
   const [image, setImage] = useState<string | null>(null);
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
-  const mutation = useMutation(({ feedback, user }: { feedback: string, user: string }) => submitFeedback({ feedback, user }), {
+  const mutation = useMutation(({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => submitFeedback({ feedback, user, image }), {
     onSuccess: () => {
       setModalVisible(false);
       setFeedback('');
       setSelectedProblem('');
+      setImage(null);
     },
     onError: () => {
       setModalVisible(false);
       setFeedback('');
       setSelectedProblem('');
+      setImage(null);
     },
-  })
+  });
 
   const problemOptions = [
     { key: '1', value: 'Payment not working' },
@@ -93,11 +94,12 @@ const ReportProblemModal = () => {
       setImage(result.assets[0].uri);
     }
   };
+
   const styles = theme === 'light' ? lightTheme : darkTheme;
 
   return (
     <View style={styles.flexBoxesRight}>
-        <Text style={styles.titleText}>Report a problem</Text>
+      <Text style={styles.titleText}>Report a problem</Text>
       <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.feedbackButton}>
         <Text style={styles.feedbackButtonText}>Report problem</Text>
       </TouchableOpacity>
@@ -134,10 +136,9 @@ const ReportProblemModal = () => {
             <View style={styles.buttonContainer}>
               <Button 
                 title="Send"
-                 
                 onPress={() => {
                   Keyboard.dismiss();
-                  mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user });
+                  mutation.mutate({ feedback: selectedProblem === 'Other' ? feedback : selectedProblem, user, image });
                 }}
               />
               <Button 
@@ -160,9 +161,9 @@ const ReportProblemModal = () => {
 };
 
 export default function TabOneScreen() {
-
   const { user } = useAuth();
   const [selected, setSelected] = React.useState("");
+  const { theme } = useTheme();
 
   const data = [
     { key: '1', value: '08:00 - 09:00' },
@@ -179,7 +180,8 @@ export default function TabOneScreen() {
     { key: '12', value: '19:00 - 20:00' },
     { key: '13', value: '20:00 - 21:00' },
     { key: '14', value: '21:00 - 22:00' },
-  ]
+  ];
+
   const styles = theme === 'light' ? lightTheme : darkTheme;
 
   return (
@@ -188,7 +190,6 @@ export default function TabOneScreen() {
         <Text style={styles.titleText}>LOADING STATIONS</Text>
       </View>
       <View style={styles.rightRectanglesContainer}>
-
         <View style={styles.flexBoxesRight}>
           <Text style={styles.titleText}>FAST RESERVATION</Text>
           <SelectList
@@ -204,7 +205,6 @@ export default function TabOneScreen() {
             dropdownStyles={{ backgroundColor: '#fff' }}
           />
         </View>
-
         <View style={[styles.flexBoxesRight, { alignItems: 'center' }]}>
           <Text style={styles.titleText}>TESLA MODEL Y</Text>
           <Image source={require('../../../assets/images/image.png')} style={styles.image} />
@@ -212,15 +212,12 @@ export default function TabOneScreen() {
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.text}>{user?.licensePlate}</Text>
           </View>
-          
         </View>
-
         <View style={styles.flexBoxesRight}>
           <Text style={styles.titleText}>RESERVATION DETAILS</Text>
         </View>
         <ReportProblemModal />
-        </View>
-
       </View>
+    </View>
   );
 }
