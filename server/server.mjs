@@ -1,5 +1,5 @@
 import express from "express";
-import fs from 'fs';
+import fs, { stat } from 'fs';
 import axios from 'axios';
 import cors from 'cors';
 import multer from "multer";
@@ -215,30 +215,71 @@ app.post('/get-licenseplate', upload.single('image'), (req, res) => {
   });
 });
 
-app.post('/reserve', async (req, res) => {
+app.post('/create-reservation', async (req, res) => {
   console.log(req.body);
-  const username = req.body.username;
-  const startTime = req.body.startTime;
-  const endTime = req.body.endTime;
+  const user = req.body.username;
+  const startTime = new Date(`1970-01-01T${req.body.startTime}:00`);
+  const endTime = new Date(`1970-01-01T${req.body.endTime}:00`);
   const priority = req.body.priority;
-  const EvStationId = req.body.EvstationId;
 
-  console.log(`User ${username} reserved at ${startTime} until ${endTime} at EvStation ${EvStationId}`);
-
-  const newReservation = { username, startTime, endTime, priority, EvStationId};
+  const createdTime = new Date().toISOString().split('T')[0];
 
   try {
     const database = client.db("schuberg_data_test");
     const reservations = database.collection("reservations");
+    const charging_stations = database.collection("charging_station");
+
+    const today = new Date().toISOString().split('T')[0];
+    await reservations.deleteMany({ createdTime: { $ne: today } });
+
+    const allEvStations = await charging_stations.find({}).toArray();
+    const allEvStationIds = allEvStations.map(station => station._id.toString());
+
+    const availableEvStations = [];
+    for (const evStationId of allEvStationIds) {
+      const conflictingReservation = await reservations.findOne({
+        EvStationId: evStationId,
+        $or: [
+          { startTime: { $lt: endTime, $gte: startTime } },
+          { endTime: { $gt: startTime, $lte: endTime } },
+          { startTime: { $lte: startTime }, endTime: { $gte: endTime } }
+        ]
+      });
+
+      console.log(`Checking EV station ${evStationId}: ${conflictingReservation}`);
+
+      if (!conflictingReservation) {
+        availableEvStations.push(evStationId);
+      }
+    }
+
+    if (availableEvStations.length === 0) {
+      res.status(409).send('No EV stations are available for the requested time slot.');
+      return;
+    }
+
+    console.log('Available EV stations:', availableEvStations);
+
+    const EvStationId = availableEvStations[Math.floor(Math.random() * availableEvStations.length)];
+
+    console.log(`Selected EV station ${EvStationId} for user ${user}`);
+
+    const newReservation = { user, startTime, endTime, priority, EvStationId, createdTime };
 
     await reservations.insertOne(newReservation);
 
-    res.send('Reservation saved successfully.');
+    const selectedStation = await charging_stations.findOne({ _id: new ObjectId(EvStationId) });
+    const stationName = selectedStation ? selectedStation.name : 'Unknown';
+
+    console.log(`User ${user} reserved at ${startTime} until ${endTime} at station ${stationName} with priority ${priority}`);
+    
+    res.send(stationName, req.body.startTime, req.body.endTime, priority);
   } catch (error) {
     console.error("Error saving reservation:", error);
     res.status(500).send('An error occurred while saving the reservation.');
   }
 });
+
 
 app.get('/reservations', async (req, res) => {
   const database = client.db("schuberg_data_test");
@@ -601,6 +642,34 @@ app.get('/getRandomNonOccupiedEvStation', async (req, res) => {
   res.send(randomNonOccupiedEvStation);
 },
 );
+
+app.get('/reset-stations', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  try {
+    await evStations.deleteMany({});
+
+    const newEvStations = [];
+    for (let i = 1; i <= 62; i++) {
+      newEvStations.push({
+        name: `Laadpaal ${i}`,
+        maxPower: 11.04,
+        status: 'charging',
+        user: ''
+      });
+    }
+
+    await evStations.insertMany(newEvStations);
+
+    await evStations.updateMany({}, { $set: { status: 'available' } });
+
+    res.send('EV stations reset and created successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while resetting the EV stations.');
+  }
+});
 
 app.put('/updateEvStationStatus', async (req, res) => {
   const db = client.db("schuberg_data_test");
