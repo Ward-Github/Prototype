@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthProvider';
 
 const { width } = Dimensions.get('window'); // Get the width of the screen
 
-export default function CameraComponent({ setImageUri, setLicensePlateProfile }) {
+export default function CameraComponent({ setLicensePlateProfile }) {
     const auth = useAuth();
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -26,7 +26,6 @@ export default function CameraComponent({ setImageUri, setLicensePlateProfile })
             const photo = await cameraRef.takePictureAsync();
             setPhotoUri(photo.uri);
             setModalVisible(false);
-            setImageUri(photo.uri);
             console.log('Photo taken:', photo.uri);
             startScanAnimation();
             await recognizeText(photo.uri);

@@ -21,58 +21,174 @@ export default function UserReservationScreen() {
   const [selectedPriorityIndex, setSelectedPriorityIndex] = useState(0);
   const [selectedPriority, setSelectedPriority] = useState("");
   const auth = useAuth();
-
+  const [EvStation, setEvStation] = useState({
+    id: "",
+    name: "",
+    maxPower: 0,
+    status: "",
+  });
   const handleReservation = async () => {
+
     if (desiredPercentage < batteryPercentage) {
-      Alert.alert('Ongeldige invoer', 'Het gewenste percentage moet hoger zijn dan het huidige percentage');
+      Alert.alert(
+        "Ongeldige invoer",
+        "Het gewenste percentage moet hoger zijn dan het huidige percentage"
+      );
       return;
     }
     if (selectedPriority === "") {
-      Alert.alert('Ongeldige invoer', 'Selecteer een prioriteit');
+      Alert.alert("Ongeldige invoer", "Selecteer een prioriteit");
       return;
-    };
+    }
+    if (selectedStartTime === "") {
+      Alert.alert("Ongeldige invoer", "Selecteer een starttijd");
+      return;
+    }
+     const response = await getRandomNonOccupiedEvStation();
+     if (response === null) {
+       return;
+     }
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
+    console.log("EVSTATION ID: ", EvStation.id);
     try {
-      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: auth.user?.id,
-          startTime: startTimes[selectedStartTimeIndex],
-          endTime: calculateEndTime(),
-          priority: selectedPriorityIndex,
-        }),
-      });
-
+      const response = await fetch(
+        `http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: auth.user?.id,
+            startTime: startTimes[selectedStartTimeIndex],
+            endTime: calculateEndTime(),
+            priority: selectedPriorityIndex,
+            EvstationId: EvStation.id.toString(),
+          }),
+        }
+      );
+      await updateEvStationStatus(EvStation.id, "charging");
       if (!response.ok) {
-        throw new Error('Server error');
+        // throw error with status code
+        throw new Error("Server error occurred while making the reservation 😔");
       }
 
+
       Toast.show({
-        type: 'success',
-        position: 'top',
-        text1: 'Success',
-        text2: 'Reservation saved successfully 🎉',
+        type: "success",
+        position: "top",
+        text1: "Success",
+        text2: `Reservation saved successfully 🎉 \n
+        Your Ev Station is ${EvStation.name}`,
         visibilityTime: 3000,
         topOffset: 60,
       });
+      // reset form
     } catch (error) {
       Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: 'Error',
-        text2: 'An error occurred while making the reservation 😔',
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "An error occurred while making the reservation 😔",
         visibilityTime: 3000,
       });
     }
   };
+
+  const getReservations = async () => {
+    console.log("getReservations called");
+    try {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
+  
+      if (!response.ok) {
+        Alert.alert("An error occurred while fetching reservations");
+      } else {
+        const allReservations = await response.json();
+  
+        for (const reservation of allReservations) {
+          // Extract hours and minutes from endTime (assuming HH:mm format)
+          const [hours, minutes] = reservation.endTime.split(":").map(Number);
+  
+          // Create a Date object for the endTime 
+          const endTimeDate = new Date();
+          endTimeDate.setHours(hours, minutes, 0, 0); // Set time while keeping today's date
+  
+          console.log("Reservation end time:", endTimeDate);
+  
+          if (endTimeDate < new Date()) {
+            resetEvStationstatus(reservation.EvStationId);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+      Alert.alert("An error occurred while fetching reservations");
+    }
+  };
+    const resetEvStationstatus = async (id : string) => {
+    console.log("enter reset");
+    try {
+      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/resetEvStationStatus`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getRandomNonOccupiedEvStation = async () => {
+  try {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getRandomNonOccupiedEvStation`);
+    if (!response.ok) {
+      Alert.alert("No available EV stations found");
+      return null;
+    }
+    const data = await response.json();
+    setEvStation(
+      {
+        id: data._id,
+        name: data.name,
+        maxPower: data.maxPower,
+        status: data.status,
+      }
+    );
+  } catch (error) {
+    console.error(error);
+  }
+  }
+
+  const updateEvStationStatus = async (id: string, status: string) => {
+    console.log("updateEvStationStatus called with id:", id, "and status:", status);
+    try {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/updateEvStationStatus`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        status,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Server error');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  }
 
   const calculateChargeTime = () => {
     const currentPercentage = parseInt(String(batteryPercentage), 10);
     const targetPercentage = parseInt(String(desiredPercentage), 10);
 
     // Haal de laadsnelheid van de auto op uit de profielgegevens (voorbeeld)
-    const chargeSpeedKw = 22; // Vervang door de daadwerkelijke waarde
+    const chargeSpeedKw = 22;
 
     // Schatting van de laadtijd in minuten (aanpassen indien nodig)
     // Laadtijd (in minuten) = ((Gewenste percentage - Huidig percentage) / 100 * Accucapaciteit (kWh)) / Laadvermogen (kW) * 60
@@ -128,6 +244,7 @@ export default function UserReservationScreen() {
   
 
   useEffect(() => {
+    getReservations();
     calculateChargeTime(); // Bereken tijdsloten automatisch bij verandering van percentages
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
   }, [batteryPercentage, desiredPercentage, selectedPriority]); // Voer effect uit wanneer deze waarden veranderen
@@ -152,7 +269,7 @@ export default function UserReservationScreen() {
             dropdownStyles={styles.dropdown}
           />
         <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>Huidig batterijpercentage: {batteryPercentage}%</Text>
+          <Text style={styles.sliderLabel}>Huidig batterij %: {batteryPercentage}%</Text>
           <Slider
             style={styles.slider}
             minimumValue={0}
@@ -169,7 +286,7 @@ export default function UserReservationScreen() {
             }
           />
 
-          <Text style={styles.sliderLabel}>Gewenst batterijpercentage: {desiredPercentage}%</Text>
+          <Text style={styles.sliderLabel}>Gewenst batterij %: {desiredPercentage}%</Text>
           <Slider
             style={styles.slider}
             minimumValue={defaultDesiredPercentage}
@@ -205,7 +322,6 @@ export default function UserReservationScreen() {
         {/* only show calculated charge time when desired percentage is higher than current */}
         <Text style={styles.text}>{desiredPercentage > batteryPercentage ? calculateEndTime() : 'Ongeldige invoer'}</Text>
       </View>
-
       <Pressable style={styles.button} onPress={handleReservation}>
         <Text style={styles.buttonText}>Reserveer</Text>
       </Pressable>

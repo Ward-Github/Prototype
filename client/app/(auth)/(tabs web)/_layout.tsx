@@ -7,16 +7,12 @@ import AdminScreenOne from './ChargingStations';
 import AdminScreenTwo from './adminDashboard';
 import TabThreeScreen from './three';
 import { useAuth } from '@/context/AuthProvider';
-import { lightTheme, darkTheme } from '@/webstyles/threestyles';
-import { useTheme } from '@/context/ThemeProvider';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerLayout() {
 
   const { isAdmin } = useAuth();
-  const { theme, setTheme } = useTheme();
-  const styles = theme === 'light' ? lightTheme : darkTheme;
 
   return (
     <Drawer.Navigator

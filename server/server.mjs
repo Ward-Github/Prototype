@@ -7,6 +7,10 @@ import { exec } from 'child_process';
 import path from "path";
 import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+import { constrainedMemory } from "process";
+import CryptoJS from "crypto-js";
+
+
 
 const app = express();
 const port = 3000;
@@ -52,8 +56,22 @@ async function connectMongo() {
   }
 }
 
-connectMongo();
 
+connectMongo();
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  host: process.env.HOST,
+  port: process.env.PORT,
+  secure: false,
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
 
 async function getUserByEmail(email) {
@@ -63,10 +81,12 @@ async function getUserByEmail(email) {
 
     const query = { _email: email };
     const emailUser = await users.findOne(query);
-
+    if(!emailUser){
+      return null;
+    }
     return emailUser;
   } catch (error) {
-    console.error("Error fetching movie:", error);
+    console.error("Error fetching user:", error);
     throw error;
   }
 }
@@ -90,45 +110,25 @@ async function findCar(carReference) {
     throw error;
   }
 }
-async function addUserOkta(email, carName, licensePlate, admin, accessToken) {
-  try {
-    const database = client.db("schuberg_data_test");
-    const users = database.collection("users");
-
-    const query = { _email: email };
-    const user = await users.findOne(query);
-    const car = await findCar(carName);
-
-    if (!user) {
-       // This is now the _id of the car
-      console.log("User does not exist, adding user");
-      const newUserSuppliedByOkta = {
-        _email: email,
-        _car: car.name, // Store the _id of the car
-        _LicensePlate: licensePlate, // Store the license plate
-        _password: "password", // Default password
-        _admin: admin,
-        _accesToken: accessToken,
-      };
-
-      await users.insertOne(newUserSuppliedByOkta);
-    }
-    else{ // This is now the _id of the car
-      updateUser(user);
-    }
-  } catch (error) {
-    console.error("Error adding user:", error);
-    throw error;
-  }
-}
 
 async function updateUser(user) {
+  console.log("Updating user:", user._id);
   try {
     const database = client.db("schuberg_data_test");
     const users = database.collection("users");
     const query = { _id: user._id };
     
-    await users.updateOne(query, { $set: user });
+    const result = await users.updateOne(query, { $set: user });
+
+    console.log("Update result:", result);
+    if(result.acknowledged){
+      console.log("User updated successfully");
+      return true;
+    }else{
+      console.log("User update failed");
+      return false;
+    }
+
   }
   catch (error) {
     console.error("Error updating user:", error);
@@ -216,14 +216,16 @@ app.post('/get-licenseplate', upload.single('image'), (req, res) => {
 });
 
 app.post('/reserve', async (req, res) => {
+  console.log(req.body);
   const username = req.body.username;
   const startTime = req.body.startTime;
   const endTime = req.body.endTime;
   const priority = req.body.priority;
+  const EvStationId = req.body.EvstationId;
 
-  console.log(`User ${username} reserved at ${startTime} until ${endTime}`);
+  console.log(`User ${username} reserved at ${startTime} until ${endTime} at EvStation ${EvStationId}`);
 
-  const newReservation = { username, startTime, endTime, priority};
+  const newReservation = { username, startTime, endTime, priority, EvStationId};
 
   try {
     const database = client.db("schuberg_data_test");
@@ -345,28 +347,28 @@ app.delete('/delete-reservation', async (req, res) => {
   }
 });
 
-app.get('/getUser', async (req, res) => {
-  console.log('Received a request to /getCar');
-  const userId = req.query.userId;
+// app.get('/getUser', async (req, res) => {
+//   console.log('Received a request to /getCar');
+//   const userId = req.query.userId;
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': `SSWS 00FuL6NDRx7MSvOZYhSvWbDcdrQctwfLXsShWe1vJt`
-  };
+//   const headers = {
+//     'Content-Type': 'application/json',
+//     'Accept': 'application/json',
+//     'Authorization': `SSWS 00FuL6NDRx7MSvOZYhSvWbDcdrQctwfLXsShWe1vJt`
+//   };
 
-  axios.get(`https://dev-58460839.okta.com/api/v1/users/${userId}`, {
-    headers: headers,
-  }).then((response) => {
-    const car = response.data.profile.car;
-    const admin = response.data.profile.admin;
-    const licensePlate = response.data.profile.license_plate;
-    res.send({ car, admin, licensePlate });
-  }).catch((error) => {
-    console.error(error);
-    res.status(500).send('An error occurred while getting the car.');
-  });
-});
+//   axios.get(`https://dev-58460839.okta.com/api/v1/users/${userId}`, {
+//     headers: headers,
+//   }).then((response) => {
+//     const car = response.data.profile.car;
+//     const admin = response.data.profile.admin;
+//     const licensePlate = response.data.profile.license_plate;
+//     res.send({ car, admin, licensePlate });
+//   }).catch((error) => {
+//     console.error(error);
+//     res.status(500).send('An error occurred while getting the car.');
+//   });
+// });
 
 app.get('/testMongo', async (req, res) => {
   await run();
@@ -385,7 +387,14 @@ app.get('/getUserByEmail', async (req, res) => {
 
   try {
     const user = await getUserByEmail(email);
-    res.send(user);
+    if(!user || user === null){
+      res.status(404).send('User not found');
+      return;
+    }else{
+      console.log(user)
+      res.send(user);
+    }
+    
   } catch (error) {
     res.status(500).send('An error occurred while fetching the user');
   }
@@ -424,7 +433,10 @@ app.get('/get-user', async (req, res) => {
       _password: "password",
       _admin: false,
       _licensePlate: "",
-      _pfp: "",
+      _pfp: "avatar.jpg",
+      _shame: 0,
+      _fame: 0,
+      _theme: "light",
     };
 
     await users.insertOne(newUser);
@@ -432,6 +444,27 @@ app.get('/get-user', async (req, res) => {
   }
 
   res.send(user);
+});
+
+app.get('/hall-of-shame', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const allUsers = await users.find().toArray();
+  const filteredUsers = allUsers.filter(user => user._shame > 0);
+  const sortedUsers = filteredUsers.sort((a, b) => a._shame - b._shame);
+
+  res.send(sortedUsers.reverse());
+});
+
+app.get('/hall-of-fame', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const users = db.collection("users");
+
+  const allUsers = await users.find().toArray();
+  const sortedUsers = allUsers.sort((a, b) => b._fame - a._fame);
+
+  res.send(sortedUsers);
 });
 
 app.get('/switch-theme', async (req, res) => {
@@ -448,19 +481,6 @@ app.get('/switch-theme', async (req, res) => {
   res.send('Theme updated successfully.');
 });
 
-app.post('/addUserOkta', async (req, res) => {
-  const email = req.body.email;
-  const car = req.body.car;
-  const admin = req.body.admin;
-  const accessToken = req.body.accessToken;
-
-  try {
-    await addUserOkta( email, car, admin, accessToken);
-    res.send('User added successfully');
-  } catch (error) {
-    res.status(500).send('An error occurred while adding the user');
-  }
-});
 
 app.post('/slack-notification', async (req, res) => {
     const url = 'https://hooks.slack.com/services/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';
@@ -492,17 +512,15 @@ app.get('/getCar', async (req, res) => {
   }
 });
 
-
-
 app.post('/updateUser', async (req, res) => {
-  const { id, name, email, licensePlate } = req.query;
+  const { id, name, email, licensePlate, passw } = req.query;
   const database = client.db("schuberg_data_test");
   const users = database.collection("users");
 
   const query = { _email: email };
   const user = await users.findOne(query);
   console.log("zit erin");
-  
+
 
   try {
     const user = await getUserByEmail(email);
@@ -524,6 +542,10 @@ app.post('/updateUser', async (req, res) => {
       user._licensePlate = licensePlate;
     }
 
+    if(passw !== undefined){
+      user._password = passw;
+    }
+
 
     await updateUser(user);
 
@@ -534,6 +556,311 @@ app.post('/updateUser', async (req, res) => {
   }
 });
 
+
+app.post('/addEvStation', async (req, res) => {
+  
+  console.log('Received a request to /addEvStation');
+  const db = client.db("schuberg_data_test");
+  const name = req.body.name;
+  const maxPower = req.body.maxPower;
+  const status = req.body.status;
+
+  const newEvStation = { name, maxPower, status };
+  const evStations = db.collection('charging_station');
+
+  try {
+    await evStations.insertOne(newEvStation);
+    res.send('EvStation added successfully');
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while adding the ev station');
+  }
+}); 
+
+app.get('/getEvStations', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  const allEvStations = await evStations.find().toArray();
+  res.send(allEvStations);
+});
+
+app.get('/getRandomNonOccupiedEvStation', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  const nonOccupiedEvStations = await evStations.find({ status: 'available' }).toArray();
+  if (nonOccupiedEvStations.length === 0) {
+    console.log('No available EV stations found');
+    return res.status(404).send('No available EV stations found');
+  }
+  const randomNonOccupiedEvStation = nonOccupiedEvStations[Math.floor(Math.random() * nonOccupiedEvStations.length)];
+
+  console.log(randomNonOccupiedEvStation);
+  res.send(randomNonOccupiedEvStation);
+},
+);
+
+app.put('/updateEvStationStatus', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  const { id, status } = req.body; // Assuming data is sent in body
+
+  const validStatuses = ['occupied', 'available', "charging", "unknown"]; // Add more if needed
+  if (!validStatuses.includes(status)) {
+    return res.status(400).send('Invalid status value');
+  }
+
+  try {
+    const query = { _id: new ObjectId(id) };
+    const update = { $set: { status } };
+    await evStations.updateOne(query, update);
+    res.send('EvStation status updated successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while updating the ev station status');
+  }
+});
+
+app.put('/resetEvStationStatus', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  const { id } = req.body; // Assuming data is sent in body
+  console.log(id);
+  try {
+    const query = { _id: new ObjectId(id) };
+    const update = { $set: { status: 'available' } };
+    await evStations.updateOne(query, update);
+    res.send('EvStation status reset successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while resetting the ev station status');
+  }
+});
+
+
+/// Update password and login using okta
+
+async function postUserPwCode(email, code){
+  console.log("postUserPwCode", email, code)
+  try {
+    const user = await getUserByEmail(email);
+    console.log(user)
+
+    if (!user || user === null) {
+      return false
+    }
+
+    if (code !== undefined) {
+      user._code = code;
+    }
+
+    const updated = await updateUser(user);
+    console.log("updated? ", updated)
+    if(!updated){
+      return false
+    }else{
+      return true
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error('An error occurred while updating the user');
+  }
+}
+
+async function createPwCode(email) {
+  console.log("createPwCode", email)
+  let code = CryptoJS.lib.WordArray.random(3).toString();
+
+  let date = new Date().toISOString().slice(0, 16).replace("T", " ");
+  code = code + '[]' + date;
+
+  const worked = await postUserPwCode(email = email,code = code);
+  console.log("post worked? ", worked)
+  if(!worked){
+    return false
+  }
+  return code.split('[]')[0];
+
+}
+async function checkPwCode(email, code) {
+  console.log("checkPwCode", email)
+  const user = await getUserByEmail(email);
+  if(!user){
+    return false
+  }
+  console.log(user)
+  
+  console.log(code)
+  if (user._code.split('[]')[0] === code) {
+    console.log("code is right")
+    const date = new Date(user._code.split('[]')[1]).toISOString().slice(0, 16).replace("T", " ").split(":"[1]);
+    const now = new Date().toISOString().slice(0, 16).replace("T", " ").split(":"[1]);
+    const diff = parseInt(now,10) - parseInt(date,10);
+    console.log(date)
+    console.log(now)
+    console.log("differnce between dates: "+diff)
+    if (diff < 300000) {
+      console.log("code is still valid")
+      return true
+    } else {
+      console.log("code is expired")
+      return false
+    }
+  } else {
+    console.log("wrong code")
+    return false
+  }
+}
+
+async function sendResetPasswordEmail(email) {
+  console.log("sendResetPasswordEmail", email)
+  const code = await createPwCode(email);
+  if(code == false){
+    return false;
+  }
+
+  const mailOptions = {
+    from: process.env.USER,
+    to: email,
+    subject: "Wachtwoord resetten",
+    html: "<html>" +
+          "<body>" +
+          "<div style='width:100%; height:100%; background-color:#f4f4f4; padding:30px;'>" +
+          "<div style='width:600px; height: auto; margin:0 auto; padding:25px; border-radius:5px; background-color:white;'>" +
+          "<h1 style='color:#1e80ed;'>Wachtwoord resetten</h1>" +
+          "<p style='color:#919191; font-size:16px; margin-bottom:25px;'>Om uw wachtwoord te wijzigen, gelieve de volgende code in de app/website in te voeren:</p>" +
+          "<div style='text-align:center; padding:25px; background-color:#fafafa;'>" +
+          "<p style='color:black; font-size:20px; margin-bottom:25px;'><strong>" + code + "</strong></p>" +
+          "</div>" +
+          "<p style='color:#919191; font-size:16px; margin-top:25px;'>Als u deze e-mail niet heeft aangevraagd, negeer deze dan.</p>" +
+          "</div>" +
+          "</div>" +
+          "</body>" +
+          "</html>",
+  };
+
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(info);
+      }
+    });
+  });
+  return true;
+  
+}
+
+app.post('/forgot-password', async (req, res) => {
+  console.log("forgot-password called")
+  try {
+    const { email } = req.body;
+    console.log(email)
+    const result = await sendResetPasswordEmail(email);
+    console.log("main result: "+result)
+    if (result == false){
+      res.status(404).send('No user connected to email');
+    }else{
+      res.status(200).send({ EmailSent: true });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+async function login(email, password) {
+  try {
+    const database = client.db("schuberg_data_test");
+    const users = database.collection("users");
+
+    const query = { _email: email };
+    const user = await users.findOne(query);
+    if (!user || user === null || user === undefined) {
+      return null
+    }else{
+      const isValid = await Bun.password.verify(password, user._password);
+      if (!isValid) {
+        return false
+      }
+      return user
+    }
+  } catch (error) {
+    console.error("Error Loging in:", error);
+    throw error;
+  }
+}
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await login(email, password);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(401).json({ error: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error in login endpoint:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+async function changePassword(email, newPassword) {
+  console.log("change password func called"+email, newPassword)
+  try {
+    const user = await getUserByEmail(email);
+    if (!user || user === null || user === undefined) {
+      throw new Error("User not found");
+    }
+
+    const hashedNewPassword = await Bun.password.hash(newPassword);
+    user._password = hashedNewPassword;
+
+    // Update the user's password in the database
+    const updateResult = await updateUser(user);
+
+    if (updateResult) {
+      return true; // Indicate success
+    } else {
+      throw new Error("Failed to update password in database");
+    }
+  } catch (error) {
+    console.error("Error changing password:", error);
+    throw error; // Rethrow the error for the endpoint to handle
+  }
+}
+app.post("/change-password", async (req, res) => {
+  const { email, newPassword, code } = req.body;
+  console.log("change-password: "+email)
+  const check = await checkPwCode(email, code);
+  if (!check) {
+    res.status(400).send({ PasswordUpdated: false });
+    return;
+  }
+  try {
+    const worked = await changePassword(email, newPassword);
+    if (!worked) {
+      res.status(400).send({ PasswordUpdated: false });
+    }else{
+      res.status(200).send({ PasswordUpdated: true });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+
+    
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
