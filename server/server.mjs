@@ -218,10 +218,14 @@ app.post('/get-licenseplate', upload.single('image'), (req, res) => {
 app.get('/create-reservation', async (req, res) => {
   console.log('Received a request to /create-reservation')
   const user = req.query.username;
-  const startTime = new Date(`1970-01-01T${req.query.startTime}:00`);
-  const endTime = new Date(`1970-01-01T${req.query.endTime}:00`);
-  const priority = req.query.priority;
+  
+  const today = new Date().toISOString().split('T')[0];
+  const startTime = new Date(`${today}T${req.query.startTime}:00`);
+  const endTime = new Date(`${today}T${req.query.endTime}:00`);
 
+  const status = 'not_started'
+
+  const priority = req.query.priority;
   console.log(`Received a request to /create-reservation with user ${user}, start time ${startTime}, end time ${endTime}, and priority ${priority}`);
 
   const createdTime = new Date().toISOString().split('T')[0];
@@ -241,9 +245,9 @@ app.get('/create-reservation', async (req, res) => {
     for (const evStationId of allEvStationIds) {
       const conflictingReservation = await reservations.findOne({
         EvStationId: evStationId,
-        $or: [
-          { startTime: { $lt: endTime, $gt: startTime } },
-          { endTime: { $gt: startTime, $lt: endTime } },
+        $and: [
+          { startTime: { $lt: endTime, $gte: startTime } },
+          { endTime: { $gt: startTime, $lte: endTime } },
           { startTime: { $lte: startTime }, endTime: { $gte: endTime } }
         ]
       });
@@ -266,7 +270,7 @@ app.get('/create-reservation', async (req, res) => {
 
     console.log(`Selected EV station ${EvStationId} for user ${user}`);
 
-    const newReservation = { user, startTime, endTime, priority, EvStationId, createdTime };
+    const newReservation = { user, startTime, endTime, priority, EvStationId, createdTime, status };
 
     await reservations.insertOne(newReservation);
 
@@ -280,6 +284,24 @@ app.get('/create-reservation', async (req, res) => {
     console.error("Error saving reservation:", error);
     res.status(500).send('An error occurred while saving the reservation.');
   }
+});
+
+app.get('/status', async (req, res) => {
+  const id = req.query.user;
+
+  console.log(`Received a request to /status with id ${id}`);
+
+  const database = client.db("schuberg_data_test");
+  const reservations = database.collection("reservations");
+
+  const userReservation = await reservations.findOne({ user: id });
+  if (!userReservation) {
+    console.log('No reservation found');
+    return res.status(200).json({ message: "No reservation" });
+  }
+
+  console.log('Reservation found:', userReservation);
+  return res.status(200).json(userReservation);
 });
 
 

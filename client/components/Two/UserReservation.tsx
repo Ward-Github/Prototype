@@ -70,6 +70,9 @@ export default function UserReservationScreen() {
         endTime: calculateEndTime(),
         priority: selectedPriority,
       });
+      if (auth.user) {
+        auth.user.toUpdate = true;
+      }
     } catch (error) {
       setLoading(false);
       setModalVisible(false);
