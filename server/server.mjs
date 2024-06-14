@@ -242,8 +242,8 @@ app.get('/create-reservation', async (req, res) => {
       const conflictingReservation = await reservations.findOne({
         EvStationId: evStationId,
         $or: [
-          { startTime: { $lt: endTime, $gte: startTime } },
-          { endTime: { $gt: startTime, $lte: endTime } },
+          { startTime: { $lt: endTime, $gt: startTime } },
+          { endTime: { $gt: startTime, $lt: endTime } },
           { startTime: { $lte: startTime }, endTime: { $gte: endTime } }
         ]
       });
