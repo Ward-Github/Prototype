@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Alert, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import Slider from '@react-native-community/slider';
 import Toast from 'react-native-toast-message';
@@ -9,6 +9,12 @@ import { authenticate } from '@okta/okta-react-native';
 import { useTheme } from '@/context/ThemeProvider';
 import { lightTheme, darkTheme } from '@/styles/userTwoStyles';
 import axios from 'axios';
+
+interface ReservationDetails {
+  startTime: string;
+  endTime: string;
+  priority: string;
+}
 
 export default function UserReservationScreen() {
   const [batteryPercentage, setBatteryPercentage] = useState(0);
@@ -20,10 +26,13 @@ export default function UserReservationScreen() {
   const [selectedStartTimeIndex, setSelectedStartTimeIndex] = useState(0);
   const [selectedPriorityIndex, setSelectedPriorityIndex] = useState(0);
   const [selectedPriority, setSelectedPriority] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [chargingStationName, setChargingStationName] = useState("");
+  const [reservationDetails, setReservationDetails] = useState<ReservationDetails | null>(null); // use the defined type here
   const auth = useAuth();
 
   const handleReservation = async () => {
-
     if (desiredPercentage < batteryPercentage) {
       Alert.alert(
         "Ongeldige invoer",
@@ -40,31 +49,30 @@ export default function UserReservationScreen() {
       return;
     }
 
+    setLoading(true);
+    setModalVisible(true);
+
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
     try {
-      const response = await axios.post(
-        `http://${process.env.EXPO_PUBLIC_API_URL}:3000/create-reservation`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: auth.user?.id,
-            startTime: startTimes[selectedStartTimeIndex],
-            endTime: calculateEndTime(),
-            priority: selectedPriorityIndex,
-          }),
-        }
-      );
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/create-reservation`, {
+        params: {
+          username: auth.user?.id,
+          startTime: startTimes[selectedStartTimeIndex],
+          endTime: calculateEndTime(),
+          priority: selectedPriorityIndex,
+        },
+      });
 
-      Toast.show({
-        type: "success",
-        position: "top",
-        text1: "Success",
-        text2: `Reservation saved successfully 🎉`,
-        visibilityTime: 3000,
-        topOffset: 60,
+      setLoading(false);
+      setChargingStationName(response.data);
+      setReservationDetails({
+        startTime: startTimes[selectedStartTimeIndex],
+        endTime: calculateEndTime(),
+        priority: selectedPriority,
       });
     } catch (error) {
+      setLoading(false);
+      setModalVisible(false);
       Toast.show({
         type: "error",
         position: "top",
@@ -79,32 +87,27 @@ export default function UserReservationScreen() {
     const currentPercentage = parseInt(String(batteryPercentage), 10);
     const targetPercentage = parseInt(String(desiredPercentage), 10);
 
-    // Haal de laadsnelheid van de auto op uit de profielgegevens (voorbeeld)
     const chargeSpeedKw = 22;
-
-    // Schatting van de laadtijd in minuten (aanpassen indien nodig)
-    // Laadtijd (in minuten) = ((Gewenste percentage - Huidig percentage) / 100 * Accucapaciteit (kWh)) / Laadvermogen (kW) * 60
     const chargeTimeMinutes = ((targetPercentage - currentPercentage) / 100 * 90) / chargeSpeedKw * 60;
-
     const slotsNeeded = Math.ceil(chargeTimeMinutes / 15);
     setSlotsNeeded(slotsNeeded);
     setSelectedStartTimeIndex(0); 
   };
-  
-  const [selectedStartTime, setSelectedStartTime] = useState('00:00'); // State voor de geselecteerde starttijd
+
+  const [selectedStartTime, setSelectedStartTime] = useState('00:00');
 
   const startTimes = Array.from({ length: 13 * 4 }, (_, i) => {
     const hours = (Math.floor(i / 4) + 10) % 24;
     const minutes = (i % 4) * 15;
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-});
+  });
 
   const data = startTimes.map((time) => ({ key: time, value: time }));
 
   const calculateEndTime = () => {
     const [startHours, startMinutes] = selectedStartTime.split(':').map(Number);
     const totalMinutes = startHours * 60 + startMinutes + slotsNeeded * 15;
-    const endHours = Math.floor(totalMinutes / 60) % 24; // Modulo 24 om binnen 24 uur te blijven
+    const endHours = Math.floor(totalMinutes / 60) % 24;
     const endMinutes = totalMinutes % 60;
     return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
   };
@@ -117,7 +120,7 @@ export default function UserReservationScreen() {
     { key: 5, value: 'Eigenlijk hoeft het niet, maar laden is altijd handig'}
   ];
 
-  const getPriorityIndex = (priority: string) => {
+  const getPriorityIndex = (priority: any) => {
     switch (priority) {
       case 'Ik moet echt heel nodig laden!':
         return 1;
@@ -133,7 +136,6 @@ export default function UserReservationScreen() {
         return 0;
     }
   };
-  
 
   useEffect(() => {
     calculateChargeTime();
@@ -146,7 +148,6 @@ export default function UserReservationScreen() {
     <View style={styles.container}>
       <View style={styles.rectangle}>
         <Text style={styles.profileHeader}>Laadpaal reserveren</Text>
-        {/* dropdown menutje voor prio */}
         <View style={styles.inputContainer}></View>
           <Text style={styles.text}>Prioriteit:</Text>
           <SelectList 
@@ -210,13 +211,59 @@ export default function UserReservationScreen() {
 
       <View style={styles.inputContainer}>
         <Text style={styles.text}>Geschatte eindtijd:</Text>
-        {/* only show calculated charge time when desired percentage is higher than current */}
         <Text style={styles.text}>{desiredPercentage > batteryPercentage ? calculateEndTime() : 'Ongeldige invoer'}</Text>
       </View>
       <Pressable style={styles.button} onPress={handleReservation}>
         <Text style={styles.buttonText}>Reserveer</Text>
       </Pressable>
        </View>
+       <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            {loading ? (
+              <>
+                <ActivityIndicator size="large" color="#21304f" />
+                <Text style={styles.modalText}>Checking station availability...</Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.modalHeader}>Reservation details</Text>
+                <Text style={styles.modalText}>Charging station name: {chargingStationName}</Text>
+                {reservationDetails && (
+                  <>
+                    <Text style={styles.modalText}>Start time: {reservationDetails.startTime}</Text>
+                    <Text style={styles.modalText}>End time: {reservationDetails.endTime}</Text>
+                    <Text style={styles.modalText}>Priority: {reservationDetails.priority}</Text>
+                  </>
+                )}
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    Toast.show({
+                      type: "success",
+                      position: "top",
+                      text1: "Success",
+                      text2: `Reservation saved successfully 🎉`,
+                      visibilityTime: 3000,
+                      topOffset: 60,
+                    });
+                  }}
+                >
+                  <Text style={styles.textStyle}>Confirm</Text>
+                </Pressable>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

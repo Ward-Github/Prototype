@@ -13,6 +13,7 @@ import CryptoJS from "crypto-js";
 
 
 const app = express();
+app.use(express.json());
 const port = 3000;
 
 const storage = multer.diskStorage({
@@ -149,7 +150,6 @@ async function submitFeedback(feedback, user, timeNow, image) {
   }
 }
 
-app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:8081'
 }));
@@ -215,12 +215,14 @@ app.post('/get-licenseplate', upload.single('image'), (req, res) => {
   });
 });
 
-app.post('/create-reservation', async (req, res) => {
-  console.log(req.body);
-  const user = req.body.username;
-  const startTime = new Date(`1970-01-01T${req.body.startTime}:00`);
-  const endTime = new Date(`1970-01-01T${req.body.endTime}:00`);
-  const priority = req.body.priority;
+app.get('/create-reservation', async (req, res) => {
+  console.log('Received a request to /create-reservation')
+  const user = req.query.username;
+  const startTime = new Date(`1970-01-01T${req.query.startTime}:00`);
+  const endTime = new Date(`1970-01-01T${req.query.endTime}:00`);
+  const priority = req.query.priority;
+
+  console.log(`Received a request to /create-reservation with user ${user}, start time ${startTime}, end time ${endTime}, and priority ${priority}`);
 
   const createdTime = new Date().toISOString().split('T')[0];
 
@@ -273,7 +275,7 @@ app.post('/create-reservation', async (req, res) => {
 
     console.log(`User ${user} reserved at ${startTime} until ${endTime} at station ${stationName} with priority ${priority}`);
     
-    res.send(stationName, req.body.startTime, req.body.endTime, priority);
+    res.send(stationName);
   } catch (error) {
     console.error("Error saving reservation:", error);
     res.status(500).send('An error occurred while saving the reservation.');
@@ -669,6 +671,15 @@ app.get('/reset-stations', async (req, res) => {
     console.error(error);
     res.status(500).send('An error occurred while resetting the EV stations.');
   }
+});
+
+app.get('/reset-reservations', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('reservations');
+
+  await evStations.deleteMany({});
+
+  res.send('EV stations reset and created successfully.');
 });
 
 app.put('/updateEvStationStatus', async (req, res) => {
