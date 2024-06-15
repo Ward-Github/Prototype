@@ -286,15 +286,87 @@ app.get('/create-reservation', async (req, res) => {
   }
 });
 
+app.get('/timeslots', async (req, res) => {
+  console.log("Received request for /timeslots");
+
+  const timeInHours = parseFloat(req.query.time);
+  console.log(`Time in hours received from query: ${timeInHours}`);
+
+  const duration = timeInHours * 60 * 60 * 1000;
+  console.log(`Duration calculated in milliseconds: ${duration}`);
+
+  const database = client.db("schuberg_data_test");
+
+  const now = new Date();
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 0, 0, 0);
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+  console.log(`Start of day: ${startOfDay}`);
+  console.log(`End of day: ${endOfDay}`);
+
+  const startTimestamp = Date.now();
+
+  const stations = await database.collection('charging_station').find({}).toArray();
+  console.log(`Number of stations found: ${stations.length}`);
+
+  let availableSlots = [];
+
+  for (let startTime = startOfDay; startTime <= endOfDay; startTime = new Date(startTime.getTime() + 30 * 60 * 1000)) {
+    let endTime = new Date(startTime.getTime() + duration);
+
+    if (endTime > endOfDay) break;
+
+    let slotAvailable = true;
+
+    for (const station of stations) {
+      const conflictingReservations = await database.collection('reservations').find({
+        stationId: station._id,
+        $or: [
+          { startTime: { $lt: endTime, $gte: startTime } },
+          { endTime: { $gt: startTime, $lte: endTime } },
+          { startTime: { $lte: startTime }, endTime: { $gte: endTime } },
+        ],
+      }).toArray();
+
+      if (conflictingReservations.length > 0) {
+        console.log(`Conflicting reservations found for station ID ${station._id}`);
+        slotAvailable = false;
+        break;
+      }
+    }
+
+    if (slotAvailable) {
+      const hours = startTime.getHours().toString().padStart(2, '0');
+      const minutes = startTime.getMinutes().toString().padStart(2, '0');
+      availableSlots.push(`${hours}:${minutes}`);
+      console.log(`Slot available: ${hours}:${minutes}`);
+    } else {
+      console.log(`Slot not available from ${startTime} to ${endTime}`);
+    }
+  }
+
+  res.json(availableSlots);
+
+  const endTimestamp = Date.now();
+  console.log(`Execution time: ${endTimestamp - startTimestamp} ms`);
+});
+
+
 app.get('/status', async (req, res) => {
   const id = req.query.user;
+  const now = new Date();
 
   console.log(`Received a request to /status with id ${id}`);
+
+  const nowUTC = new Date(now.toISOString());
 
   const database = client.db("schuberg_data_test");
   const reservations = database.collection("reservations");
 
-  const userReservation = await reservations.findOne({ user: id });
+  const userReservation = await reservations.findOne(
+    { user: id, starttime: { $gt: nowUTC } },
+    { sort: { starttime: 1 } }
+  );
+
   if (!userReservation) {
     console.log('No reservation found');
     return res.status(200).json({ message: "No reservation" });
@@ -302,15 +374,6 @@ app.get('/status', async (req, res) => {
 
   console.log('Reservation found:', userReservation);
   return res.status(200).json(userReservation);
-});
-
-
-app.get('/reservations', async (req, res) => {
-  const database = client.db("schuberg_data_test");
-  const reservations = database.collection("reservations");
-
-  const allReservations = await reservations.find().toArray();
-  res.send(allReservations);
 });
 
 app.post('/submit-feedback', problemsUpload.single('image'), (req, res) => {

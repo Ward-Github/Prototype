@@ -28,24 +28,26 @@ export default function UserReservationScreen() {
   const [selectedPriority, setSelectedPriority] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkingAvailability, setCheckingAvailability] = useState(false);
   const [chargingStationName, setChargingStationName] = useState("");
-  const [reservationDetails, setReservationDetails] = useState<ReservationDetails | null>(null); // use the defined type here
+  const [reservationDetails, setReservationDetails] = useState<ReservationDetails | null>(null);
+  const [startTimes, setStartTimes] = useState<string[]>([]);
   const auth = useAuth();
 
   const handleReservation = async () => {
     if (desiredPercentage < batteryPercentage) {
       Alert.alert(
-        "Ongeldige invoer",
-        "Het gewenste percentage moet hoger zijn dan het huidige percentage"
+        "Invalid Input",
+        "The desired percentage must be higher than the current percentage"
       );
       return;
     }
     if (selectedPriority === "") {
-      Alert.alert("Ongeldige invoer", "Selecteer een prioriteit");
+      Alert.alert("Invalid Input", "Please select a priority");
       return;
     }
     if (selectedStartTime === "") {
-      Alert.alert("Ongeldige invoer", "Selecteer een starttijd");
+      Alert.alert("Invalid Input", "Please select a start time");
       return;
     }
 
@@ -86,6 +88,43 @@ export default function UserReservationScreen() {
     }
   };
 
+  const checkAvailability = async () => {
+    if (desiredPercentage < batteryPercentage) {
+      Alert.alert(
+        "Invalid Input",
+        "The desired percentage must be higher than the current percentage"
+      );
+      return;
+    }
+    if (selectedPriority === "") {
+      Alert.alert("Invalid Input", "Please select a priority");
+      return;
+    }
+
+    setCheckingAvailability(true);
+
+    try {
+      const timeNeededInHours = slotsNeeded * 15 / 60;
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/timeslots`, {
+        params: {
+          time: timeNeededInHours,
+        },
+      });
+
+      setStartTimes(response.data);
+      setCheckingAvailability(false);
+    } catch (error) {
+      setCheckingAvailability(false);
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "An error occurred while checking availability 😔",
+        visibilityTime: 3000,
+      });
+    }
+  };
+
   const calculateChargeTime = () => {
     const currentPercentage = parseInt(String(batteryPercentage), 10);
     const targetPercentage = parseInt(String(desiredPercentage), 10);
@@ -94,16 +133,10 @@ export default function UserReservationScreen() {
     const chargeTimeMinutes = ((targetPercentage - currentPercentage) / 100 * 90) / chargeSpeedKw * 60;
     const slotsNeeded = Math.ceil(chargeTimeMinutes / 15);
     setSlotsNeeded(slotsNeeded);
-    setSelectedStartTimeIndex(0); 
+    setSelectedStartTimeIndex(0);
   };
 
   const [selectedStartTime, setSelectedStartTime] = useState('00:00');
-
-  const startTimes = Array.from({ length: 13 * 4 }, (_, i) => {
-    const hours = (Math.floor(i / 4) + 10) % 24;
-    const minutes = (i % 4) * 15;
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-  });
 
   const data = startTimes.map((time) => ({ key: time, value: time }));
 
@@ -116,24 +149,24 @@ export default function UserReservationScreen() {
   };
 
   const priority = [
-    { key: 1, value: 'Ik moet echt heel nodig laden!' },
-    { key: 2, value: 'Ik wil graag laden' },
-    { key: 3, value: 'Ik kan wel even wachten' },
-    { key: 4, value: 'Ik heb geen haast, maar wil wel graag laden'},
-    { key: 5, value: 'Eigenlijk hoeft het niet, maar laden is altijd handig'}
+    { key: 1, value: 'I really need to charge!' },
+    { key: 2, value: 'I would like to charge' },
+    { key: 3, value: 'I can wait' },
+    { key: 4, value: 'I am not in a hurry, but would like to charge' },
+    { key: 5, value: 'I do not need to, but charging is always handy' }
   ];
 
   const getPriorityIndex = (priority: any) => {
     switch (priority) {
-      case 'Ik moet echt heel nodig laden!':
+      case 'I really need to charge!':
         return 1;
-      case 'Ik wil graag laden':
+      case 'I would like to charge':
         return 2;
-      case 'Ik kan wel even wachten':
+      case 'I can wait':
         return 3;
-      case 'Ik heb geen haast, maar wil wel graag laden':
+      case 'I am not in a hurry, but would like to charge':
         return 4;
-      case 'Eigenlijk hoeft het niet, maar laden is altijd handig':
+      case 'I do not need to, but charging is always handy':
         return 5;
       default:
         return 0;
@@ -147,126 +180,164 @@ export default function UserReservationScreen() {
 
   const styles = theme == 'light' ? lightTheme : darkTheme;
 
+  const resetState = () => {
+    setBatteryPercentage(0);
+    setDesiredPercentage(20);
+    setSlotsNeeded(0);
+    setSelectedStartTimeIndex(0);
+    setSelectedPriorityIndex(0);
+    setSelectedPriority("");
+    setStartTimes([]);
+    setReservationDetails(null);
+    setModalVisible(false);
+    setLoading(false);
+    setCheckingAvailability(false);
+    setChargingStationName("");
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.rectangle}>
-        <Text style={styles.profileHeader}>Laadpaal reserveren</Text>
-        <View style={styles.inputContainer}></View>
-          <Text style={styles.text}>Prioriteit:</Text>
-          <SelectList 
-            setSelected={setSelectedPriority} 
-            data={priority} 
-            save="value"
-            placeholder="Selecteer prioriteit"
-            arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-            boxStyles={styles.selectBox}
-            inputStyles={styles.selectInput}
-            dropdownStyles={styles.dropdown}
-          />
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>Huidig batterij %: {batteryPercentage}%</Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={100}
-            step={5}
-            value={batteryPercentage}
-            onValueChange={setBatteryPercentage}
-            minimumTrackTintColor={
-              batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
-            }
-            maximumTrackTintColor="#ddd"
-            thumbTintColor={
-              batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
-            }
-          />
-
-          <Text style={styles.sliderLabel}>Gewenst batterij %: {desiredPercentage}%</Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={defaultDesiredPercentage}
-            maximumValue={100}
-            step={5}
-            value={desiredPercentage}
-            onValueChange={setDesiredPercentage}
-            minimumTrackTintColor={
-              desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
-            }
-            maximumTrackTintColor="#ddd"
-            thumbTintColor={
-              desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
-            }
-          />
-        </View>
-        <View style={styles.inputContainer}>
-        <Text style={styles.text}>Starttijd:</Text>
-        <SelectList 
-          setSelected={setSelectedStartTime} 
-          data={data} 
-          save="value"
-          placeholder="Selecteer starttijd"
-          arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-          boxStyles={styles.selectBox}
-          inputStyles={styles.selectInput}
-          dropdownStyles={styles.dropdown}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.text}>Geschatte eindtijd:</Text>
-        <Text style={styles.text}>{desiredPercentage > batteryPercentage ? calculateEndTime() : 'Ongeldige invoer'}</Text>
-      </View>
-      <Pressable style={styles.button} onPress={handleReservation}>
-        <Text style={styles.buttonText}>Reserveer</Text>
-      </Pressable>
-       </View>
-       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
+      {checkingAvailability ? (
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            {loading ? (
-              <>
-                <ActivityIndicator size="large" color="#21304f" />
-                <Text style={styles.modalText}>Checking station availability...</Text>
-              </>
-            ) : (
-              <>
-                <Text style={styles.modalHeader}>Reservation details</Text>
-                <Text style={styles.modalText}>Charging station name: {chargingStationName}</Text>
-                {reservationDetails && (
+          <ActivityIndicator size="large" color="#21304f" />
+          <Text style={[styles.modalText, { fontSize: 18, marginTop: 10 }]}>Checking availability of the stations... 🤖</Text>
+        </View>
+      ) : (
+        <>
+          {!startTimes.length ? (
+            <View style={styles.rectangle}>
+              <Text style={styles.profileHeader}>Create reservation</Text>
+              <View style={styles.inputContainer}></View>
+                <Text style={styles.text}>Priority:</Text>
+                <SelectList 
+                  setSelected={setSelectedPriority} 
+                  data={priority} 
+                  save="value"
+                  placeholder="Select priority"
+                  arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+                  boxStyles={styles.selectBox}
+                  inputStyles={styles.selectInput}
+                  dropdownStyles={styles.dropdown}
+                />
+              <View style={styles.sliderContainer}>
+                <Text style={styles.sliderLabel}>Current Battery %: {batteryPercentage}%</Text>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={0}
+                  maximumValue={100}
+                  step={5}
+                  value={batteryPercentage}
+                  onValueChange={setBatteryPercentage}
+                  minimumTrackTintColor={
+                    batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
+                  }
+                  maximumTrackTintColor="#ddd"
+                  thumbTintColor={
+                    batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
+                  }
+                />
+
+                <Text style={styles.sliderLabel}>Desired Battery %: {desiredPercentage}%</Text>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={defaultDesiredPercentage}
+                  maximumValue={100}
+                  step={5}
+                  value={desiredPercentage}
+                  onValueChange={setDesiredPercentage}
+                  minimumTrackTintColor={
+                    desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
+                  }
+                  maximumTrackTintColor="#ddd"
+                  thumbTintColor={
+                    desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
+                  }
+                />
+              </View>
+              <Pressable style={styles.button} onPress={checkAvailability}>
+                <Text style={styles.buttonText}>Check Availability</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <View style={styles.rectangle}>
+              <Text style={styles.profileHeader}>Select Start Time</Text>
+              <View style={styles.inputContainer}>
+                <Text style={styles.text}>Start Time:</Text>
+                <SelectList 
+                  setSelected={setSelectedStartTime} 
+                  data={data} 
+                  save="value"
+                  placeholder="Select start time"
+                  arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+                  boxStyles={styles.selectBox}
+                  inputStyles={styles.selectInput}
+                  dropdownStyles={styles.dropdown}
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.text}>Estimated End Time:</Text>
+                <Text style={styles.text}>{desiredPercentage > batteryPercentage ? calculateEndTime() : 'Invalid Input'}</Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Pressable style={styles.button} onPress={handleReservation}>
+                  <Text style={styles.buttonText}>Reserve</Text>
+                </Pressable>
+                <Pressable style={[styles.button, styles.cancelButton]} onPress={resetState}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                {loading ? (
                   <>
-                    <Text style={styles.modalText}>Start time: {reservationDetails.startTime}</Text>
-                    <Text style={styles.modalText}>End time: {reservationDetails.endTime}</Text>
-                    <Text style={styles.modalText}>Priority: {reservationDetails.priority}</Text>
+                    <ActivityIndicator size="large" color="#21304f" />
+                    <Text style={styles.modalText}>Getting station...</Text>
+                  </>
+                ) : (
+                  <>
+                    <Text style={styles.modalHeader}>Reservation Details</Text>
+                    <Text style={styles.modalText}>Charging station name: {chargingStationName}</Text>
+                    {reservationDetails && (
+                      <>
+                        <Text style={styles.modalText}>Start time: {reservationDetails.startTime}</Text>
+                        <Text style={styles.modalText}>End time: {reservationDetails.endTime}</Text>
+                        <Text style={styles.modalText}>Priority: {reservationDetails.priority}</Text>
+                      </>
+                    )}
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => {
+                        resetState();
+                        Toast.show({
+                          type: "success",
+                          position: "top",
+                          text1: "Success",
+                          text2: `Reservation saved successfully 🎉`,
+                          visibilityTime: 3000,
+                          topOffset: 60,
+                        });
+                      }}
+                    >
+                      <Text style={styles.textStyle}>Confirm</Text>
+                    </Pressable>
                   </>
                 )}
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                    Toast.show({
-                      type: "success",
-                      position: "top",
-                      text1: "Success",
-                      text2: `Reservation saved successfully 🎉`,
-                      visibilityTime: 3000,
-                      topOffset: 60,
-                    });
-                  }}
-                >
-                  <Text style={styles.textStyle}>Confirm</Text>
-                </Pressable>
-              </>
-            )}
-          </View>
-        </View>
-      </Modal>
+              </View>
+            </View>
+          </Modal>
+        </>
+      )}
     </View>
   );
 }

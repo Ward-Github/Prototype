@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -23,44 +23,51 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
   const [reservation, setReservation] = useState<ReservationDetails | null>(null);
   const [currentTime, setCurrentTime] = useState(moment());
 
-  useEffect(() => {
-    const fetchStatus = async () => {
-      try {
-        const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/status`, {
-          params: { user: auth.user?.id },
-        });
-        console.log('Status:', response.data);
-        if (response.data.message === 'No reservation') {
-          return;
-        }
-        setReservation(response.data);
-      } catch (error) {
-        console.error('Error fetching status:', error);
+  const fetchStatus = useCallback(async () => {
+    try {
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/status`, {
+        params: { user: auth.user?.id },
+      });
+      if (response.data.message === 'No reservation') {
+        setReservation(null);
+        return;
       }
-    };
+      setReservation(response.data);
+    } catch (error) {
+      console.error('Error fetching status:', error);
+    }
+  }, [auth.user?.id]);
 
+  useEffect(() => {
     if (auth.user) {
       auth.user.toUpdate = false;
     }
     fetchStatus();
-  }, [auth.user?.toUpdate, currentTime]);
+  }, [auth.user?.toUpdate, fetchStatus]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(moment());
-    }, 60000); // Update current time every minute
+      fetchStatus();
+    }, 30000); // 60000 for 1 minute intervals
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchStatus]);
 
   const renderContent = () => {
     if (!reservation) {
+      console.log('No reservation');
       return <Text style={styles.subtitleText}>No reservation</Text>;
     }
 
+    console.log("----------------- Fetched reservation -----------------")
+    console.log('Current time:', currentTime.format('HH:mm'));
+    console.log('Start time:', reservation.startTime);
+    console.log('End time:', reservation.endTime);
+
     const startTime = moment(reservation.startTime);
     const endTime = moment(reservation.endTime);
-    
+
     if (currentTime.isBefore(startTime)) {
       return (
         <Text style={styles.subtitleText}>

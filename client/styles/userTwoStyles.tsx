@@ -92,7 +92,6 @@ export const lightTheme = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalView: {
     margin: 20,
@@ -125,6 +124,13 @@ export const lightTheme = StyleSheet.create({
     color: '#21304f',
     marginHorizontal: 20,
     marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cancelButton: {
+    backgroundColor: 'red',
   },
 });
 
@@ -253,6 +259,13 @@ export const lightTheme = StyleSheet.create({
       color: '#21304f',
       marginTop: 20,
       marginHorizontal: 20,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    cancelButton: {
+      backgroundColor: 'red',
     },
   });
   
