@@ -4,6 +4,8 @@ import { View, Text } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import { useTheme } from '@/context/ThemeProvider';
+import { lightTheme, darkTheme } from '@/webstyles/chargingStationsStyles';
 
 type Station = {
   id: string;
@@ -58,7 +60,11 @@ type StationDetailModalProps = {
   onClose: () => void;
 };
 
-const StationDetailModal: React.FC<StationDetailModalProps> = ({ station, visible, onClose }) => (
+const StationDetailModal: React.FC<StationDetailModalProps> = ({ station, visible, onClose }) => {
+  const { theme } = useTheme();
+  const styles = theme === 'dark' ? darkTheme : lightTheme;
+
+  return (
   <Modal
     animationType="slide"
     transparent={true}
@@ -93,12 +99,15 @@ const StationDetailModal: React.FC<StationDetailModalProps> = ({ station, visibl
     </View>
   </Modal>
 );
+}
 
 export default function ChargingStation() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const { data, isLoading } = useQuery('stations', fetchStations);
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
+  const { theme, setTheme } = useTheme();
+  const styles = theme === 'light' ? lightTheme : darkTheme;
 
   const handleFilter = (status: string | null) => {
     setFilterStatus(status);
@@ -181,116 +190,3 @@ export default function ChargingStation() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  topBarText: {
-    color: '#E1E1E1',
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f4f8',
-  },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 10,
-    backgroundColor: '#21304f',
-  },
-  titleText: {
-    fontSize: 32,
-    color: '#E1E1E1',
-    marginBottom: 20,
-    fontFamily: 'Poppins-Bold',
-  },
-  loading: {
-    color: '#333',
-    fontSize: 18,
-    fontFamily: 'Poppins-Regular',
-    marginBottom: 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    backgroundColor: '#f0f4f8',
-  },
-  stationItem: {
-    flex: 1,
-    justifyContent: 'space-around',
-    backgroundColor: '#fff',
-    padding: 20,
-    marginVertical: 8,
-    borderRadius: 10,
-    alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-    marginHorizontal: 10,
-  },
-  stationIdText: {
-    fontSize: 16,
-    color: '#333',
-    fontFamily: 'Poppins-Regular',
-    flex: 1,
-    fontWeight: 'bold',
-    flexWrap: 'wrap',
-  },
-  evseStatusText: {
-    fontSize: 14,
-    fontFamily: 'Poppins-Regular',
-    flex: 1,
-    flexWrap: 'wrap',
-    textAlign: 'left',
-  },
-  listContentContainer: {
-    paddingBottom: 20,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-  },
-  fullScreenModalView: {
-    flex: 1,
-    backgroundColor: 'rgba(28, 28, 28, 0.9)',
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    alignSelf: 'center',
-    maxHeight: '50%',
-  },
-  modalText: {
-    fontSize: 18,
-    color: '#E1E1E1',
-    marginBottom: 10,
-    fontFamily: 'Poppins-Regular',
-    textAlign: 'center',
-  },
-  modalIcon: {
-    marginBottom: 10,
-  },
-  modalItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 5,
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    backgroundColor: '#041B2A',
-    borderRadius: 20,
-    padding: 10,
-    alignSelf: 'flex-end',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
