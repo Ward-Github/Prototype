@@ -193,7 +193,7 @@ export default function login() {
         body: JSON.stringify({email: Email }),
       });
       
-      console.log("forgor response: "+response.status)
+
       if (!response.ok) {
         if(response.status === 404){
           Toast.show({
