@@ -1,5 +1,5 @@
 import express from "express";
-import fs from 'fs';
+import fs, { stat } from 'fs';
 import axios from 'axios';
 import cors from 'cors';
 import multer from "multer";
@@ -13,6 +13,7 @@ import CryptoJS from "crypto-js";
 
 
 const app = express();
+app.use(express.json());
 const port = 3000;
 
 const storage = multer.diskStorage({
@@ -149,7 +150,6 @@ async function submitFeedback(feedback, user, timeNow, image) {
   }
 }
 
-app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:8081'
 }));
@@ -215,37 +215,165 @@ app.post('/get-licenseplate', upload.single('image'), (req, res) => {
   });
 });
 
-app.post('/reserve', async (req, res) => {
-  console.log(req.body);
-  const username = req.body.username;
-  const startTime = req.body.startTime;
-  const endTime = req.body.endTime;
-  const priority = req.body.priority;
-  const EvStationId = req.body.EvstationId;
+app.get('/create-reservation', async (req, res) => {
+  console.log('Received a request to /create-reservation')
+  const user = req.query.username;
+  
+  const today = new Date().toISOString().split('T')[0];
+  const startTime = new Date(`${today}T${req.query.startTime}:00`);
+  const endTime = new Date(`${today}T${req.query.endTime}:00`);
 
-  console.log(`User ${username} reserved at ${startTime} until ${endTime} at EvStation ${EvStationId}`);
+  const status = 'not_started'
 
-  const newReservation = { username, startTime, endTime, priority, EvStationId};
+  const priority = req.query.priority;
+  console.log(`Received a request to /create-reservation with user ${user}, start time ${startTime}, end time ${endTime}, and priority ${priority}`);
+
+  const createdTime = new Date().toISOString().split('T')[0];
 
   try {
     const database = client.db("schuberg_data_test");
     const reservations = database.collection("reservations");
+    const charging_stations = database.collection("charging_station");
+
+    const today = new Date().toISOString().split('T')[0];
+    await reservations.deleteMany({ createdTime: { $ne: today } });
+
+    const allEvStations = await charging_stations.find({}).toArray();
+    const allEvStationIds = allEvStations.map(station => station._id.toString());
+
+    const availableEvStations = [];
+    for (const evStationId of allEvStationIds) {
+      const conflictingReservation = await reservations.findOne({
+        EvStationId: evStationId,
+        $and: [
+          { startTime: { $lt: endTime, $gte: startTime } },
+          { endTime: { $gt: startTime, $lte: endTime } },
+          { startTime: { $lte: startTime }, endTime: { $gte: endTime } }
+        ]
+      });
+
+      console.log(`Checking EV station ${evStationId}: ${conflictingReservation}`);
+
+      if (!conflictingReservation) {
+        availableEvStations.push(evStationId);
+      }
+    }
+
+    if (availableEvStations.length === 0) {
+      res.status(409).send('No EV stations are available for the requested time slot.');
+      return;
+    }
+
+    console.log('Available EV stations:', availableEvStations);
+
+    const EvStationId = availableEvStations[Math.floor(Math.random() * availableEvStations.length)];
+
+    console.log(`Selected EV station ${EvStationId} for user ${user}`);
+
+    const newReservation = { user, startTime, endTime, priority, EvStationId, createdTime, status };
 
     await reservations.insertOne(newReservation);
 
-    res.send('Reservation saved successfully.');
+    const selectedStation = await charging_stations.findOne({ _id: new ObjectId(EvStationId) });
+    const stationName = selectedStation ? selectedStation.name : 'Unknown';
+
+    console.log(`User ${user} reserved at ${startTime} until ${endTime} at station ${stationName} with priority ${priority}`);
+    
+    res.send(stationName);
   } catch (error) {
     console.error("Error saving reservation:", error);
     res.status(500).send('An error occurred while saving the reservation.');
   }
 });
 
-app.get('/reservations', async (req, res) => {
+app.get('/timeslots', async (req, res) => {
+  console.log("Received request for /timeslots");
+
+  const timeInHours = parseFloat(req.query.time);
+  console.log(`Time in hours received from query: ${timeInHours}`);
+
+  const duration = timeInHours * 60 * 60 * 1000;
+  console.log(`Duration calculated in milliseconds: ${duration}`);
+
+  const database = client.db("schuberg_data_test");
+
+  const now = new Date();
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 0, 0, 0);
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+  console.log(`Start of day: ${startOfDay}`);
+  console.log(`End of day: ${endOfDay}`);
+
+  const startTimestamp = Date.now();
+
+  const stations = await database.collection('charging_station').find({}).toArray();
+  console.log(`Number of stations found: ${stations.length}`);
+
+  let availableSlots = [];
+
+  for (let startTime = startOfDay; startTime <= endOfDay; startTime = new Date(startTime.getTime() + 30 * 60 * 1000)) {
+    let endTime = new Date(startTime.getTime() + duration);
+
+    if (endTime > endOfDay) break;
+
+    let slotAvailable = true;
+
+    for (const station of stations) {
+      const conflictingReservations = await database.collection('reservations').find({
+        stationId: station._id,
+        $or: [
+          { startTime: { $lt: endTime, $gte: startTime } },
+          { endTime: { $gt: startTime, $lte: endTime } },
+          { startTime: { $lte: startTime }, endTime: { $gte: endTime } },
+        ],
+      }).toArray();
+
+      if (conflictingReservations.length > 0) {
+        console.log(`Conflicting reservations found for station ID ${station._id}`);
+        slotAvailable = false;
+        break;
+      }
+    }
+
+    if (slotAvailable) {
+      const hours = startTime.getHours().toString().padStart(2, '0');
+      const minutes = startTime.getMinutes().toString().padStart(2, '0');
+      availableSlots.push(`${hours}:${minutes}`);
+      console.log(`Slot available: ${hours}:${minutes}`);
+    } else {
+      console.log(`Slot not available from ${startTime} to ${endTime}`);
+    }
+  }
+
+  res.json(availableSlots);
+
+  const endTimestamp = Date.now();
+  console.log(`Execution time: ${endTimestamp - startTimestamp} ms`);
+});
+
+
+app.get('/status', async (req, res) => {
+  const id = req.query.user;
+  const now = new Date();
+
+  console.log(`Received a request to /status with id ${id}`);
+
+  const nowUTC = new Date(now.toISOString());
+
   const database = client.db("schuberg_data_test");
   const reservations = database.collection("reservations");
 
-  const allReservations = await reservations.find().toArray();
-  res.send(allReservations);
+  const userReservation = await reservations.findOne(
+    { user: id, starttime: { $gt: nowUTC } },
+    { sort: { starttime: 1 } }
+  );
+
+  if (!userReservation) {
+    console.log('No reservation found');
+    return res.status(200).json({ message: "No reservation" });
+  }
+
+  console.log('Reservation found:', userReservation);
+  return res.status(200).json(userReservation);
 });
 
 app.post('/submit-feedback', problemsUpload.single('image'), (req, res) => {
@@ -601,6 +729,43 @@ app.get('/getRandomNonOccupiedEvStation', async (req, res) => {
   res.send(randomNonOccupiedEvStation);
 },
 );
+
+app.get('/reset-stations', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('charging_station');
+
+  try {
+    await evStations.deleteMany({});
+
+    const newEvStations = [];
+    for (let i = 1; i <= 62; i++) {
+      newEvStations.push({
+        name: `Laadpaal ${i}`,
+        maxPower: 11.04,
+        status: 'charging',
+        user: ''
+      });
+    }
+
+    await evStations.insertMany(newEvStations);
+
+    await evStations.updateMany({}, { $set: { status: 'available' } });
+
+    res.send('EV stations reset and created successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while resetting the EV stations.');
+  }
+});
+
+app.get('/reset-reservations', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const evStations = db.collection('reservations');
+
+  await evStations.deleteMany({});
+
+  res.send('EV stations reset and created successfully.');
+});
 
 app.put('/updateEvStationStatus', async (req, res) => {
   const db = client.db("schuberg_data_test");

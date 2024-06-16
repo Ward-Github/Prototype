@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Alert, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import Slider from '@react-native-community/slider';
 import Toast from 'react-native-toast-message';
@@ -8,7 +8,13 @@ import { useAuth } from '@/context/AuthProvider';
 import { authenticate } from '@okta/okta-react-native';
 import { useTheme } from '@/context/ThemeProvider';
 import { lightTheme, darkTheme } from '@/styles/userTwoStyles';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import axios from 'axios';
+
+interface ReservationDetails {
+  startTime: string;
+  endTime: string;
+  priority: string;
+}
 
 export default function UserReservationScreen() {
   const [batteryPercentage, setBatteryPercentage] = useState(0);
@@ -20,69 +26,58 @@ export default function UserReservationScreen() {
   const [selectedStartTimeIndex, setSelectedStartTimeIndex] = useState(0);
   const [selectedPriorityIndex, setSelectedPriorityIndex] = useState(0);
   const [selectedPriority, setSelectedPriority] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [checkingAvailability, setCheckingAvailability] = useState(false);
+  const [chargingStationName, setChargingStationName] = useState("");
+  const [reservationDetails, setReservationDetails] = useState<ReservationDetails | null>(null);
+  const [startTimes, setStartTimes] = useState<string[]>([]);
   const auth = useAuth();
-  const [EvStation, setEvStation] = useState({
-    id: "",
-    name: "",
-    maxPower: 0,
-    status: "",
-  });
-  const handleReservation = async () => {
 
+  const handleReservation = async () => {
     if (desiredPercentage < batteryPercentage) {
       Alert.alert(
-        "Ongeldige invoer",
-        "Het gewenste percentage moet hoger zijn dan het huidige percentage"
+        "Invalid Input",
+        "The desired percentage must be higher than the current percentage"
       );
       return;
     }
     if (selectedPriority === "") {
-      Alert.alert("Ongeldige invoer", "Selecteer een prioriteit");
+      Alert.alert("Invalid Input", "Please select a priority");
       return;
     }
     if (selectedStartTime === "") {
-      Alert.alert("Ongeldige invoer", "Selecteer een starttijd");
+      Alert.alert("Invalid Input", "Please select a start time");
       return;
     }
-     const response = await getRandomNonOccupiedEvStation();
-     if (response === null) {
-       return;
-     }
+
+    setLoading(true);
+    setModalVisible(true);
+
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
-    console.log("EVSTATION ID: ", EvStation.id);
     try {
-      const response = await fetch(
-        `http://${process.env.EXPO_PUBLIC_API_URL}:3000/reserve`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: auth.user?.id,
-            startTime: startTimes[selectedStartTimeIndex],
-            endTime: calculateEndTime(),
-            priority: selectedPriorityIndex,
-            EvstationId: EvStation.id.toString(),
-          }),
-        }
-      );
-      await updateEvStationStatus(EvStation.id, "charging");
-      if (!response.ok) {
-        // throw error with status code
-        throw new Error("Server error occurred while making the reservation 😔");
-      }
-
-
-      Toast.show({
-        type: "success",
-        position: "top",
-        text1: "Success",
-        text2: `Reservation saved successfully 🎉 \n
-        Your Ev Station is ${EvStation.name}`,
-        visibilityTime: 3000,
-        topOffset: 60,
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/create-reservation`, {
+        params: {
+          username: auth.user?.id,
+          startTime: startTimes[selectedStartTimeIndex],
+          endTime: calculateEndTime(),
+          priority: selectedPriorityIndex,
+        },
       });
-      // reset form
+
+      setLoading(false);
+      setChargingStationName(response.data);
+      setReservationDetails({
+        startTime: startTimes[selectedStartTimeIndex],
+        endTime: calculateEndTime(),
+        priority: selectedPriority,
+      });
+      if (auth.user) {
+        auth.user.toUpdate = true;
+      }
     } catch (error) {
+      setLoading(false);
+      setModalVisible(false);
       Toast.show({
         type: "error",
         position: "top",
@@ -93,239 +88,256 @@ export default function UserReservationScreen() {
     }
   };
 
-  const getReservations = async () => {
-    console.log("getReservations called");
-    try {
-      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/reservations`);
-  
-      if (!response.ok) {
-        Alert.alert("An error occurred while fetching reservations");
-      } else {
-        const allReservations = await response.json();
-  
-        for (const reservation of allReservations) {
-          // Extract hours and minutes from endTime (assuming HH:mm format)
-          const [hours, minutes] = reservation.endTime.split(":").map(Number);
-  
-          // Create a Date object for the endTime 
-          const endTimeDate = new Date();
-          endTimeDate.setHours(hours, minutes, 0, 0); // Set time while keeping today's date
-  
-          console.log("Reservation end time:", endTimeDate);
-  
-          if (endTimeDate < new Date()) {
-            resetEvStationstatus(reservation.EvStationId);
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching reservations:", error);
-      Alert.alert("An error occurred while fetching reservations");
+  const checkAvailability = async () => {
+    if (desiredPercentage < batteryPercentage) {
+      Alert.alert(
+        "Invalid Input",
+        "The desired percentage must be higher than the current percentage"
+      );
+      return;
     }
-  };
-    const resetEvStationstatus = async (id : string) => {
-    console.log("enter reset");
+    if (selectedPriority === "") {
+      Alert.alert("Invalid Input", "Please select a priority");
+      return;
+    }
+
+    setCheckingAvailability(true);
+
     try {
-      const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/resetEvStationStatus`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const timeNeededInHours = slotsNeeded * 15 / 60;
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/timeslots`, {
+        params: {
+          time: timeNeededInHours,
         },
-        body: JSON.stringify({
-          id
-        }),
       });
+
+      setStartTimes(response.data);
+      setCheckingAvailability(false);
     } catch (error) {
-      console.error(error);
+      setCheckingAvailability(false);
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "An error occurred while checking availability 😔",
+        visibilityTime: 3000,
+      });
     }
   };
-
-  const getRandomNonOccupiedEvStation = async () => {
-  try {
-    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/getRandomNonOccupiedEvStation`);
-    if (!response.ok) {
-      Alert.alert("No available EV stations found");
-      return null;
-    }
-    const data = await response.json();
-    setEvStation(
-      {
-        id: data._id,
-        name: data.name,
-        maxPower: data.maxPower,
-        status: data.status,
-      }
-    );
-  } catch (error) {
-    console.error(error);
-  }
-  }
-
-  const updateEvStationStatus = async (id: string, status: string) => {
-    console.log("updateEvStationStatus called with id:", id, "and status:", status);
-    try {
-    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/updateEvStationStatus`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id,
-        status,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Server error');
-    }
-  } catch (error) {
-    console.error(error);
-  }
-  }
 
   const calculateChargeTime = () => {
     const currentPercentage = parseInt(String(batteryPercentage), 10);
     const targetPercentage = parseInt(String(desiredPercentage), 10);
 
-    // Haal de laadsnelheid van de auto op uit de profielgegevens (voorbeeld)
     const chargeSpeedKw = 22;
-
-    // Schatting van de laadtijd in minuten (aanpassen indien nodig)
-    // Laadtijd (in minuten) = ((Gewenste percentage - Huidig percentage) / 100 * Accucapaciteit (kWh)) / Laadvermogen (kW) * 60
     const chargeTimeMinutes = ((targetPercentage - currentPercentage) / 100 * 90) / chargeSpeedKw * 60;
-
     const slotsNeeded = Math.ceil(chargeTimeMinutes / 15);
     setSlotsNeeded(slotsNeeded);
-    setSelectedStartTimeIndex(0); 
+    setSelectedStartTimeIndex(0);
   };
-  
-  const [selectedStartTime, setSelectedStartTime] = useState('00:00'); // State voor de geselecteerde starttijd
 
-  const startTimes = Array.from({ length: 13 * 4 }, (_, i) => {
-    const hours = (Math.floor(i / 4) + 10) % 24;
-    const minutes = (i % 4) * 15;
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-});
+  const [selectedStartTime, setSelectedStartTime] = useState('00:00');
 
   const data = startTimes.map((time) => ({ key: time, value: time }));
 
   const calculateEndTime = () => {
     const [startHours, startMinutes] = selectedStartTime.split(':').map(Number);
     const totalMinutes = startHours * 60 + startMinutes + slotsNeeded * 15;
-    const endHours = Math.floor(totalMinutes / 60) % 24; // Modulo 24 om binnen 24 uur te blijven
+    const endHours = Math.floor(totalMinutes / 60) % 24;
     const endMinutes = totalMinutes % 60;
     return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
   };
 
   const priority = [
-    { key: 1, value: 'Ik moet echt heel nodig laden!' },
-    { key: 2, value: 'Ik wil graag laden' },
-    { key: 3, value: 'Ik kan wel even wachten' },
-    { key: 4, value: 'Ik heb geen haast, maar wil wel graag laden'},
-    { key: 5, value: 'Eigenlijk hoeft het niet, maar laden is altijd handig'}
+    { key: 1, value: 'I really need to charge!' },
+    { key: 2, value: 'I would like to charge' },
+    { key: 3, value: 'I can wait' },
+    { key: 4, value: 'I am not in a hurry, but would like to charge' },
+    { key: 5, value: 'I do not need to, but charging is always handy' }
   ];
 
-  const getPriorityIndex = (priority: string) => {
+  const getPriorityIndex = (priority: any) => {
     switch (priority) {
-      case 'Ik moet echt heel nodig laden!':
+      case 'I really need to charge!':
         return 1;
-      case 'Ik wil graag laden':
+      case 'I would like to charge':
         return 2;
-      case 'Ik kan wel even wachten':
+      case 'I can wait':
         return 3;
-      case 'Ik heb geen haast, maar wil wel graag laden':
+      case 'I am not in a hurry, but would like to charge':
         return 4;
-      case 'Eigenlijk hoeft het niet, maar laden is altijd handig':
+      case 'I do not need to, but charging is always handy':
         return 5;
       default:
         return 0;
     }
   };
-  
 
   useEffect(() => {
-    getReservations();
-    calculateChargeTime(); // Bereken tijdsloten automatisch bij verandering van percentages
+    calculateChargeTime();
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
-  }, [batteryPercentage, desiredPercentage, selectedPriority]); // Voer effect uit wanneer deze waarden veranderen
+  }, [batteryPercentage, desiredPercentage, selectedPriority]);
 
   const styles = theme == 'light' ? lightTheme : darkTheme;
 
+  const resetState = () => {
+    setBatteryPercentage(0);
+    setDesiredPercentage(20);
+    setSlotsNeeded(0);
+    setSelectedStartTimeIndex(0);
+    setSelectedPriorityIndex(0);
+    setSelectedPriority("");
+    setStartTimes([]);
+    setReservationDetails(null);
+    setModalVisible(false);
+    setLoading(false);
+    setCheckingAvailability(false);
+    setChargingStationName("");
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.rectangle}>
-        <Text style={styles.profileHeader}>Laadpaal reserveren</Text>
-        {/* dropdown menutje voor prio */}
-        <View style={styles.inputContainer}></View>
-          <Text style={styles.text}>Prioriteit:</Text>
-          <SelectList 
-            setSelected={setSelectedPriority} 
-            data={priority} 
-            save="value"
-            placeholder="Selecteer prioriteit"
-            arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-            boxStyles={styles.selectBox}
-            inputStyles={styles.selectInput}
-            dropdownStyles={styles.dropdown}
-          />
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>Huidig batterij %: {batteryPercentage}%</Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={100}
-            step={5}
-            value={batteryPercentage}
-            onValueChange={setBatteryPercentage}
-            minimumTrackTintColor={
-              batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
-            }
-            maximumTrackTintColor="#ddd"
-            thumbTintColor={
-              batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
-            }
-          />
-
-          <Text style={styles.sliderLabel}>Gewenst batterij %: {desiredPercentage}%</Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={defaultDesiredPercentage}
-            maximumValue={100}
-            step={5}
-            value={desiredPercentage}
-            onValueChange={setDesiredPercentage}
-            minimumTrackTintColor={
-              desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
-            }
-            maximumTrackTintColor="#ddd"
-            thumbTintColor={
-              desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
-            }
-          />
+      {checkingAvailability ? (
+        <View style={styles.centeredView}>
+          <ActivityIndicator size="large" color="#21304f" />
+          <Text style={[styles.modalText, { fontSize: 18, marginTop: 10 }]}>Checking availability of the stations... 🤖</Text>
         </View>
-        <View style={styles.inputContainer}>
-        <Text style={styles.text}>Starttijd:</Text>
-        <SelectList 
-          setSelected={setSelectedStartTime} 
-          data={data} 
-          save="value"
-          placeholder="Selecteer starttijd"
-          arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
-          boxStyles={styles.selectBox}
-          inputStyles={styles.selectInput}
-          dropdownStyles={styles.dropdown}
-        />
-      </View>
+      ) : (
+        <>
+          {!startTimes.length ? (
+            <View style={styles.rectangle}>
+              <Text style={styles.profileHeader}>Create reservation</Text>
+              <View style={styles.inputContainer}></View>
+                <Text style={styles.text}>Priority:</Text>
+                <SelectList 
+                  setSelected={setSelectedPriority} 
+                  data={priority} 
+                  save="value"
+                  placeholder="Select priority"
+                  arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+                  boxStyles={styles.selectBox}
+                  inputStyles={styles.selectInput}
+                  dropdownStyles={styles.dropdown}
+                />
+              <View style={styles.sliderContainer}>
+                <Text style={styles.sliderLabel}>Current Battery %: {batteryPercentage}%</Text>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={0}
+                  maximumValue={100}
+                  step={5}
+                  value={batteryPercentage}
+                  onValueChange={setBatteryPercentage}
+                  minimumTrackTintColor={
+                    batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
+                  }
+                  maximumTrackTintColor="#ddd"
+                  thumbTintColor={
+                    batteryPercentage < 33 ? 'red' : batteryPercentage < 66 ? 'orange' : 'green'
+                  }
+                />
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.text}>Geschatte eindtijd:</Text>
-        {/* only show calculated charge time when desired percentage is higher than current */}
-        <Text style={styles.text}>{desiredPercentage > batteryPercentage ? calculateEndTime() : 'Ongeldige invoer'}</Text>
-      </View>
-      <Pressable style={styles.button} onPress={handleReservation}>
-        <Text style={styles.buttonText}>Reserveer</Text>
-      </Pressable>
-       </View>
+                <Text style={styles.sliderLabel}>Desired Battery %: {desiredPercentage}%</Text>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={defaultDesiredPercentage}
+                  maximumValue={100}
+                  step={5}
+                  value={desiredPercentage}
+                  onValueChange={setDesiredPercentage}
+                  minimumTrackTintColor={
+                    desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
+                  }
+                  maximumTrackTintColor="#ddd"
+                  thumbTintColor={
+                    desiredPercentage < 33 ? 'red' : desiredPercentage < 66 ? 'orange' : 'green'
+                  }
+                />
+              </View>
+              <Pressable style={styles.button} onPress={checkAvailability}>
+                <Text style={styles.buttonText}>Check Availability</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <View style={styles.rectangle}>
+              <Text style={styles.profileHeader}>Select Start Time</Text>
+              <View style={styles.inputContainer}>
+                <Text style={styles.text}>Start Time:</Text>
+                <SelectList 
+                  setSelected={setSelectedStartTime} 
+                  data={data} 
+                  save="value"
+                  placeholder="Select start time"
+                  arrowicon={<MaterialCommunityIcons name="chevron-down" size={30} color="#E1E1E1" />}
+                  boxStyles={styles.selectBox}
+                  inputStyles={styles.selectInput}
+                  dropdownStyles={styles.dropdown}
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.text}>Estimated End Time:</Text>
+                <Text style={styles.text}>{desiredPercentage > batteryPercentage ? calculateEndTime() : 'Invalid Input'}</Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Pressable style={styles.button} onPress={handleReservation}>
+                  <Text style={styles.buttonText}>Reserve</Text>
+                </Pressable>
+                <Pressable style={[styles.button, styles.cancelButton]} onPress={resetState}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                {loading ? (
+                  <>
+                    <ActivityIndicator size="large" color="#21304f" />
+                    <Text style={styles.modalText}>Getting station...</Text>
+                  </>
+                ) : (
+                  <>
+                    <Text style={styles.modalHeader}>Reservation Details</Text>
+                    <Text style={styles.modalText}>Charging station name: {chargingStationName}</Text>
+                    {reservationDetails && (
+                      <>
+                        <Text style={styles.modalText}>Start time: {reservationDetails.startTime}</Text>
+                        <Text style={styles.modalText}>End time: {reservationDetails.endTime}</Text>
+                        <Text style={styles.modalText}>Priority: {reservationDetails.priority}</Text>
+                      </>
+                    )}
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => {
+                        resetState();
+                        Toast.show({
+                          type: "success",
+                          position: "top",
+                          text1: "Success",
+                          text2: `Reservation saved successfully 🎉`,
+                          visibilityTime: 3000,
+                          topOffset: 60,
+                        });
+                      }}
+                    >
+                      <Text style={styles.textStyle}>Confirm</Text>
+                    </Pressable>
+                  </>
+                )}
+              </View>
+            </View>
+          </Modal>
+        </>
+      )}
     </View>
   );
 }

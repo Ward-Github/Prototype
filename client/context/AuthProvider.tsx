@@ -10,6 +10,7 @@ type User = {
   admin: boolean;
   pfp: string;
   theme: 'light' | 'dark';
+  toUpdate?: boolean;
 };
 
 type AuthContextType = {
@@ -64,6 +65,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       admin,
       pfp,
       theme,
+      toUpdate: false,
     });
 
     return true;
