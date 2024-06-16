@@ -5,10 +5,8 @@ import Slider from '@react-native-community/slider';
 import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthProvider';
-import { authenticate } from '@okta/okta-react-native';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import { lightTheme, darkTheme } from '@/webstyles/quickReserveStyles';
-import { useTheme } from '@/context/ThemeProvider';
+import { authenticate } from '@okta/okta-react-native';;
+import { lightTheme, darkTheme } from '@/styles/userTwoStyles';
 
 export default function UserReservationScreen() {
   const [batteryPercentage, setBatteryPercentage] = useState(0);
