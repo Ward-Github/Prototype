@@ -5,6 +5,7 @@ import Slider from '@react-native-community/slider';
 import Toast from 'react-native-toast-message';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthProvider';
+import { useTheme } from '@/context/ThemeProvider';
 import { authenticate } from '@okta/okta-react-native';;
 import { lightTheme, darkTheme } from '@/styles/userTwoStyles';
 
