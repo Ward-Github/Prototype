@@ -10,6 +10,8 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { darkTheme, lightTheme } from '@/webstyles/indexStyles';
 import { useTheme } from '@/context/ThemeProvider';
+import HallOfShameAndFame from '@/components/Home/HallOfShameAndFame';
+
 
 const submitFeedback = async ({ feedback, user, image }: { feedback: string, user: string, image?: string | null }) => {
   try {
@@ -160,10 +162,12 @@ const ReportProblemModal = () => {
   );
 };
 
+
 export default function TabOneScreen() {
   const { user } = useAuth();
   const [selected, setSelected] = React.useState("");
   const { theme } = useTheme();
+  const [isHallOfFameVisible, setHallOfFameVisible] = useState(false);
 
   const data = [
     { key: '1', value: '08:00 - 09:00' },
@@ -187,8 +191,11 @@ export default function TabOneScreen() {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.leftRectangle}>
-        <Text style={styles.titleText}>LOADING STATIONS</Text>
-      </View>
+        <HallOfShameAndFame 
+          isHallOfFameVisible={isHallOfFameVisible} 
+          setHallOfFameVisible={setHallOfFameVisible} 
+        />
+     </View>
       <View style={styles.rightRectanglesContainer}>
         <View style={styles.flexBoxesRight}>
           <Text style={styles.titleText}>FAST RESERVATION</Text>
