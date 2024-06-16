@@ -5,7 +5,6 @@ import { ScrollView } from 'react-native';
 import { lightTheme, darkTheme } from '@/styles/Home/userHomeStyles';
 import { useTheme } from '@/context/ThemeProvider';
 
-
 export default function TabOneScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const { theme, setTheme } = useTheme();

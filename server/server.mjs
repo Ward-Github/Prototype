@@ -851,6 +851,7 @@ async function createPwCode(email) {
   return code.split('[]')[0];
 
 }
+
 async function checkPwCode(email, code) {
   console.log("checkPwCode", email)
   const user = await getUserByEmail(email);
@@ -865,10 +866,7 @@ async function checkPwCode(email, code) {
     const date = new Date(user._code.split('[]')[1]).toISOString().slice(0, 16).replace("T", " ").split(":"[1]);
     const now = new Date().toISOString().slice(0, 16).replace("T", " ").split(":"[1]);
     const diff = parseInt(now,10) - parseInt(date,10);
-    console.log(date)
-    console.log(now)
-    console.log("differnce between dates: "+diff)
-    if (diff < 300000) {
+    if (diff < 300) {
       console.log("code is still valid")
       return true
     } else {
@@ -918,7 +916,6 @@ async function sendResetPasswordEmail(email) {
     });
   });
   return true;
-  
 }
 
 app.post('/forgot-password', async (req, res) => {
@@ -1030,4 +1027,3 @@ app.post("/change-password", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
