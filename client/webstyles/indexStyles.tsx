@@ -38,9 +38,9 @@ export const lightTheme = StyleSheet.create({
     borderRadius: 20,
     padding: 30,
     maxHeight: '50%',
-    width: '45%',
+    width: '100%',
     flexGrow: 1,
-    flexShrink: 1,
+    flexShrink: 0,
     minWidth: '45%',
     minHeight: '40%',
     overflow: 'hidden',
@@ -175,6 +175,20 @@ export const lightTheme = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  circularProgress: {
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  progressContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressText: {
+    fontSize: 14,
+    color: '#21304f',
+    marginTop: 5,
+  },
+
 });
 
 export const darkTheme = StyleSheet.create({
@@ -215,9 +229,9 @@ export const darkTheme = StyleSheet.create({
     borderRadius: 20,
     padding: 30,
     maxHeight: '50%',
-    width: '45%',
+    width: '100%',
     flexGrow: 1,
-    flexShrink: 1,
+    flexShrink: 0,
     minWidth: '45%',
     minHeight: '40%',
     overflow: 'hidden',
@@ -352,4 +366,18 @@ export const darkTheme = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  circularProgress: {
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  progressContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressText: {
+    fontSize: 14,
+    color: '#fff',
+    marginTop: 5,
+  },
+
 });

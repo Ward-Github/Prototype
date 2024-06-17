@@ -363,7 +363,7 @@ app.get('/status', async (req, res) => {
   const reservations = database.collection("reservations");
 
   const userReservation = await reservations.findOne(
-    { user: id, starttime: { $gt: nowUTC } },
+    { user: id },
     { sort: { starttime: 1 } }
   );
 
