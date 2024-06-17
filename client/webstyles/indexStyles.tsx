@@ -188,6 +188,9 @@ export const lightTheme = StyleSheet.create({
     color: '#21304f',
     marginTop: 5,
   },
+  startButton: {
+    backgroundColor: '#32CD32',
+  },
 
 });
 
@@ -378,6 +381,9 @@ export const darkTheme = StyleSheet.create({
     fontSize: 14,
     color: '#fff',
     marginTop: 5,
+  },
+  startButton: {
+    backgroundColor: '#32CD32',
   },
 
 });

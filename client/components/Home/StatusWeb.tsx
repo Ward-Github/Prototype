@@ -4,7 +4,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useAuth } from '@/context/AuthProvider';
 import { useTheme } from '@/context/ThemeProvider';
-import { darkTheme, lightTheme } from '@/webstyles/indexStyles';
+import Toast from 'react-native-toast-message';
+import { lightTheme, darkTheme } from '@/webstyles/indexStyles';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -15,27 +16,27 @@ interface ReservationDetails {
   station: number;
 }
 
-const StatusWeb = ({ setModalVisible }: { setModalVisible: any }) => {
+const Status = ({ setModalVisible }: { setModalVisible: any }) => {
   const auth = useAuth();
   const { theme, setTheme } = useTheme();
 
   const styles = theme === 'light' ? lightTheme : darkTheme;
   const [reservation, setReservation] = useState<ReservationDetails | null>(null);
   const [currentTime, setCurrentTime] = useState(moment());
+  const [started, setStarted] = useState(moment());
+  const [update, setUpdate] = useState(false);
 
   const fetchStatus = useCallback(async () => {
-    console.log('Fetching status');
-    console.log(auth.user?.id);
-
     try {
       const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/status`, {
         params: { user: auth.user?.id },
       });
-      console.log("\n\n\nfound data: ", response.data);
+    
       if (response.data.message === 'No reservation') {
         setReservation(null);
         return;
       }
+
       setReservation(response.data);
       return response.data;
     } catch (error) {
@@ -47,6 +48,7 @@ const StatusWeb = ({ setModalVisible }: { setModalVisible: any }) => {
     if (auth.user) {
       auth.user.toUpdate = false;
     }
+
     fetchStatus();
   }, [auth.user?.toUpdate, fetchStatus]);
 
@@ -54,10 +56,53 @@ const StatusWeb = ({ setModalVisible }: { setModalVisible: any }) => {
     const interval = setInterval(() => {
       setCurrentTime(moment());
       fetchStatus();
-    }, 30000); // 60000 for 1 minute intervals
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [fetchStatus]);
+
+  const handleStartReservation = async () => {
+    try {
+      await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/update-status`, {
+        params: { id: auth.user?.id, status: 'started' },
+      });
+
+      fetchStatus();
+      setStarted(moment());
+
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Success',
+        text2: 'Reservation started successfully 🎉',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
+  const handleEndReservation = async () => {
+    try {
+      await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/end-reservation`, {
+        params: { id: auth.user?.id },
+      });
+
+      fetchStatus();
+
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Success',
+        text2: 'Reservation ended successfully 🎉',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
 
   const renderContent = () => {
     if (!reservation) {
@@ -65,7 +110,7 @@ const StatusWeb = ({ setModalVisible }: { setModalVisible: any }) => {
       return <Text style={styles.subtitleText}>No reservation</Text>;
     }
 
-    console.log("----------------- Fetched reservation -----------------")
+    console.log("----------------- Fetched reservation -----------------");
     console.log('Current time:', currentTime.format('HH:mm'));
     console.log('Start time:', reservation.startTime);
     console.log('End time:', reservation.endTime);
@@ -81,21 +126,53 @@ const StatusWeb = ({ setModalVisible }: { setModalVisible: any }) => {
       );
     }
 
-    if (currentTime.isBetween(startTime, endTime)) {
+    else if (currentTime.isAfter(endTime) && reservation.status === 'started') {
+      const isLate = moment().diff(moment(endTime), 'minutes') > 10;
+      const feedbackMessage = isLate ? 'You are late! Shame +1' : 'End it now and get Fame +1';
+
+      return (
+        <>
+          <Text style={styles.subtitleText}>
+            Unplug your car, remove it from the station and press the red button to end the reservation
+          </Text>
+          <Text style={styles.subtitleText}>
+            {feedbackMessage}
+          </Text>
+          <TouchableOpacity onPress={handleEndReservation} style={[styles.feedbackButton]}>
+            <Text style={styles.feedbackButtonText}>End reservation</Text>
+          </TouchableOpacity>
+        </>
+      );
+    }
+
+    else if (currentTime.isBetween(startTime, endTime)) {
       if (reservation.status === 'not_started') {
         return (
-          <Text style={styles.subtitleText}>
-            Plug your car in and press the green button to start the reservation
-          </Text>
+          <>
+            <Text style={styles.subtitleText}>
+              Plug your car in and press the green button to start the reservation
+            </Text>
+            <TouchableOpacity onPress={handleStartReservation} style={[styles.feedbackButton, styles.startButton]}>
+              <Text style={styles.feedbackButtonText}>Start Reservation</Text>
+            </TouchableOpacity>
+          </>
         );
       } else if (reservation.status === 'started') {
-        const duration = endTime.diff(startTime, 'minutes');
-        const elapsed = currentTime.diff(startTime, 'minutes');
+        const duration = endTime.diff(started, 'minutes');
+        const elapsed = currentTime.diff(started, 'minutes');
         const fill = (elapsed / duration) * 100;
 
         return (
-          <View>
-            <Text style={styles.subtitleText}>Your car is currently charging</Text>
+          <>
+            <Text style={styles.subtitleText}>
+              Your car is currently charging
+              {'\n'}
+              Reservation: {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {' - '}
+              {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {'\n'}
+              Started: {started.format('HH:mm')}
+            </Text>
             <AnimatedCircularProgress
               size={120}
               width={15}
@@ -117,7 +194,7 @@ const StatusWeb = ({ setModalVisible }: { setModalVisible: any }) => {
             <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.feedbackButton}>
               <Text style={styles.feedbackButtonText}>Report problem</Text>
             </TouchableOpacity>
-          </View>
+          </>
         );
       }
     }
@@ -128,9 +205,9 @@ const StatusWeb = ({ setModalVisible }: { setModalVisible: any }) => {
   return (
     <View>
       <Text style={styles.titleText}>Hi {auth.user?.name?.split(' ')[0]},</Text>
-        { renderContent() }
+      {renderContent()}
     </View>
   );
 };
 
-export default StatusWeb;
+export default Status;
