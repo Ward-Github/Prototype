@@ -200,7 +200,7 @@ export default function UserReservationScreen() {
     <View style={styles.container}>
       {checkingAvailability ? (
         <View style={styles.centeredView}>
-          <ActivityIndicator size="large" color="#21304f" />
+          <ActivityIndicator size="large" color={theme === 'dark' ? '#ff' : '#21304f'} />
           <Text style={[styles.modalText, { fontSize: 18, marginTop: 10 }]}>Checking availability of the stations... 🤖</Text>
         </View>
       ) : (

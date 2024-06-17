@@ -252,6 +252,7 @@ export const lightTheme = StyleSheet.create({
     modalText: {
       marginBottom: 15,
       textAlign: 'center',
+      color: '#fff',
     },
     modalHeader: {
       fontSize: 24,
