@@ -9,9 +9,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 import { constrainedMemory } from "process";
 import CryptoJS from "crypto-js";
-import moment from "moment";
-
-
 
 const app = express();
 app.use(express.json());
@@ -324,6 +321,8 @@ app.get('/end-reservation', async (req, res) => {
   res.send('Reservation ended successfully.');
 });
 
+const moment = require('moment');
+
 app.get('/timeslots', async (req, res) => {
   console.log("Received request for /timeslots");
 
@@ -335,11 +334,20 @@ app.get('/timeslots', async (req, res) => {
 
   const database = client.db("schuberg_data_test");
 
-  const now = new Date();
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 0, 0, 0);
-  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-  console.log(`Start of day: ${startOfDay}`);
-  console.log(`End of day: ${endOfDay}`);
+  const now = moment();
+  const startOfDay = moment().startOf('day').hour(8);
+  const endOfDay = moment().endOf('day');
+  console.log(`Start of day: ${startOfDay.toISOString()}`);
+  console.log(`End of day: ${endOfDay.toISOString()}`);
+
+  let startTime = moment().minute(0).second(0).millisecond(0);
+  if (now.minute() >= 30) {
+    startTime.add(1, 'hour');
+  } else {
+    startTime.minute(30);
+  }
+  console.log(`Current time: ${now.toISOString()}`);
+  console.log(`Adjusted start time: ${startTime.toISOString()}`);
 
   const startTimestamp = Date.now();
 
@@ -348,8 +356,8 @@ app.get('/timeslots', async (req, res) => {
 
   let availableSlots = [];
 
-  for (let startTime = startOfDay; startTime <= endOfDay; startTime = new Date(startTime.getTime() + 30 * 60 * 1000)) {
-    let endTime = new Date(startTime.getTime() + duration);
+  for (; startTime <= endOfDay; startTime.add(30, 'minutes')) {
+    let endTime = moment(startTime).add(duration, 'milliseconds');
 
     if (endTime > endOfDay) break;
 
@@ -359,9 +367,9 @@ app.get('/timeslots', async (req, res) => {
       const conflictingReservations = await database.collection('reservations').find({
         stationId: station._id,
         $or: [
-          { startTime: { $lt: endTime, $gte: startTime } },
-          { endTime: { $gt: startTime, $lte: endTime } },
-          { startTime: { $lte: startTime }, endTime: { $gte: endTime } },
+          { startTime: { $lt: endTime.toDate(), $gte: startTime.toDate() } },
+          { endTime: { $gt: startTime.toDate(), $lte: endTime.toDate() } },
+          { startTime: { $lte: startTime.toDate() }, endTime: { $gte: endTime.toDate() } },
         ],
       }).toArray();
 
@@ -373,12 +381,12 @@ app.get('/timeslots', async (req, res) => {
     }
 
     if (slotAvailable) {
-      const hours = startTime.getHours().toString().padStart(2, '0');
-      const minutes = startTime.getMinutes().toString().padStart(2, '0');
+      const hours = startTime.hours().toString().padStart(2, '0');
+      const minutes = startTime.minutes().toString().padStart(2, '0');
       availableSlots.push(`${hours}:${minutes}`);
       console.log(`Slot available: ${hours}:${minutes}`);
     } else {
-      console.log(`Slot not available from ${startTime} to ${endTime}`);
+      console.log(`Slot not available from ${startTime.toISOString()} to ${endTime.toISOString()}`);
     }
   }
 
