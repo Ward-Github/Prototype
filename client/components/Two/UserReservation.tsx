@@ -121,6 +121,18 @@ export default function UserReservationScreen() {
         },
       });
 
+      if (!response.data.length) {
+        setCheckingAvailability(false);
+        Toast.show({
+          type: "error",
+          position: "top",
+          text1: "Error",
+          text2: "No available time slots found 😔",
+          visibilityTime: 3000,
+        });
+        return;
+      }
+
       setStartTimes(response.data);
       setCheckingAvailability(false);
     } catch (error) {
@@ -233,7 +245,7 @@ export default function UserReservationScreen() {
                 <Text style={styles.sliderLabel}>Current Battery %: {batteryPercentage}%</Text>
                 <Slider
                   style={styles.slider}
-                  minimumValue={0}
+                  minimumValue={1}
                   maximumValue={100}
                   step={5}
                   value={batteryPercentage}
