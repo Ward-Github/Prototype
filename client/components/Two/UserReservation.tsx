@@ -36,18 +36,27 @@ export default function UserReservationScreen() {
 
   const handleReservation = async () => {
     if (desiredPercentage < batteryPercentage) {
-      Alert.alert(
-        "Invalid Input",
-        "The desired percentage must be higher than the current percentage"
-      );
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Input',
+        text2: 'The desired percentage must be higher than the current percentage',
+      });
       return;
     }
     if (selectedPriority === "") {
-      Alert.alert("Invalid Input", "Please select a priority");
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Input',
+        text2: 'Please select a priority',
+      });
       return;
     }
     if (selectedStartTime === "") {
-      Alert.alert("Invalid Input", "Please select a start time");
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Input',
+        text2: 'Please select a start time',
+      });
       return;
     }
 
