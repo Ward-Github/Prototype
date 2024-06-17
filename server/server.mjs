@@ -227,7 +227,8 @@ app.get('/create-reservation', async (req, res) => {
   const endTime = new Date(today.setHours(endHour, endMinute, 0, 0));
 
 
-  const status = 'not_started'
+  const status = 'not_started';
+  const time = '';
 
   const priority = req.query.priority;
   console.log(`Received a request to /create-reservation with user ${user}, start time ${startTime}, end time ${endTime}, and priority ${priority}`);
@@ -274,7 +275,7 @@ app.get('/create-reservation', async (req, res) => {
 
     console.log(`Selected EV station ${EvStationId} for user ${user}`);
 
-    const newReservation = { user, startTime, endTime, priority, EvStationId, createdTime, status };
+    const newReservation = { user, startTime, endTime, priority, EvStationId, createdTime, status, time };
 
     await reservations.insertOne(newReservation);
 
@@ -425,19 +426,20 @@ app.get('/status', async (req, res) => {
 app.get('/update-status', async (req, res) => {
   const id = req.query.id;
   const status = req.query.status;
+  const time = req.query.time;
 
-  console.log(`Received a request to /update-status with id ${id} and status ${status}`);
+  console.log(`Received a request to /update-status with id ${id}, status ${status}, and time ${time}`);
 
   const database = client.db("schuberg_data_test");
   const reservations = database.collection("reservations");
 
   const query = { user: id };
-  const update = { $set: { status } };
+  const update = { $set: { status, time } };
 
   await reservations.updateOne(query, update);
-  console.log(`Status updated to ${status}`)
+  console.log(`Status and time updated to ${status} and ${time} respectively`)
 
-  res.send('Status updated successfully.');
+  res.send('Status and time updated successfully.');
 });
 
 app.post('/submit-feedback', problemsUpload.single('image'), (req, res) => {
@@ -657,6 +659,14 @@ app.get('/hall-of-fame', async (req, res) => {
   const sortedUsers = allUsers.sort((a, b) => b._fame - a._fame);
 
   res.send(sortedUsers);
+});
+
+app.get('/reservations', async (req, res) => {
+  const db = client.db("schuberg_data_test");
+  const reservations = db.collection("reservations");
+
+  const allReservations = await reservations.find().toArray();
+  res.send(allReservations);
 });
 
 app.get('/switch-theme', async (req, res) => {

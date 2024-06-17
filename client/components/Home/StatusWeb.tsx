@@ -14,6 +14,7 @@ interface ReservationDetails {
   endTime: string;
   status: string;
   station: number;
+  time: string;
 }
 
 const Status = ({ setModalVisible }: { setModalVisible: any }) => {
@@ -23,7 +24,6 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
   const styles = theme === 'light' ? lightTheme : darkTheme;
   const [reservation, setReservation] = useState<ReservationDetails | null>(null);
   const [currentTime, setCurrentTime] = useState(moment());
-  const [started, setStarted] = useState(moment());
   const [update, setUpdate] = useState(false);
 
   const fetchStatus = useCallback(async () => {
@@ -64,11 +64,10 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
   const handleStartReservation = async () => {
     try {
       await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/update-status`, {
-        params: { id: auth.user?.id, status: 'started' },
+        params: { id: auth.user?.id, status: 'started', time: moment().format('HH:mm')},
       });
 
       fetchStatus();
-      setStarted(moment());
 
       Toast.show({
         type: 'success',
@@ -109,11 +108,6 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
       console.log('No reservation');
       return <Text style={styles.subtitleText}>No reservation</Text>;
     }
-
-    console.log("----------------- Fetched reservation -----------------");
-    console.log('Current time:', currentTime.format('HH:mm'));
-    console.log('Start time:', reservation.startTime);
-    console.log('End time:', reservation.endTime);
 
     const startTime = moment(reservation.startTime);
     const endTime = moment(reservation.endTime);
@@ -158,8 +152,9 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
           </>
         );
       } else if (reservation.status === 'started') {
-        const duration = endTime.diff(started, 'minutes');
-        const elapsed = currentTime.diff(started, 'minutes');
+        const reservationTime = moment(reservation.time, 'HH:mm');
+        const duration = endTime.diff(reservationTime, 'minutes');
+        const elapsed = currentTime.diff(reservationTime, 'minutes');
         const fill = (elapsed / duration) * 100;
 
         return (
@@ -171,7 +166,7 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
               {' - '}
               {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               {'\n'}
-              Started: {started.format('HH:mm')}
+              Started: {reservation.time}
             </Text>
             <AnimatedCircularProgress
               size={120}

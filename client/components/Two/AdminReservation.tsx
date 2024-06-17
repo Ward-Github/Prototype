@@ -101,7 +101,7 @@ export default function AdminReservationScreen() {
   const renderReservationItem = ({ item }: { item: any }) => (
     <View style={styles.reservationItem}>
       <View style={styles.reservationDetails}>
-        <Text style={styles.reservationText}>Username: {item.username}</Text>
+        <Text style={styles.reservationText}>user id: {item.user}</Text>
         <Text style={styles.reservationText}>Start Time: {item.startTime}</Text>
         <Text style={styles.reservationText}>End Time: {item.endTime}</Text>
         <Text style={styles.reservationText}>Priority: {item.priority}</Text>

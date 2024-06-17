@@ -228,7 +228,7 @@ export const lightTheme = StyleSheet.create({
     },
     modalView: {
       margin: 20,
-      backgroundColor: 'white',
+      backgroundColor: '#1E1E1E',
       borderRadius: 20,
       padding: 35,
       alignItems: 'center',
