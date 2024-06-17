@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Pressable, Modal, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import Slider from '@react-native-community/slider';
 import Toast from 'react-native-toast-message';
@@ -18,8 +18,8 @@ interface ReservationDetails {
 
 export default function UserReservationScreen() {
   const [batteryPercentage, setBatteryPercentage] = useState(0);
-  const [desiredPercentage, setDesiredPercentage] = useState(0);
-  const [defaultDesiredPercentage, setDefaultDesiredPercentage] = useState(0);
+  const [desiredPercentage, setDesiredPercentage] = useState(20);
+  const [defaultDesiredPercentage, setDefaultDesiredPercentage] = useState(20);
   const { theme, setTheme } = useTheme();
 
   const [slotsNeeded, setSlotsNeeded] = useState(0);
@@ -100,16 +100,20 @@ export default function UserReservationScreen() {
 
   const checkAvailability = async () => {
     if (desiredPercentage < batteryPercentage) {
-      Alert.alert(
-        "Invalid Input",
-        "The desired percentage must be higher than the current percentage"
-      );
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Input',
+        text2: 'The desired percentage must be higher than the current percentage',
+      });
       return;
     }
     if (selectedPriority === "") {
-      Alert.alert("Invalid Input", "Please select a priority");
-      return;
-    }
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Input',
+        text2: 'Please select a priority',
+      });
+      return;    }
 
     setCheckingAvailability(true);
 
