@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useAuth } from '@/context/AuthProvider';
 import { useTheme } from '@/context/ThemeProvider';
+import Toast from 'react-native-toast-message';
 import { lightTheme, darkTheme } from '@/styles/Home/userHomeStyles';
 import axios from 'axios';
 import moment from 'moment';
@@ -22,12 +23,16 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
   const styles = theme === 'light' ? lightTheme : darkTheme;
   const [reservation, setReservation] = useState<ReservationDetails | null>(null);
   const [currentTime, setCurrentTime] = useState(moment());
+  const [update, setUpdate] = useState(false);
 
   const fetchStatus = useCallback(async () => {
     try {
       const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/status`, {
         params: { user: auth.user?.id },
       });
+      if (auth.user) {
+        auth.user.toUpdate = false;
+      }
       if (response.data.message === 'No reservation') {
         setReservation(null);
         return;
@@ -39,9 +44,6 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
   }, [auth.user?.id]);
 
   useEffect(() => {
-    if (auth.user) {
-      auth.user.toUpdate = false;
-    }
     fetchStatus();
   }, [auth.user?.toUpdate, fetchStatus]);
 
@@ -49,10 +51,32 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
     const interval = setInterval(() => {
       setCurrentTime(moment());
       fetchStatus();
-    }, 30000); // 60000 for 1 minute intervals
+    }, 60000);
 
     return () => clearInterval(interval);
   }, [fetchStatus]);
+
+  const handleStartReservation = async () => {
+    try {
+      await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/update-status`, {
+        params: { id: auth.user?.id, status: 'started' },
+      });
+
+      if (auth.user) {
+        auth.user.toUpdate = true;
+      }
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Success',
+        text2: 'Reservation started successfully 🎉',
+        visibilityTime: 3000,
+        topOffset: 60,
+      });
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
 
   const renderContent = () => {
     if (!reservation) {
@@ -60,7 +84,7 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
       return <Text style={styles.subtitleText}>No reservation</Text>;
     }
 
-    console.log("----------------- Fetched reservation -----------------")
+    console.log("----------------- Fetched reservation -----------------");
     console.log('Current time:', currentTime.format('HH:mm'));
     console.log('Start time:', reservation.startTime);
     console.log('End time:', reservation.endTime);
@@ -79,9 +103,14 @@ const Status = ({ setModalVisible }: { setModalVisible: any }) => {
     if (currentTime.isBetween(startTime, endTime)) {
       if (reservation.status === 'not_started') {
         return (
-          <Text style={styles.subtitleText}>
-            Plug your car in and press the green button to start the reservation
-          </Text>
+          <>
+            <Text style={styles.subtitleText}>
+              Plug your car in and press the green button to start the reservation
+            </Text>
+            <TouchableOpacity onPress={handleStartReservation} style={[styles.feedbackButton, styles.startButton]}>
+              <Text style={styles.feedbackButtonText}>Start Reservation</Text>
+            </TouchableOpacity>
+          </>
         );
       } else if (reservation.status === 'started') {
         const duration = endTime.diff(startTime, 'minutes');

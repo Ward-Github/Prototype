@@ -121,6 +121,9 @@ export const lightTheme = StyleSheet.create({
     loadingIndicator: {
       marginTop: 20,
     },
+    startButton: {
+      backgroundColor: '#32CD32',
+    }
   });
 
   export const darkTheme = StyleSheet.create({
@@ -243,5 +246,8 @@ export const lightTheme = StyleSheet.create({
     },
     loadingIndicator: {
       marginTop: 20,
+    },
+    startButton: {
+      backgroundColor: '#32CD32',
     },
   });

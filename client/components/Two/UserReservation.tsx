@@ -56,10 +56,11 @@ export default function UserReservationScreen() {
 
     setSelectedPriorityIndex(getPriorityIndex(selectedPriority));
     try {
+      console.log("selectedStartTime: ", selectedStartTime);
       const response = await axios.get(`http://${process.env.EXPO_PUBLIC_API_URL}:3000/create-reservation`, {
         params: {
           username: auth.user?.id,
-          startTime: startTimes[selectedStartTimeIndex],
+          startTime: selectedStartTime,
           endTime: calculateEndTime(),
           priority: selectedPriorityIndex,
         },
@@ -68,7 +69,7 @@ export default function UserReservationScreen() {
       setLoading(false);
       setChargingStationName(response.data);
       setReservationDetails({
-        startTime: startTimes[selectedStartTimeIndex],
+        startTime: selectedStartTime,
         endTime: calculateEndTime(),
         priority: selectedPriority,
       });

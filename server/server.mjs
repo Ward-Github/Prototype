@@ -218,10 +218,16 @@ app.post('/get-licenseplate', upload.single('image'), (req, res) => {
 app.get('/create-reservation', async (req, res) => {
   console.log('Received a request to /create-reservation')
   const user = req.query.username;
+  console.log(req.query.startTime);
+  console.log(req.query.endTime);
   
-  const today = new Date().toISOString().split('T')[0];
-  const startTime = new Date(`${today}T${req.query.startTime}:00`);
-  const endTime = new Date(`${today}T${req.query.endTime}:00`);
+  const today = new Date();
+  const [startHour, startMinute] = req.query.startTime.split(':');
+  const [endHour, endMinute] = req.query.endTime.split(':');
+
+  const startTime = new Date(today.setHours(startHour, startMinute, 0, 0));
+  const endTime = new Date(today.setHours(endHour, endMinute, 0, 0));
+
 
   const status = 'not_started'
 
@@ -374,6 +380,24 @@ app.get('/status', async (req, res) => {
 
   console.log('Reservation found:', userReservation);
   return res.status(200).json(userReservation);
+});
+
+app.get('/update-status', async (req, res) => {
+  const id = req.query.id;
+  const status = req.query.status;
+
+  console.log(`Received a request to /update-status with id ${id} and status ${status}`);
+
+  const database = client.db("schuberg_data_test");
+  const reservations = database.collection("reservations");
+
+  const query = { user: id };
+  const update = { $set: { status } };
+
+  await reservations.updateOne(query, update);
+  console.log(`Status updated to ${status}`)
+
+  res.send('Status updated successfully.');
 });
 
 app.post('/submit-feedback', problemsUpload.single('image'), (req, res) => {
