@@ -25,19 +25,20 @@ export const lightTheme = StyleSheet.create({
       fontSize: 24,
       color: '#21304f',
       fontFamily: 'Azonix',
+      textAlign: 'center',
     },
     barelyReadableText: {
       fontSize: 10,
       color: '#21304f',
       marginBottom: 10,
       fontFamily: 'Azonix',
+      textAlign: 'center',
     },
     itemContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'space-evenly',
       alignItems: 'center',
-      marginVertical: 10,
-    },
+      height: '100%',    },
     item: {
       alignItems: 'center',
     },
