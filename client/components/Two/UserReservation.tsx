@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Pressable, Modal, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet,Pressable, Modal, ActivityIndicator } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import Slider from '@react-native-community/slider';
 import Toast from 'react-native-toast-message';
@@ -17,9 +17,9 @@ interface ReservationDetails {
 }
 
 export default function UserReservationScreen() {
-  const [batteryPercentage, setBatteryPercentage] = useState(0);
-  const [desiredPercentage, setDesiredPercentage] = useState(0);
-  const [defaultDesiredPercentage, setDefaultDesiredPercentage] = useState(0);
+  const [batteryPercentage, setBatteryPercentage] = useState(1);
+  const [desiredPercentage, setDesiredPercentage] = useState(20);
+  const [defaultDesiredPercentage, setDefaultDesiredPercentage] = useState(20);
   const { theme, setTheme } = useTheme();
 
   const [slotsNeeded, setSlotsNeeded] = useState(0);
@@ -100,14 +100,23 @@ export default function UserReservationScreen() {
 
   const checkAvailability = async () => {
     if (desiredPercentage < batteryPercentage) {
-      Alert.alert(
-        "Invalid Input",
-        "The desired percentage must be higher than the current percentage"
-      );
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Invalid Input",
+        text2: "The desired percentage must be higher than the current percentage",
+        visibilityTime: 3000,
+      })
       return;
     }
     if (selectedPriority === "") {
-      Alert.alert("Invalid Input", "Please select a priority");
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Invalid Input",
+        text2: "Please select a priority",
+        visibilityTime: 3000,
+      })
       return;
     }
 
@@ -203,8 +212,8 @@ export default function UserReservationScreen() {
   const styles = theme == 'light' ? lightTheme : darkTheme;
 
   const resetState = () => {
-    setBatteryPercentage(0);
-    setDesiredPercentage(0);
+    setBatteryPercentage(1);
+    setDesiredPercentage(20);
     setSlotsNeeded(0);
     setSelectedStartTimeIndex(0);
     setSelectedPriorityIndex(0);

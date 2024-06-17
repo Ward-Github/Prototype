@@ -102,7 +102,8 @@ export default function AdminReservationScreen() {
     <View style={styles.reservationItem}>
       <View style={styles.reservationDetails}>
         <Text style={styles.reservationText}>user id: {item.user}</Text>
-        <Text style={styles.reservationText}>Start Time: {item.startTime}</Text>
+        {/* change time to a readable format */}
+        <Text style={styles.reservationText}>Start Time: {item.startTime}</Text> 
         <Text style={styles.reservationText}>End Time: {item.endTime}</Text>
         <Text style={styles.reservationText}>Priority: {item.priority}</Text>
       </View>
