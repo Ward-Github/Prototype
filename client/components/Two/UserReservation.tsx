@@ -18,8 +18,8 @@ interface ReservationDetails {
 
 export default function UserReservationScreen() {
   const [batteryPercentage, setBatteryPercentage] = useState(0);
-  const [desiredPercentage, setDesiredPercentage] = useState(20);
-  const [defaultDesiredPercentage, setDefaultDesiredPercentage] = useState(20);
+  const [desiredPercentage, setDesiredPercentage] = useState(0);
+  const [defaultDesiredPercentage, setDefaultDesiredPercentage] = useState(0);
   const { theme, setTheme } = useTheme();
 
   const [slotsNeeded, setSlotsNeeded] = useState(0);
@@ -183,7 +183,7 @@ export default function UserReservationScreen() {
 
   const resetState = () => {
     setBatteryPercentage(0);
-    setDesiredPercentage(20);
+    setDesiredPercentage(0);
     setSlotsNeeded(0);
     setSelectedStartTimeIndex(0);
     setSelectedPriorityIndex(0);
