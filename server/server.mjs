@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 import { constrainedMemory } from "process";
 import CryptoJS from "crypto-js";
+import moment from "moment";
 
 
 
@@ -290,6 +291,37 @@ app.get('/create-reservation', async (req, res) => {
     console.error("Error saving reservation:", error);
     res.status(500).send('An error occurred while saving the reservation.');
   }
+});
+
+app.get('/end-reservation', async (req, res) => {
+  console.log('Received a request to /end-reservation');
+  const id = req.query.id;
+
+  const database = client.db("schuberg_data_test");
+  const reservations = database.collection("reservations");
+  const users = database.collection("users");
+
+  const query = { user: id };
+
+  const reservation = await reservations.findOne(query);
+  if (!reservation) {
+    res.status(404).send('Reservation not found.');
+    return;
+  }
+
+  const now = moment();
+  const endTime = moment(reservation.endTime);
+  const diffMinutes = now.diff(endTime, 'minutes');
+
+  if (diffMinutes > 10) {
+    await users.updateOne({ _idOkta: id }, { $inc: { shame: 1 } });
+  } else {
+    await users.updateOne({ _idOkta: id }, { $inc: { fame: 1 } });
+  }
+
+  await reservations.deleteOne(query);
+
+  res.send('Reservation ended successfully.');
 });
 
 app.get('/timeslots', async (req, res) => {
