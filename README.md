@@ -13,20 +13,20 @@ Follow the steps below to set up your project environment for both client-side a
 
 ### Server Side (.env file)
 
-1. Create a `.env` file in the root directory of your server.
-2. Copy the following into the server `.env` file:
+1. Create a `.env` file in the server folder.
+2. Copy the following into the server `.env` file, replacing `{ip}` with your IPv4 address:
 
    ```plaintext
    HOST=smtp.gmail.com
    PORT=587
    USER=schubergcodemail@gmail.com
    PASS=kksc hfav tfxt hscn
-   EXPO_PUBLIC_API_URL=192.168.178.65
+   EXPO_PUBLIC_API_URL={ip}
    ```
 
 ### Client Side (.env file)
 
-1. Create a `.env` file in the root directory of your client.
+1. Create a `.env` file in the client folder.
 2. Copy the following into the client `.env` file, replacing `{ip}` with your IPv4 address:
 
    ```plaintext
