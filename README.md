@@ -1,3 +1,8 @@
+Prerequisites:
+- Node.js preferably the LTS version
+- Bun
+- Expo Go for mobile app
+
 Setup guide:
 - Add a .env file for both client side and server side:
   -  Copy this into the server .env file: EXPO_PUBLIC_API_URL={ip}
