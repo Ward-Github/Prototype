@@ -11,6 +11,14 @@ Follow the steps below to set up your project environment for both client-side a
 
 ## Environment Configuration
 
+### Finding Your IPv4 Address
+
+To find your IPv4 address:
+
+1. Open Command Prompt.
+2. Type `ipconfig` and press Enter.
+3. Locate and copy your IPv4 address.
+
 ### Server Side (.env file)
 
 1. Create a `.env` file in the server folder.
@@ -32,11 +40,6 @@ Follow the steps below to set up your project environment for both client-side a
    ```plaintext
    EXPO_PUBLIC_API_URL={ip}
    ```
-
-3. To find your IPv4 address:
-   - Open Command Prompt.
-   - Type `ipconfig` and press Enter.
-   - Locate and copy your IPv4 address.
 
 ## Installation
 
@@ -63,9 +66,9 @@ Follow the steps below to set up your project environment for both client-side a
 
 1. Run the `start.bat` file to start the project.
 
-## Admin Login
+## Login
 
-Use the following credentials for admin login:
+Use the following credentials for login:
 
 - **Email:** karsten@okta.com
 - **Password for Okta:** 2vARM^E2rBH5u^KfWcvE
